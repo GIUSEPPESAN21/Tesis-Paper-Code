@@ -1,8 +1,8 @@
 # Statistical Analysis Pipeline — Technical Specification
 
 **Status:** Specification only. No code in this repository implements this yet — nothing here has been executed. This document is written to be handed directly to el asistente de IA for implementation once E1–E8 results exist.
-**Companion documents this spec is bound by:** `PreRegistration_FINAL.md` (frozen 2026-07-29T05:22:26Z UTC — every statistical test, alternative hypothesis, and accept/reject threshold below is copied from there, not reinvented), `Step 4 Thesis.md` Part D6 (exact formulas for RPD/RI/effect size/CD), `FinalExperimentMatrix.md` (which experiments produce which CSVs, on what schedule), `REFACTOR_NOTES_WEEK15.md` / `run_evaluation.py` (the input CSV schema this pipeline consumes).
-**Consumer:** whoever executes E1–E8 (Semana 24/27 per `FinalExperimentMatrix.md`) and Chapter 6/7 of the thesis.
+**Companion documents this spec is bound by:** `PreRegistration_FINAL.md` (frozen 2026-07-29T05:22:26Z UTC — every statistical test, alternative hypothesis, and accept/reject threshold below is copied from there, not reinvented), `docs/planificacion/Step 4 Thesis.md` Part D6 (exact formulas for RPD/RI/effect size/CD), `docs/planificacion/FinalExperimentMatrix.md` (which experiments produce which CSVs, on what schedule), `REFACTOR_NOTES_WEEK15.md` / `run_evaluation.py` (the input CSV schema this pipeline consumes).
+**Consumer:** whoever executes E1–E8 (Semana 24/27 per `docs/planificacion/FinalExperimentMatrix.md`) and Chapter 6/7 of the thesis.
 
 ---
 
@@ -30,7 +30,7 @@ violations_count, timestamp
 
 Column notes the ingestion layer (§3.1) must honor, not re-derive differently:
 
-- `rpd_pct` and `known_optimum` are **already computed by the harness** for JSSP rows and for the real-Brandimarte FJSP rows (`mk01`–`mk07`, per `FinalExperimentMatrix.md` §5's amendment). They are **blank** for synthetic FJSP rows (no literature optimum exists) — the pipeline must not attempt to fill these in from `known_optimum` columns of unrelated files; a blank `rpd_pct` means "use raw makespan comparison for this row," per `PreRegistration_FINAL.md` §1's own Arm-A instruction.
+- `rpd_pct` and `known_optimum` are **already computed by the harness** for JSSP rows and for the real-Brandimarte FJSP rows (`mk01`–`mk07`, per `docs/planificacion/FinalExperimentMatrix.md` §5's amendment). They are **blank** for synthetic FJSP rows (no literature optimum exists) — the pipeline must not attempt to fill these in from `known_optimum` columns of unrelated files; a blank `rpd_pct` means "use raw makespan comparison for this row," per `PreRegistration_FINAL.md` §1's own Arm-A instruction.
 - `status` is `"OK"` (PDR, always), or CP-SAT's solver status (`OPTIMAL`/`FEASIBLE`/`INFEASIBLE`/`UNKNOWN`). `is_optimal` is `True` only when `status == "OPTIMAL"`.
 - `feasible` is an independently-checked boolean (`envs.disjunctive_graph.is_schedule_feasible`), not merely "the solver said so." **A row with `feasible == False` must never enter a Wilcoxon/Friedman comparison** — see §3.2's validation gate.
 - `disruption` ∈ `{none, breakdowns, stochastic_times, arrivals, combined}`. E4/E5/E6 each use exactly one non-`none` value; `combined` is descriptive-only per `PreRegistration_FINAL.md` §4, never part of a confirmatory H3 test.
@@ -47,11 +47,11 @@ This pipeline cannot silently guess. §3.1 specifies the required convention and
 
 ### 2.3 Multi-file ingestion
 
-Each experiment (E1–E8) produces its own CSV (and, per `FinalExperimentMatrix.md` §2.2, E2 produces two — Arm A synthetic, Arm B real-Brandimarte). The pipeline must:
+Each experiment (E1–E8) produces its own CSV (and, per `docs/planificacion/FinalExperimentMatrix.md` §2.2, E2 produces two — Arm A synthetic, Arm B real-Brandimarte). The pipeline must:
 
 1. Load each experiment's CSV(s) independently, tagged with an `experiment_id` (`"E1"`...`"E8"`, `"E2a"`/`"E2b"` for the two FJSP arms) added as a derived column at load time — **not** read from the CSV, since `run_evaluation.py` has no notion of experiment IDs.
 2. Never silently concatenate across experiments with different `disruption` values into one Friedman/Wilcoxon call — each hypothesis's test operates on exactly the instance/disruption slice `PreRegistration_FINAL.md` specifies (§6 below pins this per hypothesis).
-3. Keep E1's rows and E8's timing columns as **the same rows** (per `FinalExperimentMatrix.md` §2.8, E1 and E8 share one execution pass) — `wall_clock_s` on an E1 row *is* E8's raw timing input; §5.3 derives ms/decision from it rather than expecting a separate E8 CSV to exist.
+3. Keep E1's rows and E8's timing columns as **the same rows** (per `docs/planificacion/FinalExperimentMatrix.md` §2.8, E1 and E8 share one execution pass) — `wall_clock_s` on an E1 row *is* E8's raw timing input; §5.3 derives ms/decision from it rather than expecting a separate E8 CSV to exist.
 
 ### 2.4 Derived columns required at ingestion (`experiments/stats/io.py`)
 
@@ -101,7 +101,7 @@ Follow the codebase's existing conventions (`envs/fjsp_loader.py` is the referen
 
 ## 5. Metric functions (`metrics.py`)
 
-All formulas below are copied verbatim from `Step 4 Thesis.md` D6 — do not re-derive.
+All formulas below are copied verbatim from `docs/planificacion/Step 4 Thesis.md` D6 — do not re-derive.
 
 ### 5.1 RPD
 
@@ -229,7 +229,7 @@ def wilcoxon_signed_rank(
 
     Returns:
         WilcoxonResult. If all differences are exactly zero (this DOES happen -- see
-        HPO_ABLATION_REPORT_WEEK21.md's reference-vs-gat_hybrid comparison, W=0,
+        docs/logs/HPO_ABLATION_REPORT_WEEK21.md's reference-vs-gat_hybrid comparison, W=0,
         p=1.0, identical results in every seed), return statistic=0, p_value=1.0, z=0,
         effect_size_r=0, all_zero=True -- do not raise. scipy's own wilcoxon() raises
         ValueError on all-zero input under some zero_method/mode combinations; this
@@ -265,7 +265,7 @@ def h1_jssp_test(rpd_best_pdr: np.ndarray, rpd_rl_deterministic: np.ndarray) -> 
 def h1_fjsp_test(makespan_best_comparator: np.ndarray, makespan_rl: np.ndarray) -> HypothesisVerdict:
     """Section 2, FJSP arm. Restricted to GA/CP-SAT comparators (no PDR has an FJSP
     machine-selection rule). Run once per FJSP arm (synthetic and real-Brandimarte,
-    per FinalExperimentMatrix.md's amendment) -- report separately, never pooled."""
+    per docs/planificacion/FinalExperimentMatrix.md's amendment) -- report separately, never pooled."""
 
 def h3_regime_test(ri_pdr: np.ndarray, ri_rl: np.ndarray, regime_label: str) -> HypothesisVerdict:
     """Section 4. One call per one of the 9 regimes (3 breakdown levels + 3 sigma
@@ -434,7 +434,7 @@ def rpd_summary_table(df: pd.DataFrame, group_by: list[str]) -> str:
 ```python
 def to_latex_table(markdown_or_df, *, caption: str, label: str) -> str:
     """Booktabs style (\\toprule/\\midrule/\\bottomrule, no vertical rules), matching
-    the formatting convention already implied by Step 4 Thesis.md's own table style.
+    the formatting convention already implied by docs/planificacion/Step 4 Thesis.md's own table style.
     label is auto-prefixed tab:ch6- so cross-references in the LaTeX thesis source are
     consistent without hand-editing."""
 ```
@@ -465,11 +465,11 @@ experiments/results/stats/
 
 ## 10. Validation and self-tests
 
-Beyond ordinary unit tests (one per function above, edge cases: empty arrays, all-tied Wilcoxon input, single-block Friedman, `k=1`), pin two **golden-value regression tests** against numbers `HPO_ABLATION_REPORT_WEEK21.md` already published — if this pipeline's `friedman_test`/`wilcoxon_signed_rank` don't reproduce these exactly, the implementation has a bug, full stop:
+Beyond ordinary unit tests (one per function above, edge cases: empty arrays, all-tied Wilcoxon input, single-block Friedman, `k=1`), pin two **golden-value regression tests** against numbers `docs/logs/HPO_ABLATION_REPORT_WEEK21.md` already published — if this pipeline's `friedman_test`/`wilcoxon_signed_rank` don't reproduce these exactly, the implementation has a bug, full stop:
 
 ```python
 def test_friedman_matches_week21_ft06_ablation():
-    """Reference/homogeneous/gat_hybrid RPDs from HPO_ABLATION_REPORT_WEEK21.md's
+    """Reference/homogeneous/gat_hybrid RPDs from docs/logs/HPO_ABLATION_REPORT_WEEK21.md's
     ft06 ablation table (5 seeds each). Expect chi_square == 2.0000, p == 0.3679
     (to 4 decimals), df == 2."""
 
@@ -494,7 +494,7 @@ python -m experiments.stats.cli \
     --experiments E1 E2a E2b E3 E4 E5 E6 E7 E8 \
     --out-dir experiments/results/stats \
     [--skip-missing]   # if an experiment's CSV doesn't exist yet (e.g. mid-Semana-24,
-                        # E4-E6 still blocked per FinalExperimentMatrix.md Finding B),
+                        # E4-E6 still blocked per docs/planificacion/FinalExperimentMatrix.md Finding B),
                         # skip it and note "not yet run" in the verdict table rather
                         # than fail the whole pipeline -- this needs to be runnable
                         # incrementally as results land through Semana 24/27, not only
@@ -508,6 +508,6 @@ python -m experiments.stats.cli \
 ## 12. Open items (not blocking this spec, but flag before Semana 24 starts execution)
 
 1. **RL rollout-mode column** (§2.2) — recommend adding `rollout_mode` to the harness's CSV schema before E1 runs, rather than relying on the `seed==0` convention. Cheap now, expensive to retrofit after CSVs exist.
-2. **FJSP `num_operations` lookup table** (§2.4) — needs the 7 Brandimarte instances' post-padding operation counts hardcoded or computed once from `envs.fjsp_loader.load_fjsp_by_name(name).num_operations` at ingestion time; either is fine, just needs to exist before E8's FJSP-adjacent numbers (if any) are computed. E8's primary scope per `FinalExperimentMatrix.md` is JSSP-only, so this is low priority.
+2. **FJSP `num_operations` lookup table** (§2.4) — needs the 7 Brandimarte instances' post-padding operation counts hardcoded or computed once from `envs.fjsp_loader.load_fjsp_by_name(name).num_operations` at ingestion time; either is fine, just needs to exist before E8's FJSP-adjacent numbers (if any) are computed. E8's primary scope per `docs/planificacion/FinalExperimentMatrix.md` is JSSP-only, so this is low priority.
 3. **`statsmodels` as a new dependency** — confirm it's acceptable to add (it is a standard, widely-used package; `qsturng` specifically has no lighter-weight substitute for an exact studentized-range quantile). If rejected, fall back to the hardcoded table in §7.2 for `k<=10` only, and hard-fail with a clear error for any comparison needing `k>10` until the dependency question is resolved.
 4. **`pandas` as a new dependency** (§4) — flagged as a style choice, not a requirement; the codebase currently leans numpy+dataclasses (`envs/fjsp_loader.py`, `baselines/interface.py`). Either is workable; pick one and be consistent across `io.py`/`omnibus.py`.

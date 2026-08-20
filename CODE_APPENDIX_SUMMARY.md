@@ -29,10 +29,14 @@ THESIS MASTER'S/                          <- archived repository root (git-tagge
 ├── FIGURES_INDEX.md                        <- every figure -> thesis section, caption, source
 ├── PreRegistration_FINAL.md                <- frozen (2026-07-29) H1-H5, decision rules
 ├── StatsAnalysis_TechSpec.md               <- spec for experiments/stats/
-├── Baselines_TechSpec.md, DynamicEnv_TechSpec.md,
-│   GNN_PPO_Architecture_Spec.md            <- Anexos E-G (§1.7 of the thesis)
+├── docs/especificaciones/Baselines_TechSpec.md, docs/especificaciones/DynamicEnv_TechSpec.md,
+│   docs/especificaciones/GNN_PPO_Architecture_Spec.md            <- Anexos E-G (§1.7 of the thesis)
 ├── E7_E8_FinalPlan.md                      <- E7/E8 design rationale (also folded into §5.4)
 ├── ConferencePaper_DRAFT.md                <- companion IEEE conference paper
+├── docs/                                    <- non-canonical drafts (docs/capitulos, docs/especificaciones,
+│                                                docs/planificacion, docs/auditorias, docs/logs) --
+│                                                see docs/README.md; not cited as primary sources
+├── archive/                                 <- superseded/orphaned material, git mv not deleted
 ├── figures/                                 <- camera-ready figures (Spanish, 300dpi PNG+PDF)
 │   └── paper/                                <- compact English figures/tables for the paper
 ├── results/

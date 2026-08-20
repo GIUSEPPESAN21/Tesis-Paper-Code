@@ -252,7 +252,7 @@ command actually run and output actually inspected during this sprint, and every
 
 ## 7. Addendum — final packaging pass (post-`Thesis_FINAL.md`)
 
-Re-run after the thesis's own final audit-response revision (`Thesis_FullDraft_v2.md` →
+Re-run after the thesis's own final audit-response revision (`docs/capitulos/Thesis_FullDraft_v2.md` →
 renamed `Thesis_FINAL.md`) and after generating the companion conference-paper
 supplement, to catch any regression before defense/submission:
 

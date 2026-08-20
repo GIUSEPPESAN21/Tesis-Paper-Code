@@ -1,6 +1,6 @@
 # Preparación de preguntas y respuestas — sustentación
 
-**Fuentes:** `Thesis_FINAL.md` (todas las cifras citadas están verificadas contra el Capítulo 6 y son consistentes con el Resumen/Abstract) y `PreDefenseAudit.md` (hallazgos crítico y moderados; la mayoría ya resueltos en el documento final vía la Sección 5.4 y las tablas/notas añadidas en la revisión v2 — se indica explícitamente en cada respuesta si el hallazgo ya está corregido en el texto o si requiere solo una respuesta oral).
+**Fuentes:** `Thesis_FINAL.md` (todas las cifras citadas están verificadas contra el Capítulo 6 y son consistentes con el Resumen/Abstract) y `docs/auditorias/PreDefenseAudit.md` (hallazgos crítico y moderados; la mayoría ya resueltos en el documento final vía la Sección 5.4 y las tablas/notas añadidas en la revisión v2 — se indica explícitamente en cada respuesta si el hallazgo ya está corregido en el texto o si requiere solo una respuesta oral).
 
 **Cómo usar este documento:** cada pregunta incluye (1) por qué es probable que el comité la haga, (2) una respuesta preparada de 30–90 segundos, lista para decirse casi textualmente, y (3) la referencia exacta del documento donde ampliar si el comité pide más detalle. Practicar las respuestas en voz alta, no solo leerlas — el objetivo es sonar seguro, no memorizado.
 
@@ -14,7 +14,7 @@
 
 **Respuesta preparada:** "Porque lo que se evalúa en un pre-registro no es si la hipótesis se confirma, sino si la pregunta se responde con rigor. Fijamos las cinco reglas de decisión de H1 a H5 antes de generar un solo resultado, con un archivo de pre-registro con marca de tiempo verificable, precisamente para poder reportar rechazos con la misma autoridad con la que se reportaría un resultado positivo. Y cada uno de los cuatro rechazos no se quedó en un $p$-valor: tiene una causa raíz diagnosticada — el desajuste de legalidad entre el entorno estático de entrenamiento y el dinámico de evaluación para H3, el colapso de competitividad nominal por aleatorización de dominio sin episodios limpios para H4, un artefacto de construcción de métrica para H5. Ese nivel de diagnóstico es, en la literatura que revisamos en el Capítulo 3, más raro que un resultado positivo sin explicar. Eso es lo que se está evaluando aquí: si el candidato entendió por qué pasó lo que pasó, no si el modelo ganó."
 
-**Ampliar en:** Capítulo 6, Tabla 6.0 (síntesis); Capítulo 7, §7.1; `PreDefenseAudit.md` §0 (veredicto ejecutivo) y §4 (fortalezas).
+**Ampliar en:** Capítulo 6, Tabla 6.0 (síntesis); Capítulo 7, §7.1; `docs/auditorias/PreDefenseAudit.md` §0 (veredicto ejecutivo) y §4 (fortalezas).
 
 ---
 
@@ -78,7 +78,7 @@
 
 **Respuesta preparada:** "Es una limitación real que declaramos explícitamente, no una que el comité está descubriendo por primera vez. Con una sola semilla, no podemos reportar un intervalo de confianza sobre la magnitud exacta del colapso nominal o del beneficio de robustez. Dicho esto, la magnitud del efecto observado — entre 46 y 106 puntos porcentuales de colapso de RPD nominal, y cero de nueve regímenes con mejora significativa de robustez para κ=0.5 — es tan grande que es poco probable que una segunda semilla revierta la dirección cualitativa del hallazgo; lo que sí podría cambiar con más semillas es la magnitud precisa, y en particular si el único resultado parcialmente favorable de κ=1.0 —un régimen de nueve con mejora significativa— se replica o no. Repetir el entrenamiento de H4 con múltiples semillas es la acción de trabajo futuro de mediano plazo que priorizamos explícitamente para cerrar esta brecha."
 
-**Ampliar en:** Capítulo 7, §7.7.1 (validez interna); Capítulo 8, §8.6.2 punto 6; `PreDefenseAudit.md` §5 (nota de calibración: esta limitación es aceptable, no objetable, bajo un estándar de maestría con los recursos declarados de un solo estudiante/GPU/nueve meses).
+**Ampliar en:** Capítulo 7, §7.7.1 (validez interna); Capítulo 8, §8.6.2 punto 6; `docs/auditorias/PreDefenseAudit.md` §5 (nota de calibración: esta limitación es aceptable, no objetable, bajo un estándar de maestría con los recursos declarados de un solo estudiante/GPU/nueve meses).
 
 ### C2. "Su arquitectura es un punto intermedio entre homogénea y heterogénea, pero nunca compararon directamente contra esas dos alternativas. ¿Cómo saben que su elección arquitectónica es la correcta?"
 
@@ -94,7 +94,7 @@
 
 **Respuesta preparada:** "Es una pregunta justa, y la respuesta corta es no, por una razón verificable: ninguna de las dos enmiendas modificó una regla de decisión ni un criterio de aceptación de H1 a H5. La Enmienda 1 aclaró la estructura de instancias disponibles; la Enmienda 2 documentó que la ruta de evaluación de nuestro pipeline es exclusivamente CPU, independientemente de la disponibilidad de GPU, resolviendo una ambigüedad sobre qué hardware reportar — ninguna de las dos toca qué constituye aceptar o rechazar una hipótesis. Ambas están fechadas y documentadas como adendas explícitas, no como ediciones silenciosas del documento original, que es exactamente la disciplina que un protocolo de pre-registro bien administrado permite sin comprometer su validez."
 
-**Ampliar en:** `PreRegistration_FINAL.md` (Enmiendas 1–2, con fecha); Capítulo 5, §5.4.5 (Enmienda 2 in extenso); `PreDefenseAudit.md` §3.4.
+**Ampliar en:** `PreRegistration_FINAL.md` (Enmiendas 1–2, con fecha); Capítulo 5, §5.4.5 (Enmienda 2 in extenso); `docs/auditorias/PreDefenseAudit.md` §3.4.
 
 ### C4. "¿Por qué no calcularon la tardanza esperada para el régimen de llegadas, si el propio pre-registro la señala como la métrica primaria más apropiada para ese eje?"
 
@@ -110,7 +110,7 @@
 
 ### D1. "Todo esto es simulación. ¿Qué aplicabilidad real tiene para un taller de manufactura de verdad?"
 
-**Por qué la harán:** es la pregunta que `PreDefenseAudit.md` identifica explícitamente como riesgo específico de un programa de ingeniería industrial (Hallazgo moderado 2.6) — casi garantizada en algún momento de la sesión.
+**Por qué la harán:** es la pregunta que `docs/auditorias/PreDefenseAudit.md` identifica explícitamente como riesgo específico de un programa de ingeniería industrial (Hallazgo moderado 2.6) — casi garantizada en algún momento de la sesión.
 
 **Respuesta preparada:** "Con los datos que tenemos, la aplicabilidad directa es limitada, y lo declaramos así desde el Capítulo 1: todos los datos son simulados, sobre benchmarks académicos, sin ningún contraste contra un taller físico. Elegimos deliberadamente ese alcance —no por falta de interés en la aplicación real, sino porque nueve meses con un solo investigador y una GPU de consumo no permiten sostener simultáneamente un estudio de campo y el nivel de rigor estadístico que quisimos aplicar aquí. Lo que sí ofrecemos con validez práctica son dos cosas: primero, una lección de ingeniería de datos de entrenamiento directamente transferible a cualquier equipo que quiera entrenar una política consciente de mantenimiento — que aleatorizar sobre múltiples regímenes de perturbación sin preservar operación normal en el entrenamiento colapsa la competitividad nominal, algo que descubrimos empíricamente y que cualquiera enfrentaría al intentar la misma extensión. Segundo, una arquitectura híbrida motivada directamente por nuestros propios resultados — puente reactivo de baja latencia más re-optimización exacta en paralelo — que no evaluamos en esta tesis, pero que es una hipótesis de ingeniería razonable derivada de evidencia simulada rigurosa. Una validación *sim-to-real*, aunque sea parcial, es la primera línea de trabajo futuro de largo plazo que proponemos."
 
@@ -130,13 +130,13 @@
 
 ### E1. "El Capítulo 2 (Marco Teórico) no está redactado. ¿Cómo se puede evaluar el rigor teórico de una tesis sin su capítulo teórico?"
 
-**Por qué la harán:** es el hallazgo crítico no resuelto más visible de `PreDefenseAudit.md` — si el Capítulo 2 sigue sin redactarse a la fecha de la sustentación, esta pregunta es prácticamente segura.
+**Por qué la harán:** es el hallazgo crítico no resuelto más visible de `docs/auditorias/PreDefenseAudit.md` — si el Capítulo 2 sigue sin redactarse a la fecha de la sustentación, esta pregunta es prácticamente segura.
 
 **Respuesta preparada (usar solo si el Capítulo 2 sigue pendiente en la fecha de sustentación; de lo contrario, omitir esta pregunta del guion):** "Es una brecha real y la reconocemos directamente, sin minimizarla: el Capítulo 2 no se redactó en prosa de tesis con aparato de citas formal. El contenido teórico que le correspondería —la formulación MDP completa, la teoría de invariancia a permutaciones de Xu et al. que sustenta la generalización de tamaño, los fundamentos de simulación de eventos discretos— sí se desarrolló y se aplicó a lo largo de la tesis: la formulación MDP completa está en el Capítulo 4, §4.3; la teoría de generalización se retoma y se usa activamente para interpretar H2 en el Capítulo 7, §7.3; los fundamentos de simulación se aplican en el Capítulo 4, §4.2. Lo que falta no es el contenido teórico en sí, que sostiene cada interpretación del Capítulo 7, sino su presentación consolidada y autónoma como un capítulo formal de marco teórico. Es la única acción de esfuerzo alto que dejamos pendiente de las doce identificadas en nuestra propia auditoría pre-sustentación, y la nombramos aquí de forma directa en lugar de esperar a que el comité la señale."
 
-**Nota para el candidato, no para decir en voz alta:** si es posible redactar el Capítulo 2 antes de la fecha de sustentación —es la acción de mayor prioridad de `PreDefenseAudit.md` §6, ítem 1—, hacerlo elimina esta pregunta por completo. Si no es posible, esta respuesta debe decirse con la misma seguridad que cualquier otra, no a la defensiva.
+**Nota para el candidato, no para decir en voz alta:** si es posible redactar el Capítulo 2 antes de la fecha de sustentación —es la acción de mayor prioridad de `docs/auditorias/PreDefenseAudit.md` §6, ítem 1—, hacerlo elimina esta pregunta por completo. Si no es posible, esta respuesta debe decirse con la misma seguridad que cualquier otra, no a la defensiva.
 
-**Ampliar en:** Nota de estado al inicio del Capítulo 2 (dentro de `Thesis_FINAL.md`); `PreDefenseAudit.md` §1 y §6, ítem 1.
+**Ampliar en:** Nota de estado al inicio del Capítulo 2 (dentro de `Thesis_FINAL.md`); `docs/auditorias/PreDefenseAudit.md` §1 y §6, ítem 1.
 
 ### E2. "¿Por qué el título de la tesis en este documento parece un título de trabajo? ¿Es el título oficial?"
 
@@ -144,7 +144,7 @@
 
 **Respuesta preparada:** "Confirmamos el título contra el registro oficial de UNIMINUTO antes de esta entrega" — **acción pendiente para el candidato:** verificar este punto antes de la sustentación; si el título cambió, actualizar la portada es un ajuste de minutos, no de contenido.
 
-**Ampliar en:** `PreDefenseAudit.md` §3.1.
+**Ampliar en:** `docs/auditorias/PreDefenseAudit.md` §3.1.
 
 ---
 

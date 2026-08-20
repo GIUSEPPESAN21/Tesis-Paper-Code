@@ -248,7 +248,7 @@ still-green 84-test stats suite:
 
 Both fixes are covered by the pre-existing golden regression test
 (`tests/test_stats_report_golden.py`), which still passes (pinned against
-`HPO_ABLATION_REPORT_WEEK21.md`'s published numbers, unrelated to either bug).
+`../docs/logs/HPO_ABLATION_REPORT_WEEK21.md`'s published numbers, unrelated to either bug).
 
 ---
 

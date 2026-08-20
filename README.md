@@ -28,6 +28,15 @@ THESIS MASTER'S/
 ├── figures/                         <- camera-ready figures (Spanish, colorblind-safe, PNG+PDF)
 │   └── paper/                        <- compact English figures/tables for the conference paper
 ├── CODE_APPENDIX_SUMMARY.md        <- thesis-appendix-ready: repo structure, chapter<->code map
+├── DefensePresentation_Outline.md, QA_Prep.md  <- active defense-prep material (kept at root)
+├── docs/                             <- non-canonical chapter/section drafts, tech specs,
+│                                        planning docs, audits, and weekly logs — see
+│                                        docs/README.md for the map; cite Thesis_FINAL.md, not these
+│   ├── capitulos/                     <- superseded chapter/section drafts + full-draft thesis versions
+│   ├── especificaciones/              <- TechSpec / architecture-spec documents (incl. Anexos E-G)
+│   ├── planificacion/                 <- ablation/baseline plans, V&V protocol, weekly-plan prompts
+│   ├── auditorias/                    <- consistency-check and pre-defense audit reports
+│   └── logs/                          <- weekly experiment logs (Week 17/21/24)
 ├── archive/                         <- superseded/orphaned drafts, moved not deleted (git mv,
 │                                        history intact) — see archive/README.md for what's here
 │                                        and why each item was archived, not part of the active thesis
@@ -346,7 +355,7 @@ python experiments/train_hetero.py --instance ft06 --timesteps 400000
 Retraining the full curricula from scratch was **not re-timed for this reproducibility
 sprint** (out of scope — E1–E8 reproduce against the shipped checkpoints, which is the
 thesis' actual evaluation protocol) and would take substantially longer than any single
-E1–E8 step above; see `TrainingPlan_Week17.md` / `AblationPlan.md` for that history if
+E1–E8 step above; see `docs/logs/TrainingPlan_Week17.md` / `docs/planificacion/AblationPlan.md` for that history if
 you need it.
 
 ---

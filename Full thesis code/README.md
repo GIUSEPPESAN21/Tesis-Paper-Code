@@ -11,7 +11,7 @@ first trained agent, including a flexible (FJSP) environment with a joint
 `(operation, machine)` action space and the real Brandimarte `MK*` benchmarks. See
 [`TRAINING_REPORT_WEEK18.md`](TRAINING_REPORT_WEEK18.md) for the training curves,
 the makespan comparison against the PDR/GA/CP-SAT baselines, and an honest assessment
-against the success criteria in `TrainingPlan_Week17.md`.
+against the success criteria in `../docs/logs/TrainingPlan_Week17.md`.
 
 Week 15 was a **code-health sprint** (no new research features): consolidate four
 sprints' worth of environments/baselines/instance loaders behind a clean, tested,
