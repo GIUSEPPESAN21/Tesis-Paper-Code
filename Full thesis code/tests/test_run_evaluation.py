@@ -35,6 +35,10 @@ EXPECTED_COLUMNS = [
     "is_optimal",
     "violations_count",
     "timestamp",
+    "mip_gap",
+    "execution_policy",
+    "n_reoptimizations",
+    "reoptimization_wall_clock_s",
 ]
 
 
@@ -166,8 +170,26 @@ class TestEndToEndUnderDisruption:
         assert float(rows[0]["makespan"]) >= 55.0
 
     def test_arrival_unsafe_pdr_rejected_before_running(self) -> None:
+        # mwkr became arrival-safe in T8.1 (env.duration_per_op()/env.remaining_work_per_op());
+        # cr remains unsafe (due-date synthesis for arrived jobs is still unimplemented).
         with pytest.raises(SystemExit):
-            run_evaluation.main(["--instances", "ft06", "--methods", "mwkr", "--disruption", "arrivals"])
+            run_evaluation.main(["--instances", "ft06", "--methods", "cr", "--disruption", "arrivals"])
+
+    def test_previously_unsafe_pdr_now_runs_under_arrivals(self, tmp_path: Path) -> None:
+        """T8.1 regression guard: spt/lpt/mwkr must NOT be rejected under arrivals
+        anymore, and must produce a feasible row."""
+        out_path = tmp_path / "results.csv"
+        exit_code = run_evaluation.main(
+            [
+                "--instances", "ft06", "--methods", "mwkr", "--disruption", "arrivals",
+                "--utilization", "0.85", "--max-dynamic-jobs", "10", "--seeds", "1",
+                "--out", str(out_path),
+            ]
+        )
+        assert exit_code == 0
+        rows = _read_csv(out_path)
+        assert rows[0]["status"] == "OK"
+        assert rows[0]["feasible"] == "True"
 
     def test_arrival_unsafe_pdr_rejected_for_combined_too(self) -> None:
         with pytest.raises(SystemExit):
@@ -206,6 +228,164 @@ class TestEndToEndFjsp:
     def test_fjsp_with_pdr_method_is_rejected(self) -> None:
         with pytest.raises(SystemExit):
             run_evaluation.main(["--instances", "ft06", "--methods", "spt", "--fjsp"])
+
+
+class TestCombinedSeverity:
+    """T7.2: ``--disruption combined`` gets three parametrized severities instead of
+    being pinned to whatever --availability/--proc-sigma/--utilization default to."""
+
+    def test_no_severity_keeps_backward_compatible_explicit_values(self) -> None:
+        config = run_evaluation.build_disruption_config(
+            "combined", availability=0.8, proc_sigma=0.25, utilization=0.6, max_dynamic_jobs=20
+        )
+        assert config.target_availability == 0.8
+        assert config.processing_time_sigma == 0.25
+        assert config.target_utilization == 0.6
+
+    @pytest.mark.parametrize("level", ["low", "medium", "high"])
+    def test_severity_overrides_explicit_values(self, level: str) -> None:
+        availability, proc_sigma, utilization = run_evaluation.COMBINED_SEVERITY_LEVELS[level]
+        config = run_evaluation.build_disruption_config(
+            "combined",
+            availability=0.8,
+            proc_sigma=0.25,
+            utilization=0.6,
+            max_dynamic_jobs=20,
+            combined_severity=level,
+        )
+        assert config.target_availability == availability
+        assert config.processing_time_sigma == proc_sigma
+        assert config.target_utilization == utilization
+
+    def test_severity_ignored_for_non_combined_profile(self) -> None:
+        config = run_evaluation.build_disruption_config(
+            "breakdowns",
+            availability=0.8,
+            proc_sigma=0.25,
+            utilization=0.6,
+            max_dynamic_jobs=20,
+            combined_severity="high",
+        )
+        assert config.target_availability == 0.8
+
+    def test_unknown_severity_raises(self) -> None:
+        with pytest.raises(ValueError, match="combined-severity"):
+            run_evaluation.build_disruption_config(
+                "combined",
+                availability=0.8,
+                proc_sigma=0.25,
+                utilization=0.6,
+                max_dynamic_jobs=20,
+                combined_severity="extreme",
+            )
+
+    def test_severities_are_strictly_ordered_low_to_high(self) -> None:
+        """Sanity check on the D4-grid mapping itself: low must be the mildest level on
+        every axis, high the harshest -- guards against a future edit silently
+        transposing a tuple."""
+        low = run_evaluation.COMBINED_SEVERITY_LEVELS["low"]
+        medium = run_evaluation.COMBINED_SEVERITY_LEVELS["medium"]
+        high = run_evaluation.COMBINED_SEVERITY_LEVELS["high"]
+        assert low[0] > medium[0] > high[0]  # availability: higher is milder
+        assert low[1] < medium[1] < high[1]  # sigma: lower is milder
+        assert low[2] < medium[2] < high[2]  # utilization: lower is milder
+
+
+class TestMipGapColumn:
+    """T7.1: mip_gap is propagated from BaselineResult.extra into the CSV row, and is
+    NaN (not a KeyError) for methods that never set it."""
+
+    def test_present_from_cpsat_extra(self) -> None:
+        from baselines.interface import BaselineResult
+        from envs.loader import load_by_name
+
+        instance = load_by_name("ft06")
+        result = BaselineResult(
+            instance="ft06",
+            method="cpsat",
+            start_times=None,
+            makespan=60.0,
+            wall_clock_time=1.0,
+            feasible=True,
+            violations=[],
+            status="FEASIBLE",
+            is_optimal=False,
+            extra={"best_bound": 55, "mip_gap": 0.0909},
+        )
+        row = run_evaluation.build_row(instance, "cpsat", "none", 0, result, "2026-01-01T00:00:00+00:00")
+        assert row["mip_gap"] == pytest.approx(0.0909)
+
+    def test_nan_when_method_never_sets_it(self) -> None:
+        import math
+
+        from baselines.interface import BaselineResult
+        from envs.loader import load_by_name
+
+        instance = load_by_name("ft06")
+        result = BaselineResult(
+            instance="ft06",
+            method="fifo",
+            start_times=None,
+            makespan=67.0,
+            wall_clock_time=0.01,
+            feasible=True,
+            violations=[],
+            status="OK",
+            is_optimal=False,
+            extra={"dispatch_order": []},
+        )
+        row = run_evaluation.build_row(instance, "fifo", "none", 0, result, "2026-01-01T00:00:00+00:00")
+        assert math.isnan(row["mip_gap"])
+
+
+class TestExecutionPolicyT62:
+    """T6.2: --execution-policy periodic/event_triggered routes ga/cpsat through
+    envs.rescheduling (T6.1) instead of the default right_shift replay, and records
+    the extra reoptimization cost."""
+
+    def test_right_shift_is_default_and_zero_reoptimizations(self, tmp_path: Path) -> None:
+        out_path = tmp_path / "results.csv"
+        exit_code = run_evaluation.main(
+            [
+                "--instances", "ft06", "--methods", "ga", "--disruption", "breakdowns",
+                "--seeds", "0", "--time-limit", "3.0", "--out", str(out_path), "--quiet",
+            ]
+        )
+        assert exit_code == 0
+        rows = _read_csv(out_path)
+        assert rows[0]["execution_policy"] == "right_shift"
+        assert rows[0]["n_reoptimizations"] == "0"
+
+    @pytest.mark.slow
+    def test_periodic_policy_reoptimizes_and_records_cost(self, tmp_path: Path) -> None:
+        out_path = tmp_path / "results.csv"
+        exit_code = run_evaluation.main(
+            [
+                "--instances", "ft06", "--methods", "ga", "--disruption", "breakdowns",
+                "--seeds", "0", "--execution-policy", "periodic",
+                "--reopt-period", "8.0", "--reopt-time-limit", "0.2",
+                "--out", str(out_path), "--quiet",
+            ]
+        )
+        assert exit_code == 0
+        rows = _read_csv(out_path)
+        assert rows[0]["execution_policy"] == "periodic"
+        assert int(rows[0]["n_reoptimizations"]) >= 1
+        assert float(rows[0]["reoptimization_wall_clock_s"]) > 0.0
+        assert rows[0]["feasible"] == "True"
+
+    def test_execution_policy_ignored_for_pdr(self, tmp_path: Path) -> None:
+        out_path = tmp_path / "results.csv"
+        exit_code = run_evaluation.main(
+            [
+                "--instances", "ft06", "--methods", "fifo", "--disruption", "breakdowns",
+                "--seeds", "0", "--execution-policy", "periodic",
+                "--out", str(out_path), "--quiet",
+            ]
+        )
+        assert exit_code == 0
+        rows = _read_csv(out_path)
+        assert rows[0]["status"] == "OK"  # PDR path unaffected
 
 
 class TestWriteCsvValidation:

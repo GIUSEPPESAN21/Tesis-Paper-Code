@@ -455,6 +455,33 @@ class TestDynamicArrivals:
                 assert adj_machine[op, peer] == 1.0
                 assert adj_machine[peer, op] == 1.0
 
+    def test_duration_and_machine_per_op_extend_after_arrival(self) -> None:
+        """T8.1: env.duration_per_op()/env.machine_per_op() must (a) exactly match the
+        base instance's arrays over the base operations, and (b) grow to cover a newly
+        arrived job's operations -- this is what makes spt/lpt/mwkr arrival-safe."""
+        env = DynamicJSSPEnv("ft06", DisruptionConfig(target_utilization=0.6, max_dynamic_jobs=3, seed=0))
+        env.reset(seed=0)
+
+        base_durations_before = env.duration_per_op().copy()
+        base_machines_before = env.machine_per_op().copy()
+        np.testing.assert_array_equal(base_durations_before, env.instance.flat_durations)
+        np.testing.assert_array_equal(base_machines_before, env.instance.flat_machines)
+
+        before_active = env.active_ops
+        env._t = 0.0
+        env._on_arrival({})
+
+        durations_after = env.duration_per_op()
+        machines_after = env.machine_per_op()
+        assert durations_after.shape[0] == env.active_ops
+        # Bit-identical over the operations that existed before the arrival.
+        np.testing.assert_array_equal(durations_after[:before_active], base_durations_before)
+        np.testing.assert_array_equal(machines_after[:before_active], base_machines_before)
+        # The newly arrived job's operations are populated (no longer the zero-init sentinel).
+        new_job_durations = durations_after[before_active:]
+        assert new_job_durations.shape[0] == env.ops_per_job
+        assert (new_job_durations > 0).all()
+
     def test_episode_terminates_with_dynamic_arrivals(self) -> None:
         config = DisruptionConfig(target_utilization=0.85, max_dynamic_jobs=10, seed=1)
         env = DynamicJSSPEnv("ft06", config)

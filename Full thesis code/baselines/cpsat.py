@@ -30,13 +30,30 @@ from envs.instance import JSSPInstance
 class CPSATResult:
     """Outcome of a CP-SAT solve.
 
+    Three distinct things a caller must not conflate (Recomendacion 1/10 del tutor,
+    ``MEJORAS_TUTOR_IMPLEMENTADAS.md``): the *solver* is always ``"CP-SAT"`` (not a
+    field here -- callers already know which function they called); ``status`` is the
+    *solution status* CP-SAT itself reports; ``is_optimal``/``mip_gap`` together are
+    the *certification* -- a schedule is "exacto-optimo" only when
+    ``status == "OPTIMAL"`` (equivalently ``is_optimal`` and ``mip_gap == 0.0``), never
+    merely because a solution was found (``status == "FEASIBLE"`` means CP-SAT hit its
+    time limit with a feasible-but-unproven-optimal incumbent).
+
     Attributes:
         instance: Instance name.
         status: Solver status name (``"OPTIMAL"``, ``"FEASIBLE"``, ``"INFEASIBLE"``,
-            ``"UNKNOWN"``).
+            ``"UNKNOWN"``) -- the *solution status*, not a claim of optimality by
+            itself.
         makespan: Best makespan found, or ``None`` if no solution was found.
         best_bound: Best proven lower bound on the makespan.
-        is_optimal: Whether optimality was proven within the time limit.
+        is_optimal: ``True`` iff ``status == "OPTIMAL"`` -- the only condition under
+            which this result may be reported as "exacto-optimo" anywhere downstream.
+        mip_gap: Relative optimality gap, ``|makespan - best_bound| / max(|best_bound|, 1)``.
+            Exactly ``0.0`` when ``is_optimal`` is ``True`` (CP-SAT only reports
+            ``OPTIMAL`` when the gap has closed); ``NaN`` when no solution was found
+            at all (``status in {"INFEASIBLE", "UNKNOWN"}`` with no incumbent). A
+            positive gap on a ``FEASIBLE`` row is the quantitative version of "this is
+            not proven optimal" -- report it alongside ``status``, not instead of it.
         wall_time: Solver wall-clock seconds.
         start_times: Start time per global operation id, or ``None`` if no solution.
     """
@@ -47,7 +64,31 @@ class CPSATResult:
     best_bound: int
     is_optimal: bool
     wall_time: float
+    mip_gap: float = field(default=float("nan"))
     start_times: np.ndarray | None = field(default=None, repr=False)
+
+
+def compute_mip_gap(makespan: int | None, best_bound: int, is_optimal: bool) -> float:
+    """Relative CP-SAT optimality gap for one solve.
+
+    Args:
+        makespan: Best incumbent objective found, or ``None`` if no solution exists.
+        best_bound: Best proven lower bound (``CpSolver.best_objective_bound``).
+        is_optimal: Whether the solver's status was ``OPTIMAL``.
+
+    Returns:
+        ``0.0`` when ``is_optimal`` (CP-SAT never reports ``OPTIMAL`` with a residual
+        gap); ``NaN`` when ``makespan is None`` (no incumbent to compare against a
+        bound); otherwise ``|makespan - best_bound| / max(|best_bound|, 1)``, the
+        standard relative-gap definition (denominator floored at 1 so a ``best_bound``
+        of 0 -- possible only for a degenerate zero-length instance -- does not divide
+        by zero).
+    """
+    if is_optimal:
+        return 0.0
+    if makespan is None:
+        return float("nan")
+    return abs(makespan - best_bound) / max(abs(best_bound), 1)
 
 
 def solve_cpsat(
@@ -147,13 +188,16 @@ def solve_cpsat(
         feasible, violations = is_schedule_feasible(instance, start_array)
         assert feasible, f"CP-SAT returned an infeasible schedule: {violations[:3]}"
 
+    best_bound = int(solver.best_objective_bound)
+    is_optimal = status == cp_model.OPTIMAL
     return CPSATResult(
         instance=instance.name,
         status=status_name,
         makespan=best_makespan,
-        best_bound=int(solver.best_objective_bound),
-        is_optimal=status == cp_model.OPTIMAL,
+        best_bound=best_bound,
+        is_optimal=is_optimal,
         wall_time=float(solver.wall_time),
+        mip_gap=compute_mip_gap(best_makespan, best_bound, is_optimal),
         start_times=start_array,
     )
 
@@ -280,13 +324,16 @@ def solve_cpsat_fjsp(
         feasible, violations = is_fjsp_schedule_feasible(instance, start_array, machine_assignment)
         assert feasible, f"CP-SAT returned an infeasible FJSP schedule: {violations[:3]}"
 
+    best_bound = int(solver.best_objective_bound)
+    is_optimal = status == cp_model.OPTIMAL
     return CPSATResult(
         instance=instance.name,
         status=status_name,
         makespan=best_makespan,
-        best_bound=int(solver.best_objective_bound),
-        is_optimal=status == cp_model.OPTIMAL,
+        best_bound=best_bound,
+        is_optimal=is_optimal,
         wall_time=float(solver.wall_time),
+        mip_gap=compute_mip_gap(best_makespan, best_bound, is_optimal),
         start_times=start_array,
     )
 

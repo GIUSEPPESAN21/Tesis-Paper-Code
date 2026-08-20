@@ -139,6 +139,26 @@ class TestAddDerivedColumns:
         add_derived_columns(df)
         assert "num_operations" not in df.columns
 
+    def test_certified_optimal_true_only_for_optimal_status_and_zero_gap(self) -> None:
+        df = pd.DataFrame(
+            [
+                _base_row(method="cpsat", status="OPTIMAL", is_optimal=True, mip_gap=0.0),
+                _base_row(method="cpsat", status="FEASIBLE", is_optimal=False, mip_gap=0.12),
+                _base_row(method="spt", status="OK", is_optimal=False),
+            ]
+        )
+        out = add_derived_columns(df)
+        assert list(out["certified_optimal"]) == [True, False, False]
+
+    def test_missing_mip_gap_column_backfilled_as_nan_not_a_keyerror(self) -> None:
+        """Pre-existing E1-E8 CSVs, written before mip_gap was added to
+        run_evaluation.py's CSV_FIELDNAMES, must keep loading unchanged (Regla 5)."""
+        df = pd.DataFrame([_base_row()]).drop(columns=["mip_gap"], errors="ignore")
+        assert "mip_gap" not in df.columns
+        out = add_derived_columns(df)
+        assert np.isnan(out.loc[0, "mip_gap"])
+        assert out.loc[0, "certified_optimal"] == False  # noqa: E712
+
 
 class TestLoadResults:
     def test_loads_and_tags_experiment_id(self, tmp_path: Path) -> None:

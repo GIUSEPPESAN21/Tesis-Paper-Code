@@ -9,9 +9,11 @@ adds the explicit STEP4 requirement --- CP-SAT recovers the known optimum on
 
 from __future__ import annotations
 
+import math
+
 import pytest
 
-from baselines.cpsat import solve_cpsat, solve_cpsat_fjsp
+from baselines.cpsat import compute_mip_gap, solve_cpsat, solve_cpsat_fjsp
 from envs.disjunctive_graph import is_schedule_feasible
 from envs.fjsp_instance import FJSPInstance
 from envs.instance import JSSPInstance
@@ -107,3 +109,23 @@ class TestSolveCpsatFjsp:
                 eligible_machines=[[[]]],
                 durations=[[[]]],
             )
+
+
+class TestComputeMipGap:
+    """Recomendacion 1/10 del tutor (T7.1): mip_gap must be exactly 0.0 when
+    is_optimal, NaN when there is no incumbent, and the relative gap otherwise --
+    a pure function, no OR-Tools solve needed to exercise it."""
+
+    def test_zero_when_optimal(self) -> None:
+        assert compute_mip_gap(makespan=55, best_bound=55, is_optimal=True) == 0.0
+
+    def test_nan_when_no_solution(self) -> None:
+        assert math.isnan(compute_mip_gap(makespan=None, best_bound=40, is_optimal=False))
+
+    def test_positive_gap_on_feasible_not_optimal(self) -> None:
+        gap = compute_mip_gap(makespan=120, best_bound=100, is_optimal=False)
+        assert gap == pytest.approx(0.20)
+
+    def test_denominator_floored_at_one_for_degenerate_zero_bound(self) -> None:
+        gap = compute_mip_gap(makespan=3, best_bound=0, is_optimal=False)
+        assert gap == pytest.approx(3.0)

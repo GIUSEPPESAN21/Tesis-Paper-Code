@@ -221,7 +221,7 @@ class CPSATBaseline:
             violations=violations,
             status=result.status,
             is_optimal=result.is_optimal,
-            extra={"best_bound": result.best_bound},
+            extra={"best_bound": result.best_bound, "mip_gap": result.mip_gap},
         )
 
 
@@ -285,7 +285,7 @@ class CPSATFJSPBaseline:
             violations=violations,
             status=result.status,
             is_optimal=result.is_optimal,
-            extra={"best_bound": result.best_bound},
+            extra={"best_bound": result.best_bound, "mip_gap": result.mip_gap},
         )
 
 

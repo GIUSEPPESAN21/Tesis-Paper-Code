@@ -15,7 +15,14 @@ import numpy as np
 import pandas as pd
 
 from experiments.stats.cd_diagram import plot_cd_diagram
+from experiments.stats.comparators import (
+    h2_absolute_competitive_table,
+    h2_dual_reading_markdown,
+    pdr_global,
+    tabla_comparadores_pdr_markdown,
+)
 from experiments.stats.io import LoadedExperiment
+from experiments.stats.metrics import scan_for_negative_ri
 from experiments.stats.omnibus import critical_difference, friedman_test
 from experiments.stats.pairwise import (
     HypothesisVerdict,
@@ -408,8 +415,18 @@ def _write_table(tables_dir: Path, name: str, markdown: str, *, caption: str) ->
     return path
 
 
-def generate_chapter6_artifacts(combined: pd.DataFrame, out_dir: Path) -> dict[str, Path]:
-    """6.1 (E1), 6.2 (E3), 6.3/6.4 (E4-E7), 6.5 (E8) summary tables and figures."""
+def generate_chapter6_artifacts(
+    combined: pd.DataFrame, out_dir: Path, *, h2_verdicts: list[HypothesisVerdict] | None = None
+) -> dict[str, Path]:
+    """6.1 (E1), 6.2 (E3), 6.3/6.4 (E4-E7), 6.5 (E8) summary tables and figures, plus
+    the Recomendaciones 6/7 comparator tables (T4.1/T4.2, ``experiments.stats.comparators``).
+
+    Args:
+        h2_verdicts: H2's per-tier verdicts (``run_h2``'s first return value), used
+            only to pull each tier's rank-based reading text into T4.2's dual-reading
+            table. If ``None``, the dual-reading table is skipped (still descriptive,
+            not required for H1-H5's own computation, which never depends on this).
+    """
     import matplotlib
 
     matplotlib.use("Agg")
@@ -430,6 +447,17 @@ def generate_chapter6_artifacts(combined: pd.DataFrame, out_dir: Path) -> dict[s
     if not e1.empty:
         md = rpd_summary_table(e1, ["instance"])
         written["e1_rpd_summary"] = _write_table(tables_dir, "e1_rpd_summary", md, caption="E1: RPD (\\%) by instance and method, deterministic seed 0")
+
+        # T4.1 (Recomendacion 6): pdr_global / pdr_por_familia / oraculo_best_per_instance,
+        # always reported separately -- never fused into a single "best PDR" figure.
+        try:
+            comparadores_md = tabla_comparadores_pdr_markdown(e1, candidates=ALL_PDR_NAMES)
+            written["comparadores_pdr_e1"] = _write_table(
+                tables_dir, "comparadores_pdr_e1", comparadores_md,
+                caption="E1: pdr\\_global, pdr\\_por\\_familia y oraculo\\_best\\_per\\_instance (RPD medio, \\%)",
+            )
+        except ValueError:
+            pass  # no PDR rows in this slice yet (e.g. mid-Semana-24 partial run)
 
     # 6.2 -- E3 size generalization: per-tier RPD summary + RPD-vs-instance-size scatter.
     e3 = combined[combined["experiment_id"] == "E3"]
@@ -460,6 +488,27 @@ def generate_chapter6_artifacts(combined: pd.DataFrame, out_dir: Path) -> dict[s
         fig.savefig(fig_path, dpi=300)
         plt.close(fig)
         written["e3_rpd_vs_size"] = fig_path
+
+        # T4.2 (Recomendacion 7): dual reading of H2 -- rank-based (already computed by
+        # run_h2) alongside RL's absolute-RPD gap vs. pdr_global, in the same table, so
+        # H2's acceptance can never be quoted as absolute competitiveness on its own.
+        if not e1.empty:
+            try:
+                pdr_glob = pdr_global(e1, candidates=ALL_PDR_NAMES)
+                abs_df = h2_absolute_competitive_table(e3_scoped, H2_TIERS, pdr_global_method=pdr_glob.method)
+                if not abs_df.empty:
+                    rank_notes = {
+                        v.hypothesis.replace("H2 (", "").rstrip(")"): v.notes
+                        for v in (h2_verdicts or [])
+                        if v.hypothesis.startswith("H2 (") and not v.hypothesis.startswith("H2 (overall")
+                    }
+                    dual_md = h2_dual_reading_markdown(abs_df, rank_notes, pdr_global_method=pdr_glob.method)
+                    written["e3_h2_dual_reading"] = _write_table(
+                        tables_dir, "e3_h2_dual_reading", dual_md,
+                        caption="E3: H2 -- lectura de rango vs. lectura competitiva absoluta, por tier",
+                    )
+            except ValueError:
+                pass  # no E1 PDR rows to compute pdr_global from yet
 
     # 6.3/6.4 -- E4-E6 robustness (H3) and E7 disruption-aware reward (H4): one RI
     # summary table + one RI-vs-level line plot per axis, each line an available kappa
@@ -524,6 +573,24 @@ def generate_chapter6_artifacts(combined: pd.DataFrame, out_dir: Path) -> dict[s
                 tables_dir, "e4e5e6e7_ri_summary", "\n".join(lines),
                 caption="E4-E6 (kappa=0, reused) and E7 (kappa in 0.5, 1.0): mean RI by regime and series",
             )
+
+            # T8.3 (Recomendacion del tutor): a negative RI is not interpretable as
+            # robustness (AUDIT_PREFLIGHT.md Fase 0a/0b) -- warn loudly and record which
+            # (axis, level, series) cells trigger it in the manifest, never silently.
+            negative_ri = scan_for_negative_ri(ri_rows)
+            if negative_ri:
+                import warnings
+
+                warnings.warn(
+                    f"{len(negative_ri)} (axis, level, series) cell(s) have RI < 0 -- see "
+                    "ri_negative_warnings.json for the full list. Not interpretable as "
+                    "robustness (AUDIT_PREFLIGHT.md Fase 0a/0b).",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
+                warnings_path = tables_dir / "ri_negative_warnings.json"
+                warnings_path.write_text(json.dumps(negative_ri, indent=2), encoding="utf-8")
+                written["ri_negative_warnings"] = warnings_path
 
     # 6.5 -- E8 decision latency: ms/decision-vs-size log-log plot with the CP-SAT/RL
     # ratio overlaid (PreRegistration_FINAL.md Sec 6's "does the ratio widen" figure),
@@ -613,7 +680,7 @@ def generate_report(
         encoding="utf-8",
     )
 
-    chapter6_artifacts = generate_chapter6_artifacts(combined, out_dir)
+    chapter6_artifacts = generate_chapter6_artifacts(combined, out_dir, h2_verdicts=h2_verdicts)
     chapter6_figures = {k: v for k, v in chapter6_artifacts.items() if v.suffix == ".png"}
     chapter6_tables = {k: v for k, v in chapter6_artifacts.items() if v.suffix == ".md"}
 

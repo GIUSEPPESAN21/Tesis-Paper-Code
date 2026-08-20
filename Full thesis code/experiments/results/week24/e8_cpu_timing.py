@@ -16,6 +16,27 @@ this script instead contrasts unconstrained multi-threaded CPU inference (this m
 default: 16 logical cores available to torch) against single-threaded CPU inference
 (torch.set_num_threads(1)) -- a fast/slow CPU proxy for the GPU-machine-vs-weaker-laptop
 comparison the matrix intends, labelled accordingly rather than mislabelled as GPU/CPU.
+
+T5.3 (Recomendacion 8 del tutor): full 43-instance JSSP coverage (``ft06``-``la40``),
+not the 4-instance ``SUBSET`` this script originally shipped with -- H5's decision rule
+and the amortized-cost figure (``Fig_costo_amortizado``, ``scripts/generate_thesis_figures.py``)
+both need every instance, not a spot-check subset. The single-thread/multi-thread split
+was already implemented (``rl_ms_per_decision_singlethread``/``_multithread``); this
+sprint only widens the instance set and documents, below, which of the two columns feeds
+which manuscript claim.
+
+Which column feeds which claim (document here, not scattered across chapters):
+- ``rl_ms_per_decision_multithread`` -- primary column for H5's accept/reject
+  computation (``PreRegistration_FINAL.md`` Sec 6) and Chapter 6.5's headline
+  ms/decision numbers: this machine's default thread count is what every other
+  timing number in E1/E8 (``run_evaluation.py``'s ``wall_clock_s``) was measured
+  under, so the comparison stays apples-to-apples.
+- ``rl_ms_per_decision_singlethread`` -- descriptive-only, cited in Chapter 6.5's
+  "does the picture change under different hardware" discussion
+  (``PreRegistration_FINAL.md`` Amendment 2) and in ``Tabla_costo_computacional``'s
+  footnote, never in the H5 accept/reject computation itself.
+- ``singlethread_vs_multithread_ratio`` -- descriptive only, the size of the
+  thread-count effect itself (not a claim about RL vs. CP-SAT).
 """
 
 from __future__ import annotations
@@ -34,7 +55,15 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 CKPT = REPO_ROOT / "experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip"
 OUT_CSV = Path(__file__).resolve().parent / "e8_cpu_timing.csv"
 
-SUBSET = ["ft06", "la05", "la20", "la35"]
+#: T5.3: full JSSP set (was a 4-instance SUBSET: ft06, la05, la20, la35). Kept as a
+#: separate constant (not re-derived from run_evaluation.DEFAULT_INSTANCES, which only
+#: covers la01-la10) so this script's scope is explicit and independently auditable.
+ALL_JSSP_INSTANCES = ["ft06", "ft10", "ft20"] + [f"la{n:02d}" for n in range(1, 41)]
+
+#: Backward-compatible alias -- some already-written notebooks/scripts may still
+#: import SUBSET by that name; kept pointing at the full set rather than removed
+#: outright, per Regla 5 (sin regresiones silenciosas por renombrado).
+SUBSET = ALL_JSSP_INSTANCES
 
 
 def time_rl(instance_name: str, n_threads: int | None, n_reps: int = 5) -> dict:

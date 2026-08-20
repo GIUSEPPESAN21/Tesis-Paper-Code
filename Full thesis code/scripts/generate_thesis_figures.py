@@ -38,6 +38,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from experiments.cost_accounting import amortization_curve, inference_cost_per_instance
+from experiments.slack_vs_robustness import paired_points
 from experiments.stats.cli import default_experiment_csvs
 from experiments.stats.io import load_results
 from experiments.stats.omnibus import critical_difference, friedman_test
@@ -351,12 +353,164 @@ def generate_fig_6_5_1(combined: pd.DataFrame, out_dir: Path) -> list[Path]:
     return _save(fig, out_dir, "Fig_6.5.1_latencia_vs_tamano")
 
 
+# --------------------------------------------------------------------------- Fig holgura (T1.4)
+
+
+def generate_fig_holgura_vs_ri(
+    slack_df: pd.DataFrame, combined: pd.DataFrame, out_dir: Path, *, metric: str = "slack_ratio"
+) -> list[Path]:
+    """Fig_holgura_vs_RI (T1.4, Recomendacion 2): dispersion de una metrica de holgura
+    (por defecto ``slack_ratio``) vs. RI, un panel por eje de disrupcion (averias,
+    tiempos estocasticos, llegadas), con ajuste lineal por panel.
+
+    Design constraint carried over from ``experiments.slack_vs_robustness`` (T1.3):
+    this figure reports whatever sign/shape the data actually has -- it does not
+    force the "more slack -> more robust" narrative if the fit line comes out flat or
+    positive on a given axis.
+
+    Args:
+        slack_df: ``run_slack_study.py``'s nominal slack metrics (one row per
+            instance/method).
+        combined: The pipeline's usual E1-E8 long-format frame (``load_combined()``),
+            used to build each axis's RI-by-regime target via
+            ``experiments.stats.report.add_row_ri``/``nominal_makespan_lookup``.
+        metric: Which of the six slack metrics to plot (T1.3's full correlation table
+            covers all six; this figure highlights one at a time -- call again with a
+            different ``metric`` for additional panels/figures if the committee asks).
+
+    Returns:
+        Written file paths, or ``[]`` if neither ``slack_df`` nor the regime data is
+        available yet (printed note, consistent with this script's other figures).
+    """
+    if slack_df.empty:
+        print("[generate_thesis_figures] Fig_holgura_vs_RI: skipped -- no slack_df (run experiments.run_slack_study first)")
+        return []
+
+    e1_all = combined[combined["experiment_id"] == "E1"]
+    if e1_all.empty:
+        print("[generate_thesis_figures] Fig_holgura_vs_RI: skipped -- no E1 data for nominal makespans")
+        return []
+    nominal = nominal_makespan_lookup(e1_all)
+
+    axes_spec = (
+        ("Averías", ["E4_breakdowns_A0.95", "E4_breakdowns_A0.90", "E4_breakdowns_A0.80"]),
+        ("Tiempos estocásticos", ["E5_stochastic_s0.10", "E5_stochastic_s0.25", "E5_stochastic_s0.50"]),
+        ("Llegadas", ["E6_arrivals_u0.70", "E6_arrivals_u0.85", "E6_arrivals_u0.95"]),
+    )
+
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4.6), sharey=True)
+    any_panel_has_data = False
+    for ax, (axis_name, regime_labels) in zip(axes, axes_spec):
+        regime_df = combined[combined["experiment_id"].isin(regime_labels) & combined["instance"].isin(H3_H4_INSTANCES)]
+        if regime_df.empty:
+            ax.set_title(f"{axis_name} (sin datos)")
+            continue
+        regime_ri = add_row_ri(regime_df, nominal)
+        ri_by_instance_method = regime_ri.groupby(["instance", "method"], as_index=False)["ri"].mean()
+
+        points = paired_points(slack_df, ri_by_instance_method, metric=metric, target_col="ri")
+        if points.empty:
+            ax.set_title(f"{axis_name} (sin pares instancia/metodo)")
+            continue
+        any_panel_has_data = True
+
+        ax.scatter(points["metric_value"], points["target_value"], color=AZUL, edgecolors="white", linewidths=0.5, s=45, zorder=3)
+        if len(points) >= 2 and points["metric_value"].std() > 0:
+            slope, intercept = np.polyfit(points["metric_value"], points["target_value"], 1)
+            xs = np.linspace(points["metric_value"].min(), points["metric_value"].max(), 50)
+            ax.plot(xs, slope * xs + intercept, color=NARANJA, linewidth=2, linestyle="--", zorder=2)
+        ax.set_title(axis_name)
+        ax.set_xlabel(metric)
+
+    axes[0].set_ylabel("Índice de Robustez ($RI$, media)")
+    fig.suptitle(f"Holgura ({metric}) vs. $RI$, por eje de disrupción (T1.4)")
+    fig.tight_layout()
+    if not any_panel_has_data:
+        plt.close(fig)
+        print("[generate_thesis_figures] Fig_holgura_vs_RI: skipped -- no regime had matching data")
+        return []
+    return _save(fig, out_dir, "Fig_holgura_vs_RI")
+
+
+# --------------------------------------------------------------------------- Fig 6.5.2 (T5.2)
+
+
+def generate_fig_6_5_2(combined: pd.DataFrame, out_dir: Path, *, e8_timing_csv: Path, training_wall_clock_s: float | None) -> list[Path]:
+    """Fig_costo_amortizado (T5.2, Recomendacion 8): cumulative cost, GNN-DRL
+    (train-once + infer-per-instance) vs. CP-SAT (reoptimize-from-scratch every
+    instance), as a function of N instances solved -- marks the crossover point where
+    the offline (CP-SAT) approach stops amortizing.
+
+    Args:
+        e8_timing_csv: ``experiments/results/week24/e8_cpu_timing.csv`` (T5.3: full
+            43-instance coverage). Figure is skipped (returns ``[]``, with a printed
+            note) if this file does not exist yet -- consistent with this script's
+            existing behaviour of skipping a figure when its source data is absent
+            (``generate_fig_6_3_1``/etc. all guard on ``combined``/``e3`` being empty).
+        training_wall_clock_s: GNN-DRL's one-time training cost (mean over seeds, from
+            a ``summary_*.json``). ``None`` skips the figure the same way.
+    """
+    if not e8_timing_csv.exists() or training_wall_clock_s is None:
+        print(
+            f"[generate_thesis_figures] Fig_costo_amortizado: skipped -- "
+            f"{'missing ' + str(e8_timing_csv) if not e8_timing_csv.exists() else ''}"
+            f"{'no training_wall_clock_s given' if training_wall_clock_s is None else ''}"
+        )
+        return []
+
+    e8_df = pd.read_csv(e8_timing_csv)
+    inference_df = inference_cost_per_instance(e8_df).sort_values("num_operations")
+
+    e1 = combined[(combined["experiment_id"] == "E1") & (combined["disruption"] == "none")]
+    cpsat_rows = e1[e1["method"] == "cpsat"]
+    if cpsat_rows.empty:
+        print("[generate_thesis_figures] Fig_costo_amortizado: skipped -- no E1 cpsat rows for the offline comparator")
+        return []
+    offline_per_instance_s = float(cpsat_rows["wall_clock_s"].mean())
+
+    curve = amortization_curve(
+        training_wall_clock_s, inference_df["total_inference_s"], offline_per_instance_s=offline_per_instance_s
+    )
+
+    fig, ax = plt.subplots(figsize=(7.2, 4.8))
+    ax.plot(curve["n_instances"], curve["gnn_drl_cumulative_s"], color=AZUL, linewidth=2, label="GNN-DRL (entrenar una vez + inferir)")
+    ax.plot(curve["n_instances"], curve["offline_cumulative_s"], color=NARANJA, linewidth=2, linestyle="--", label="CP-SAT (reoptimizar cada instancia)")
+
+    crossover = curve.index[curve["gnn_drl_cheaper"]].min() if curve["gnn_drl_cheaper"].any() else None
+    if crossover is not None:
+        n_star = int(curve.loc[crossover, "n_instances"])
+        ax.axvline(n_star, color=GRIS, linestyle=":", linewidth=1.4)
+        ax.text(n_star, ax.get_ylim()[1] * 0.05, f"  cruce en N={n_star}", fontsize=9, color=GRIS)
+
+    ax.set_xlabel("Número de instancias resueltas (N)")
+    ax.set_ylabel("Costo acumulado (s)")
+    ax.set_title("Costo amortizado: GNN-DRL vs. CP-SAT en función de N (T5.2)")
+    ax.legend(loc="upper left", frameon=False)
+    fig.tight_layout()
+    return _save(fig, out_dir, "Fig_6.5.2_costo_amortizado")
+
+
 # --------------------------------------------------------------------------- main
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out-dir", type=Path, default=REPO_ROOT.parent / "figures")
+    parser.add_argument(
+        "--e8-timing-csv", type=Path,
+        default=REPO_ROOT / "experiments" / "results" / "week24" / "e8_cpu_timing.csv",
+        help="T5.3: full-coverage timing CSV, input to Fig_costo_amortizado",
+    )
+    parser.add_argument(
+        "--slack-csv", type=Path,
+        default=REPO_ROOT.parent / "results" / "datos_crudos" / "slack" / "slack_metrics.csv",
+        help="T1.4: experiments.run_slack_study's output, input to Fig_holgura_vs_RI",
+    )
+    parser.add_argument(
+        "--training-summary-glob", default=None,
+        help="glob for one run's summary_*_seed*.json files, to compute "
+        "Fig_costo_amortizado's training-cost term (T5.2). Omit to skip that figure.",
+    )
     args = parser.parse_args(argv)
 
     _set_thesis_style()
@@ -367,6 +521,23 @@ def main(argv: list[str] | None = None) -> int:
     written += generate_fig_6_3_2(combined, args.out_dir)
     written += generate_fig_6_4_1(combined, args.out_dir)
     written += generate_fig_6_5_1(combined, args.out_dir)
+
+    if args.slack_csv.exists():
+        slack_df = pd.read_csv(args.slack_csv)
+        written += generate_fig_holgura_vs_ri(slack_df, combined, args.out_dir)
+    else:
+        print(f"[generate_thesis_figures] Fig_holgura_vs_RI: skipped -- {args.slack_csv} not found")
+
+    training_wall_clock_s = None
+    if args.training_summary_glob:
+        import glob as _glob
+        import json as _json
+
+        paths = _glob.glob(args.training_summary_glob)
+        if paths:
+            values = [_json.loads(Path(p).read_text(encoding="utf-8"))["train_wall_clock_s"] for p in paths]
+            training_wall_clock_s = float(np.mean(values))
+    written += generate_fig_6_5_2(combined, args.out_dir, e8_timing_csv=args.e8_timing_csv, training_wall_clock_s=training_wall_clock_s)
 
     print(f"[generate_thesis_figures] wrote {len(written)} files to {args.out_dir}")
     for p in sorted(written):

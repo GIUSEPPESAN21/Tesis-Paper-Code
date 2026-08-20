@@ -274,6 +274,41 @@ Both fixes are covered by the pre-existing golden regression test
 
 ---
 
+## 10. Mejoras del tutor (2026-08-20) — implementadas en código, pendientes de ejecución
+
+Sesión posterior a este reporte: diez recomendaciones formales del tutor, auditadas y
+en su mayoría implementadas en código/tests, sin ejecutar nada (ver `AUDIT_PREFLIGHT.md`,
+`RUN_PLAN.md`, `MEJORAS_TUTOR_IMPLEMENTADAS.md`). Ningún número de este documento
+(§§0–9 arriba) se recalculó ni se tocó — siguen siendo los resultados reales ya
+descritos en el encabezado de este archivo. Lo nuevo, todo `[PENDIENTE-CORRIDA]` hasta
+la primera corrida:
+
+- **Hallazgo de auditoría más relevante para este reporte:** el comparador de H3 ("mejor
+  PDR", usado en §6.3 arriba) puede estar parcialmente dominado por un artefacto del
+  Índice de Robustez — una PDR con plan nominal muy malo (`cr`, RPD nominal 210.9%–229.3%)
+  tiene RI negativo (-0.40 a -0.59) bajo averías/tiempos estocásticos, no porque sea
+  robusta sino porque su plan nominal tenía mucho margen para "caer hacia arriba" por
+  azar. Ver `AUDIT_PREFLIGHT.md` Fase 0(b) para la traza mecánica completa y la
+  corrección (no se cumple bajo llegadas, a diferencia de lo que el tutor asumía).
+- **H4 (§6.4):** el REJECT reportado arriba permanece publicado sin cambios (Regla 1 de
+  la sesión de mejoras). Nueva Fase 3 (ablación 2×2) deja preparada la celda que
+  faltaba (entorno dinámico + recompensa nominal) para atribuir el colapso de RPD
+  nominal (+106.0pp/+46.6pp) al entorno de entrenamiento, a la recompensa, o a ambos —
+  y Fase 3 (T3.2) corrige el defecto de aleatorización de dominio que este mismo §6.4
+  ya diagnostica como causa probable (las políticas κ>0 nunca vieron un episodio
+  nominal durante el entrenamiento).
+- **H1/H3 (§§6.1, 6.3):** nueva Fase 4 separa `pdr_global`/`pdr_por_familia`/
+  `oráculo_best_per_instance` (antes fusionados bajo "mejor PDR"); nueva Fase 8 añade
+  calidad realizada (RPD vs. óptimo certificado, comparable entre métodos) como métrica
+  primaria junto al RI.
+- **H5 (§6.5):** `e8_cpu_timing.py` ampliado de 4 a 43 instancias (Fase 5); nueva figura
+  de costo amortizado.
+
+Ver `MEJORAS_TUTOR_IMPLEMENTADAS.md` para la tabla completa recomendación-por-
+recomendación y `RUN_PLAN.md` para los comandos exactos y estimaciones de tiempo.
+
+---
+
 ## Appendix — full artifact manifest
 
 All tables (Markdown + LaTeX) and figures (300dpi PNG) are under

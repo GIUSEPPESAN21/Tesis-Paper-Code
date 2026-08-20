@@ -48,7 +48,9 @@ modules below, excluding tests)
 
 ```
 Full thesis code/
-├── envs/            <- Gymnasium environments (JSSP/FJSP, static + dynamic/stochastic)
+├── envs/            <- Gymnasium environments (JSSP/FJSP, static + dynamic/stochastic);
+│                       rescheduling.py (2026-08-20, tutor rec 9): periodic/event-triggered
+│                       reoptimization execution policies for the offline (ga/cpsat) methods
 ├── models/           <- GNN encoder + PPO policy
 ├── baselines/         <- PDR, GA, CP-SAT reference methods
 ├── experiments/        <- training entrypoints + experiments/stats/ (the H1-H5 pipeline)
@@ -123,6 +125,12 @@ from via `FINAL_RESULTS_REPORT.md`.
 | `tables.py` | Markdown/LaTeX table formatting |
 | `report.py` | Orchestrates the above into the H1–H5 verdict objects Chapter 6/7 cite |
 | `cli.py` | Command-line entrypoint (`python -m experiments.stats.cli`) that runs the full pipeline end-to-end |
+| `comparators.py` | (2026-08-20, tutor recs 6/7) `pdr_global`/`pdr_por_familia`/`oracle_best_per_instance`, always reported separately; H2's dual reading |
+| `seeds.py` | (tutor rec 3) mean/std/95% CI (t)/range aggregation across training seeds |
+| `posthoc_multiseed.py` | (tutor rec 3) `Tabla_H4_multisemilla_posthoc` generator — explicitly post-hoc, H4's pre-registered verdict unchanged |
+| `ablation_2x2.py` | (tutor rec 5) Friedman + factorial effects (entorno/recompensa/interacción) for the 2×2 ablation |
+| `realized_quality.py` | (tutor rec 8, T8.2/T8.4) realized RPD vs. certified optimum, compared against the three T4.1 comparators |
+| `rescheduling_policies.py` | (tutor rec 9, T6.3) `right_shift` vs. `periodic`/`event_triggered` comparison, optimality-vs-sequence-commitment diagnosis |
 
 ### Figures and tables (supports Chapter 6/7 and the companion conference paper)
 
@@ -131,6 +139,18 @@ from via `FINAL_RESULTS_REPORT.md`.
 | `figures/Fig_6.*.png/pdf` | `scripts/generate_thesis_figures.py` | Spanish labels, thesis figure numbering |
 | `results/tablas/Tabla_6.*.{csv,md,tex}` | `scripts/export_thesis_tables.py` | Format-converts already-tested pipeline tables, no recomputation |
 | `figures/paper/Fig_P*.png/pdf`, `Table_S*.{csv,md}` | `scripts/generate_paper_figures.py`, `scripts/export_paper_supplement_tables.py` | Companion paper's compact figures/supplementary tables — see `PAPER_SUPPLEMENT_NOTES.md` |
+
+---
+
+## 2.1 Mejoras del tutor (2026-08-20) — code additions, not yet executed
+
+Ten formal advisor recommendations, audited and mostly implemented in code/tests this
+session, with nothing executed (Regla Cero). New modules are listed inline in the
+tables above, tagged "(2026-08-20, tutor rec N)". Full recommendation-by-recommendation
+status: `MEJORAS_TUTOR_IMPLEMENTADAS.md`. Exact commands and time estimates:
+`RUN_PLAN.md`. Audit findings (including one correction to the advisor's own
+"cr/lwkr, RI negative" claim — true for `cr` under breakdowns/stochastic times, not
+for `lwkr` under arrivals): `AUDIT_PREFLIGHT.md`.
 
 ---
 

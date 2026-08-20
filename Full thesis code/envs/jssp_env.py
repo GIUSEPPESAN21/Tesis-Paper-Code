@@ -379,6 +379,33 @@ class JSSPEnv(SchedulingEnv):
         """
         return self.instance.remaining_work().ravel()
 
+    def duration_per_op(self) -> np.ndarray:
+        """Processing time of every operation, indexed by global op id.
+
+        Pure delegation to :attr:`~envs.instance.JSSPInstance.flat_durations` -- exists
+        for the same reason as :meth:`remaining_work_per_op`: so ``spt_rule``/
+        ``lpt_rule`` (T8.1, Recomendacion del tutor sobre cobertura de PDR bajo
+        llegadas) can query durations through the environment instead of indexing the
+        base instance directly, letting the same rule code run unmodified against
+        :class:`~envs.dynamic_jssp_env.DynamicJSSPEnv` (see that class's own override,
+        which additionally covers dynamically arrived jobs).
+
+        Returns:
+            Float array of shape ``(num_operations,)``.
+        """
+        return self.instance.flat_durations
+
+    def machine_per_op(self) -> np.ndarray:
+        """Machine index of every operation, indexed by global op id.
+
+        Pure delegation to :attr:`~envs.instance.JSSPInstance.flat_machines`. See
+        :meth:`duration_per_op`'s docstring for why this exists.
+
+        Returns:
+            Integer array of shape ``(num_operations,)``.
+        """
+        return self.instance.flat_machines
+
     def schedule_dataframe_records(self) -> list[dict[str, float]]:
         """Per-operation schedule records, convenient for Gantt plots and CSV export.
 

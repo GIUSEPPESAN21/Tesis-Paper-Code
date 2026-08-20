@@ -179,8 +179,11 @@ class TestAllNinePDRsFeasible:
 
 
 class TestArrivalSafety:
-    @pytest.mark.parametrize("rule_name", ["lwkr", "lor", "mor"])
+    @pytest.mark.parametrize("rule_name", ["lwkr", "lor", "mor", "fifo", "spt", "lpt", "mwkr"])
     def test_arrival_safe_rules_terminate_feasibly_with_real_arrivals(self, rule_name: str) -> None:
+        """spt/lpt/mwkr added T8.1 (Recomendacion del tutor): env.duration_per_op()/
+        env.remaining_work_per_op() made them arrival-safe, same guarantee as the
+        pre-existing four."""
         config = DisruptionConfig(target_utilization=0.85, max_dynamic_jobs=10, seed=1)
         env = DynamicJSSPEnv("ft06", config)
         result = run_rule(env, rule_name, seed=1)

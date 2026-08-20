@@ -13,19 +13,26 @@ currently legal set.  They serve three purposes in this thesis:
 Rules implemented here operate on the *frontier*: at any decision epoch each unfinished
 job exposes exactly one dispatchable operation, and a rule ranks those.
 
-Arrival-safety (``Baselines_TechSpec.md`` §3.2)
-------------------------------------------------
-``spt_rule``, ``lpt_rule``, and ``mwkr_rule`` index the *base* ``JSSPInstance``'s
-fixed-shape arrays directly by global operation id, which cannot cover an operation
-belonging to a dynamically arrived job (see ``VALIDATION_WEEK6.md`` decision #2) --- they
-are frozen as-is, unchanged this sprint. The four new rules (LWKR, LOR, EDD, CR) instead
-use ``env.remaining_work_per_op()`` (an additive method on both
-:class:`~envs.jssp_env.JSSPEnv` and :class:`~envs.dynamic_jssp_env.DynamicJSSPEnv`) and
-pure ``job_of``/``position_of`` arithmetic, so they work unmodified on both environments
-for every job present at ``reset()`` time. Due-date synthesis for dynamically *arrived*
-jobs is not implemented this sprint (see ``baselines/due_dates.py``); this only matters
-if EDD/CR are run against a ``DynamicJSSPEnv`` with arrivals actually enabled, which no
-evaluation in this sprint does (STEP3 covers static ``ft``/``la`` instances only).
+Arrival-safety (``Baselines_TechSpec.md`` §3.2; widened T8.1, Recomendacion del tutor)
+---------------------------------------------------------------------------------------
+Seven of the nine rules are arrival-safe: ``fifo_rule``/``mopnr_rule``/``lor_rule`` use
+pure ``job_of``/``position_of``/``env.job_ready_time`` arithmetic; ``lwkr_rule`` uses
+``env.remaining_work_per_op()``; and, as of T8.1, ``spt_rule``/``lpt_rule``/``mwkr_rule``
+use ``env.duration_per_op()``/``env.machine_per_op()`` -- additive methods on both
+:class:`~envs.jssp_env.JSSPEnv` and :class:`~envs.dynamic_jssp_env.DynamicJSSPEnv` that
+delegate to the base instance's fixed-shape arrays on the static env (bit-identical to
+the pre-T8.1 direct-indexing code) and to the dynamic env's growable
+``_flat_durations``/``_flat_machines`` arrays (populated for every arrived job in
+``DynamicJSSPEnv._on_arrival``) on the dynamic one -- so these three rules are now safe
+under arrivals with no change in behavior wherever arrivals are disabled.
+
+``edd_rule``/``cr_rule`` remain arrival-unsafe: due-date synthesis for a dynamically
+*arrived* job (release time = actual arrival time, ``Baselines_TechSpec.md`` §4.2) is
+still not implemented (see ``baselines/due_dates.py``) -- a separate, not-yet-built
+feature (tracking real per-job arrival times in ``DynamicJSSPEnv`` and extending
+``ensure_due_dates`` incrementally), left as an explicit, documented gap rather than
+attempted alongside T8.1's lower-risk fix. ``run_evaluation.ARRIVAL_UNSAFE_PDR_NAMES``
+reflects this: ``{"edd", "cr"}`` only, down from the original five.
 """
 
 from __future__ import annotations
@@ -79,15 +86,19 @@ def random_rule(env: JSSPEnv, rng: np.random.Generator) -> int:
 
 
 def spt_rule(env: JSSPEnv, rng: np.random.Generator) -> int:
-    """Shortest Processing Time: dispatch the frontier operation with the smallest duration."""
+    """Shortest Processing Time: dispatch the frontier operation with the smallest duration.
+
+    Arrival-safe (T8.1): uses ``env.duration_per_op()`` rather than indexing the base
+    instance's fixed-shape ``flat_durations`` directly (see the module docstring).
+    """
     legal = _legal_ops(env)
-    return _argmin_with_tiebreak(legal, env.instance.flat_durations[legal], rng)
+    return _argmin_with_tiebreak(legal, env.duration_per_op()[legal], rng)
 
 
 def lpt_rule(env: JSSPEnv, rng: np.random.Generator) -> int:
-    """Longest Processing Time: the mirror image of :func:`spt_rule`."""
+    """Longest Processing Time: the mirror image of :func:`spt_rule`. Arrival-safe (T8.1)."""
     legal = _legal_ops(env)
-    return _argmin_with_tiebreak(legal, -env.instance.flat_durations[legal], rng)
+    return _argmin_with_tiebreak(legal, -env.duration_per_op()[legal], rng)
 
 
 def fifo_rule(env: JSSPEnv, rng: np.random.Generator) -> int:
@@ -108,9 +119,12 @@ def mwkr_rule(env: JSSPEnv, rng: np.random.Generator) -> int:
 
     Consistently one of the strongest single-pass PDRs for makespan on the ``ft``/``la``
     families, and the usual PDR that learned dispatchers are asked to beat.
+
+    Arrival-safe (T8.1): uses ``env.remaining_work_per_op()`` (already the arrival-safe
+    accessor ``lwkr_rule`` uses) rather than ``env.instance.remaining_work()`` directly.
     """
     legal = _legal_ops(env)
-    remaining = env.instance.remaining_work().ravel()[legal]
+    remaining = env.remaining_work_per_op()[legal]
     return _argmin_with_tiebreak(legal, -remaining, rng)
 
 
@@ -161,18 +175,19 @@ def _reject_arrived_ops(env: JSSPEnv, legal: np.ndarray, rule_name: str) -> None
     ``JSSPEnv``, or ``DynamicJSSPEnv`` with breakdowns/stochastic durations but arrivals
     disabled --- both exercised by this sprint's tests), but due-date synthesis for a
     dynamically *arrived* job (release time = actual arrival time,
-    ``Baselines_TechSpec.md`` §4.2) is out of scope this sprint, and ``cr_rule``
-    additionally looks up an operation's machine via the base instance's fixed-shape
-    ``flat_machines``. Both would otherwise fail with a bare ``IndexError`` deep inside
-    array indexing the moment an arrived job's operation became legal.
+    ``Baselines_TechSpec.md`` §4.2) is still not implemented (see
+    ``baselines/due_dates.py``) even after T8.1 made ``spt``/``lpt``/``mwkr``
+    arrival-safe -- ``ensure_due_dates`` caches one fixed-shape ``(num_jobs,)`` array at
+    first call and never extends it as jobs arrive. This would otherwise fail with a
+    bare ``IndexError``/``KeyError`` the moment an arrived job's operation became legal.
     """
     if int(legal.max()) >= env.instance.num_operations:
         raise NotImplementedError(
-            f"{rule_name} does not support dynamically arrived jobs this sprint "
-            "(due-date synthesis for arrivals is out of scope; see "
-            "baselines/due_dates.py and BASELINES_RESULTS_WEEK9.md). Use lwkr/lor/mor "
-            "(or any of the six original rules) against DynamicJSSPEnv with arrivals "
-            "enabled instead."
+            f"{rule_name} does not support dynamically arrived jobs "
+            "(due-date synthesis for arrivals is not implemented; see "
+            "baselines/due_dates.py). Use any of the other seven PDRs (spt/lpt/mwkr/"
+            "lwkr/lor/fifo/mor, all arrival-safe as of T8.1) against DynamicJSSPEnv "
+            "with arrivals enabled instead."
         )
 
 
@@ -206,11 +221,12 @@ def cr_rule(env: JSSPEnv, rng: np.random.Generator) -> int:
     _reject_arrived_ops(env, legal, "cr_rule")
     due_dates = ensure_due_dates(env)
     remaining = env.remaining_work_per_op()[legal]
+    machine_of_op = env.machine_per_op()
     keys = np.empty(legal.shape, dtype=np.float64)
     for i, op in enumerate(legal):
         op = int(op)
         job = env.instance.job_of(op)
-        machine = int(env.instance.flat_machines[op])
+        machine = int(machine_of_op[op])
         t_now = max(float(env.job_ready_time[job]), float(env.machine_free_time[machine]))
         keys[i] = (due_dates[job] - t_now) / max(float(remaining[i]), 1e-9)
     return _argmin_with_tiebreak(legal, keys, rng)

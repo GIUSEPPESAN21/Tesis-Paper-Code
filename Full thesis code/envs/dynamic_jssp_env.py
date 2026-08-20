@@ -389,6 +389,32 @@ class DynamicJSSPEnv(SchedulingEnv):
         remaining = np.cumsum(durations[:, ::-1], axis=1)[:, ::-1]
         return remaining.ravel()
 
+    def duration_per_op(self) -> np.ndarray:
+        """Same contract as :meth:`JSSPEnv.duration_per_op`, but covers every job that
+        has arrived so far (T8.1: makes ``spt_rule``/``lpt_rule`` arrival-safe, the
+        same way :meth:`remaining_work_per_op` already makes ``lwkr_rule`` arrival-safe).
+
+        ``self._flat_durations[:base_num_ops]`` is populated at construction directly
+        from ``self.instance.flat_durations`` (bit-identical to the static env's
+        values) and extended in :meth:`_on_arrival` for every job that arrives after
+        that -- so this method's output for the base instance's operations never
+        differs from ``JSSPEnv.duration_per_op()``'s, only its *coverage* is wider.
+
+        Returns:
+            Float array of shape ``(active_ops,)``.
+        """
+        return self._flat_durations[: self.active_ops]
+
+    def machine_per_op(self) -> np.ndarray:
+        """Same contract as :meth:`JSSPEnv.machine_per_op`, arrival-safe. See
+        :meth:`duration_per_op`'s docstring for the bit-identical-on-the-base-instance
+        guarantee.
+
+        Returns:
+            Integer array of shape ``(active_ops,)``.
+        """
+        return self._flat_machines[: self.active_ops]
+
     def schedule_dataframe_records(self) -> list[dict[str, float]]:
         """Per-*completed*-operation schedule records; see
         :meth:`~envs.jssp_env.JSSPEnv.schedule_dataframe_records`."""

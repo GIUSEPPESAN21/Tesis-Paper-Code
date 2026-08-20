@@ -19,9 +19,18 @@ Disruption profiles and what "evaluate under disruption" means per method family
 ----------------------------------------------------------------------------------
 ``--disruption`` selects one of five :class:`~envs.disruptions.DisruptionConfig`
 profiles: ``none`` (the regression-contract all-off default), ``breakdowns``,
-``stochastic_times``, ``arrivals``, ``combined`` (all three axes). What running a
-method "under" one of these means differs by method family, because a PDR is an
-*online* policy and GA/CP-SAT are *offline* solvers:
+``stochastic_times``, ``arrivals``, ``combined``. What running a method "under" one of
+these means differs by method family, because a PDR is an *online* policy and GA/CP-SAT
+are *offline* solvers:
+
+Naming note (Recomendaciones 1/10 del tutor): E4/E5/E6 are **nine separate regimes of
+three disruption classes** (``MULTIPLE_DISRUPTION_CLASSES`` below) -- three levels each
+of breakdowns, stochastic processing times, and arrivals, evaluated as independent
+single-axis sweeps, never all three at once unless ``--disruption combined`` is
+explicitly requested. Describing E4/E5/E6 as "simultaneous disruptions" is wrong: only
+``combined`` turns all three axes on in the same run, and it is a separate, secondary
+profile with its own parametrized severities (``--combined-severity``), not what E4/E5/E6
+measure.
 
 * **PDR** --- already an online ``(env, rng) -> op_id`` policy; evaluating it under
   disruption is a direct rollout against a live
@@ -137,20 +146,42 @@ METHOD_GROUPS = {
 
 DISRUPTION_CHOICES = ["none", "breakdowns", "stochastic_times", "arrivals", "combined"]
 
+#: The three disruption classes E4/E5/E6 each sweep three levels of, independently.
+#: "Nueve regimenes de tres clases de disrupcion" -- see the module docstring's naming
+#: note. Never "simultaneous" unless the profile is explicitly "combined".
+MULTIPLE_DISRUPTION_CLASSES = ("breakdowns", "stochastic_times", "arrivals")
+
+#: Parametrized severities for ``--disruption combined`` (Recomendacion 1/10, T7.2):
+#: three levels so the "combined" profile can be swept the same way E4/E5/E6 sweep
+#: their single axes, rather than being pinned to whatever ``--availability``/
+#: ``--proc-sigma``/``--utilization`` happen to default to. Levels mirror the frozen
+#: D4 grid (``PreRegistration_FINAL.md`` Sec. 4): low = mildest level on each axis
+#: (A=0.95, sigma=0.10, rho=0.70), medium = middle level, high = harshest level
+#: (A=0.80, sigma=0.50, rho=0.95) -- (availability, proc_sigma, utilization) tuples.
+COMBINED_SEVERITY_LEVELS: dict[str, tuple[float, float, float]] = {
+    "low": (0.95, 0.10, 0.70),
+    "medium": (0.90, 0.25, 0.85),
+    "high": (0.80, 0.50, 0.95),
+}
+
 #: Arrival-safe fallback rule for predictive-reactive replay (see module docstring).
 #: Must NOT be spt/lpt/mwkr -- those index the base instance's fixed-shape arrays
 #: directly and are unsafe once a dynamically arrived job's operation is legal (see
 #: baselines/dispatching_rules.py's module docstring).
 _FALLBACK_RULE_NAME = "lwkr"
 
-#: PDR names that are unsafe to roll out live once arrivals are enabled --
-#: spt/lpt/mwkr index the base instance's fixed-shape arrays directly (a raw
-#: IndexError the instant an arrived job's operation is legal); edd/cr raise their own
-#: NotImplementedError for the same reason (see baselines/dispatching_rules.py's module
-#: docstring and ``_reject_arrived_ops``). Rejected here at argument-resolution time so
-#: an --disruption arrivals/combined sweep fails fast with one clear message instead of
-#: crashing (or silently erroring) partway through.
-ARRIVAL_UNSAFE_PDR_NAMES = {"spt", "lpt", "mwkr", "edd", "cr"}
+#: PDR names that are unsafe to roll out live once arrivals are enabled -- as of T8.1
+#: (Recomendacion del tutor: ampliar cobertura de PDR bajo llegadas), only edd/cr
+#: remain unsafe: due-date synthesis for a dynamically arrived job is not implemented
+#: (see baselines/due_dates.py and baselines/dispatching_rules.py's
+#: ``_reject_arrived_ops``), which both rules raise their own NotImplementedError for.
+#: spt/lpt/mwkr were unsafe before T8.1 (they indexed the base instance's fixed-shape
+#: arrays directly, a raw IndexError the instant an arrived job's operation became
+#: legal) and are now arrival-safe via ``env.duration_per_op()``/``env.machine_per_op()``/
+#: ``env.remaining_work_per_op()``. Rejected here at argument-resolution time so an
+#: --disruption arrivals/combined sweep with edd/cr fails fast with one clear message
+#: instead of crashing (or silently erroring) partway through.
+ARRIVAL_UNSAFE_PDR_NAMES = {"edd", "cr"}
 
 _FAMILY_PREFIXES = {"ft": "fisher-thompson", "la": "lawrence", "ab": "adams-balas-zawack"}
 
@@ -192,8 +223,20 @@ def build_disruption_config(
     proc_sigma: float,
     utilization: float,
     max_dynamic_jobs: int,
+    combined_severity: str | None = None,
 ) -> DisruptionConfig:
-    """Map a named ``--disruption`` profile to a concrete :class:`DisruptionConfig`."""
+    """Map a named ``--disruption`` profile to a concrete :class:`DisruptionConfig`.
+
+    Args:
+        combined_severity: Only consulted when ``profile == "combined"``. One of
+            :data:`COMBINED_SEVERITY_LEVELS` (``"low"``/``"medium"``/``"high"``), which
+            overrides ``availability``/``proc_sigma``/``utilization`` with the matching
+            D4-grid triple so ``combined`` can be swept at three parametrized
+            severities (T7.2). ``None`` (default) keeps the pre-existing behaviour of
+            using the explicit ``--availability``/``--proc-sigma``/``--utilization``
+            values as-is -- this is a backward-compatible additive flag, not a breaking
+            change to any already-run ``combined`` sweep.
+    """
     if profile == "none":
         return DisruptionConfig()
     if profile == "breakdowns":
@@ -203,6 +246,13 @@ def build_disruption_config(
     if profile == "arrivals":
         return DisruptionConfig(target_utilization=utilization, max_dynamic_jobs=max_dynamic_jobs)
     if profile == "combined":
+        if combined_severity is not None:
+            if combined_severity not in COMBINED_SEVERITY_LEVELS:
+                raise ValueError(
+                    f"unknown --combined-severity {combined_severity!r}. "
+                    f"Known: {sorted(COMBINED_SEVERITY_LEVELS)}"
+                )
+            availability, proc_sigma, utilization = COMBINED_SEVERITY_LEVELS[combined_severity]
         return DisruptionConfig(
             target_availability=availability,
             processing_time_sigma=proc_sigma,
@@ -355,6 +405,75 @@ def run_rl_online(
     return baseline.solve_dynamic(instance, disruption_config, seed=seed)
 
 
+#: T6.2 (Recomendacion 9 del tutor): three execution policies for offline methods
+#: (ga/cpsat) under disruption. "right_shift" is the pre-T6.2 predictive-reactive
+#: replay (unchanged default); "periodic"/"event_triggered" route through
+#: envs.rescheduling's genuine reoptimization policies (T6.1) instead.
+EXECUTION_POLICY_CHOICES = ["right_shift", "periodic", "event_triggered"]
+
+
+def run_reoptimizing(
+    baseline: Baseline,
+    instance: Instance,
+    disruption_config: DisruptionConfig,
+    seed: int,
+    *,
+    execution_policy: str,
+    reopt_period: float,
+    reopt_time_limit_s: float,
+) -> BaselineResult:
+    """T6.2: execute ``baseline`` (ga/cpsat) under ``execution_policy in
+    {"periodic", "event_triggered"}`` via ``envs.rescheduling`` (T6.1) instead of
+    the one-shot predictive-reactive replay :func:`run_predictive_reactive` uses.
+    Records the extra reoptimization cost in ``extra`` -- T6.2's own instruction that
+    "la reoptimizacion recupera calidad pero deja de ser gratuita" must be measurable,
+    not just asserted.
+
+    Raises:
+        ValueError: If ``baseline.name`` is not ``"ga"`` or a CP-SAT variant, or
+            ``execution_policy`` is not one of the two reoptimizing policies.
+    """
+    from envs.rescheduling import EventTrigger, RescheduleResult, event_triggered_reopt, periodic_reopt
+
+    solver: str
+    if baseline.name == "ga":
+        solver = "ga"
+    elif baseline.name.startswith("cpsat"):
+        solver = "cpsat"
+    else:
+        raise ValueError(f"run_reoptimizing only supports ga/cpsat baselines, got {baseline.name!r}")
+
+    if execution_policy == "periodic":
+        result: RescheduleResult = periodic_reopt(
+            instance, disruption_config, seed, period=reopt_period, solver=solver, budget_s=reopt_time_limit_s
+        )
+    elif execution_policy == "event_triggered":
+        result = event_triggered_reopt(
+            instance, disruption_config, seed,
+            trigger=EventTrigger(on_breakdown=True, on_arrival=True, deviation_threshold=None),
+            solver=solver, budget_s=reopt_time_limit_s,
+        )
+    else:
+        raise ValueError(f"unknown reoptimizing execution_policy {execution_policy!r}")
+
+    return BaselineResult(
+        instance=instance.name,
+        method=baseline.name,
+        start_times=result.start_times,
+        makespan=result.makespan,
+        wall_clock_time=result.reoptimization_wall_clock_s,
+        feasible=result.feasible,
+        violations=result.violations,
+        status="OK",
+        is_optimal=False,
+        extra={
+            "execution_policy": execution_policy,
+            "n_reoptimizations": result.n_reoptimizations,
+            "reoptimization_wall_clock_s": result.reoptimization_wall_clock_s,
+        },
+    )
+
+
 def run_predictive_reactive(
     baseline: Baseline,
     instance: Instance,
@@ -407,8 +526,19 @@ def evaluate_one(
     disruption_config: DisruptionConfig,
     seed: int,
     time_limit_s: float,
+    *,
+    execution_policy: str = "right_shift",
+    reopt_period: float = 20.0,
+    reopt_time_limit_s: float = 10.0,
 ) -> BaselineResult:
-    """Dispatch to the right execution strategy for ``(baseline, disruption_name)``."""
+    """Dispatch to the right execution strategy for ``(baseline, disruption_name)``.
+
+    Args:
+        execution_policy: T6.2. Only consulted for ga/cpsat under a non-``"none"``
+            disruption (PDR/RL are already online -- an execution policy is meaningless
+            for them, so this argument is silently ignored in those branches, matching
+            how ``--rl-sample``/etc. are already method-specific flags in this CLI).
+    """
     if disruption_name == "none":
         return baseline.solve(instance, seed=seed, time_limit_s=time_limit_s)
     if baseline.name == "rl" and isinstance(baseline, TrainedRLBaseline):
@@ -419,6 +549,11 @@ def evaluate_one(
         return baseline.solve(instance, seed=seed, time_limit_s=time_limit_s)
     if baseline.name in RULES:
         return run_pdr_online(baseline.name, instance, disruption_config, seed)
+    if execution_policy != "right_shift":
+        return run_reoptimizing(
+            baseline, instance, disruption_config, seed,
+            execution_policy=execution_policy, reopt_period=reopt_period, reopt_time_limit_s=reopt_time_limit_s,
+        )
     return run_predictive_reactive(baseline, instance, disruption_config, seed, time_limit_s)
 
 
@@ -442,11 +577,26 @@ CSV_FIELDNAMES: list[str] = [
     "is_optimal",
     "violations_count",
     "timestamp",
+    "mip_gap",
+    "execution_policy",
+    "n_reoptimizations",
+    "reoptimization_wall_clock_s",
 ]
 
 
 def build_row(instance: Instance, method: str, disruption: str, seed: int, result: BaselineResult, timestamp: str) -> dict:
-    """One standardized CSV row. See the module docstring for the column list."""
+    """One standardized CSV row. See the module docstring for the column list.
+
+    ``status``/``is_optimal``/``mip_gap`` are three distinct things (Recomendacion
+    1/10 del tutor): ``status`` is the raw solver/method status string (``"OK"`` for
+    PDR/GA/RL, CP-SAT's own status name for cpsat/cpsat_fjsp); ``is_optimal`` is
+    ``True`` only when ``status == "OPTIMAL"``; ``mip_gap`` (CP-SAT rows only, ``NaN``
+    otherwise -- ``result.extra`` has no ``"mip_gap"`` key for non-CP-SAT methods) is
+    the quantitative residual gap on a non-optimal CP-SAT incumbent. A downstream table
+    or figure caption must never read ``feasible=True`` or ``status="FEASIBLE"`` as
+    "exacto-optimo" -- only ``is_optimal=True`` (equivalently ``mip_gap == 0.0``)
+    licenses that label.
+    """
     optimum = known_optimum_for(instance)
     rpd = (
         round(100.0 * (result.makespan - optimum) / optimum, 3)
@@ -470,6 +620,10 @@ def build_row(instance: Instance, method: str, disruption: str, seed: int, resul
         "is_optimal": result.is_optimal,
         "violations_count": len(result.violations),
         "timestamp": timestamp,
+        "mip_gap": result.extra.get("mip_gap", float("nan")),
+        "execution_policy": result.extra.get("execution_policy", "right_shift"),
+        "n_reoptimizations": result.extra.get("n_reoptimizations", 0),
+        "reoptimization_wall_clock_s": result.extra.get("reoptimization_wall_clock_s", 0.0),
     }
 
 
@@ -483,6 +637,9 @@ def run_evaluation(
     *,
     verbose: bool = True,
     out_path: Path | None = None,
+    execution_policy: str = "right_shift",
+    reopt_period: float = 20.0,
+    reopt_time_limit_s: float = 10.0,
 ) -> tuple[list[dict], list[dict]]:
     """Evaluate every ``(instance, method, seed)`` combination and return CSV rows.
 
@@ -527,7 +684,9 @@ def run_evaluation(
                 for seed in seeds:
                     try:
                         result = evaluate_one(
-                            baseline, instance, disruption_name, disruption_config, seed, time_limit_s
+                            baseline, instance, disruption_name, disruption_config, seed, time_limit_s,
+                            execution_policy=execution_policy, reopt_period=reopt_period,
+                            reopt_time_limit_s=reopt_time_limit_s,
                         )
                         row = build_row(instance, baseline.name, disruption_name, seed, result, timestamp)
                     except Exception as exc:  # noqa: BLE001 -- deliberate catch-and-continue (see docstring)
@@ -631,6 +790,24 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--proc-sigma", type=float, default=0.25, help="stochastic_times: lognormal sigma")
     parser.add_argument("--utilization", type=float, default=0.6, help="arrivals: target shop utilization")
     parser.add_argument("--max-dynamic-jobs", type=int, default=20, help="arrivals: cap on arriving jobs")
+    parser.add_argument(
+        "--combined-severity",
+        choices=sorted(COMBINED_SEVERITY_LEVELS),
+        default=None,
+        help="combined: pick one of three parametrized severities (D4-grid levels) "
+        "instead of the raw --availability/--proc-sigma/--utilization values, so the "
+        "multiple_disruption_classes co-occur at a matched low/medium/high level "
+        "(T7.2). Ignored for any --disruption other than combined.",
+    )
+    parser.add_argument(
+        "--execution-policy", choices=EXECUTION_POLICY_CHOICES, default="right_shift",
+        help="T6.2 (Recomendacion 9): how ga/cpsat react to disruption. 'right_shift' "
+        "(default, unchanged): one-shot predictive-reactive replay. 'periodic'/"
+        "'event_triggered': genuine reoptimization via envs.rescheduling (T6.1). "
+        "Ignored for pdr/rl (already online).",
+    )
+    parser.add_argument("--reopt-period", type=float, default=20.0, help="execution-policy periodic: simulated-time interval between reoptimizations")
+    parser.add_argument("--reopt-time-limit", type=float, default=10.0, help="execution-policy periodic/event_triggered: residual-solve wall-clock budget per reoptimization")
     parser.add_argument("--out", default=None, help="output CSV path (default: experiments/results/run_evaluation.csv)")
     parser.add_argument("--quiet", action="store_true", help="suppress per-row progress printing")
     return parser
@@ -653,6 +830,7 @@ def main(argv: list[str] | None = None) -> int:
         proc_sigma=args.proc_sigma,
         utilization=args.utilization,
         max_dynamic_jobs=args.max_dynamic_jobs,
+        combined_severity=args.combined_severity,
     )
     instances = load_instances(args.instances, fjsp=args.fjsp, fjsp_seed=args.fjsp_seed)
     methods = resolve_methods(
@@ -675,6 +853,9 @@ def main(argv: list[str] | None = None) -> int:
         args.time_limit,
         verbose=not args.quiet,
         out_path=out_path,
+        execution_policy=args.execution_policy,
+        reopt_period=args.reopt_period,
+        reopt_time_limit_s=args.reopt_time_limit,
     )
 
     if not rows:

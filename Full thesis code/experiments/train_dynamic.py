@@ -108,7 +108,9 @@ def frozen_regimes() -> list[DisruptionConfig]:
 
 
 class DomainRandomizedRegimeWrapper(gym.Wrapper):
-    """Samples one of the 9 frozen regimes uniformly at every ``reset()``.
+    """Samples one of the 9 frozen regimes uniformly at every ``reset()`` -- or, with
+    probability ``nominal_episode_fraction`` (T3.2, Recomendacion del tutor), a
+    disruption-free (nominal) episode instead.
 
     Swaps ``DynamicJSSPEnv.config`` directly rather than reconstructing the environment:
     ``_allocate_episode_state`` (called by both ``__init__`` and ``reset``) rebuilds
@@ -118,28 +120,60 @@ class DomainRandomizedRegimeWrapper(gym.Wrapper):
     regime in :func:`frozen_regimes` shares. So this is a safe, cheap swap -- it does not
     require reallocating any array per episode, unlike constructing a fresh env would.
 
+    T3.2's fix, precisely: before this, ``FINAL_RESULTS_REPORT.md`` Sec 6.4 diagnoses
+    the kappa>0 policies' catastrophic nominal-RPD collapse (+106.0pp / +46.6pp) as
+    caused by this wrapper NEVER sampling a disruption-free episode -- the policy
+    literally never saw the ``--disruption none`` condition it is later evaluated on
+    for the nominal-cost side of H4. ``nominal_episode_fraction=0.2`` (default) mixes
+    a `DisruptionConfig()` (all axes off) into the sampling pool at that weight,
+    without removing any of the 9 disruptive regimes from the pool -- so H4's
+    "majority of 9 regimes" decision rule still refers to the same 9 regimes,
+    unaffected by this fix (a training-distribution change, not an evaluation-grid
+    change).
+
     Args:
         env: A raw (unwrapped) :class:`~envs.dynamic_jssp_env.DynamicJSSPEnv`.
-        regimes: The candidate regimes, sampled uniformly.
+        regimes: The candidate DISRUPTIVE regimes, sampled uniformly conditional on not
+            drawing the nominal episode.
         seed: Seeds this wrapper's own regime-selection RNG. Independent of whatever
             seed ``reset(seed=...)`` is called with, so repeated resets (as SB3's
             auto-reset-on-episode-end does, with no explicit seed) still vary the
             regime and the underlying disruption realization.
+        nominal_episode_fraction: Probability of a disruption-free episode at each
+            reset, in ``[0, 1]``. ``0.0`` recovers the pre-T3.2 behavior exactly (every
+            episode disruptive) -- the isolated-behind-a-flag default this codebase's
+            convention requires (Regla 5) is handled by the CLI default (0.2), not by
+            this class's own default, so a caller constructing the wrapper directly
+            (e.g. an existing test) must pass the fraction explicitly.
     """
 
     def __init__(
-        self, env: DynamicJSSPEnv, regimes: list[DisruptionConfig], seed: int | None = None
+        self,
+        env: DynamicJSSPEnv,
+        regimes: list[DisruptionConfig],
+        seed: int | None = None,
+        nominal_episode_fraction: float = 0.0,
     ) -> None:
         super().__init__(env)
+        if not 0.0 <= nominal_episode_fraction <= 1.0:
+            raise ValueError(f"nominal_episode_fraction must be in [0, 1], got {nominal_episode_fraction}")
         self._regimes = regimes
         self._rng = np.random.default_rng(seed)
+        self._nominal_episode_fraction = nominal_episode_fraction
         self.last_regime_index: int | None = None
+        self.last_was_nominal: bool = False
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
-        regime_index = int(self._rng.integers(len(self._regimes)))
-        self.last_regime_index = regime_index
         episode_seed = int(self._rng.integers(0, 2**31 - 1))
-        self.env.unwrapped.config = self._regimes[regime_index]
+        if self._nominal_episode_fraction > 0.0 and self._rng.random() < self._nominal_episode_fraction:
+            self.last_regime_index = None
+            self.last_was_nominal = True
+            self.env.unwrapped.config = DisruptionConfig()
+        else:
+            regime_index = int(self._rng.integers(len(self._regimes)))
+            self.last_regime_index = regime_index
+            self.last_was_nominal = False
+            self.env.unwrapped.config = self._regimes[regime_index]
         return self.env.reset(seed=seed if seed is not None else episode_seed, options=options)
 
 
@@ -160,75 +194,79 @@ def _display_path(path: Path) -> str:
         return str(path)
 
 
-def make_dynamic_env_factory(instance: str, kappa: float, seed: int | None):
-    """Zero-argument factory building one ``Monitor``-wrapped, adapted, domain-
-    randomized :class:`~envs.dynamic_jssp_env.DynamicJSSPEnv`.
+def make_dynamic_env_factory(
+    instance: str,
+    kappa: float,
+    seed: int | None,
+    *,
+    training_regime: str = "domain_randomized",
+    nominal_episode_fraction: float = 0.0,
+):
+    """Zero-argument factory building one ``Monitor``-wrapped, adapted
+    :class:`~envs.dynamic_jssp_env.DynamicJSSPEnv`.
 
     Wrapper order (innermost to outermost): raw env -> regime randomization (needs the
-    raw env's mutable ``.config``) -> node-feature adapter (drops ``is_preempted`` so the
-    observation matches the frozen checkpoint's 8-column contract) -> ``Monitor`` (SB3
-    episode-stats bookkeeping, outermost so it sees the final wrapped observation).
+    raw env's mutable ``.config``; skipped entirely under ``training_regime="none"``) ->
+    node-feature adapter (drops ``is_preempted`` so the observation matches the frozen
+    checkpoint's 8-column contract) -> ``Monitor`` (SB3 episode-stats bookkeeping,
+    outermost so it sees the final wrapped observation).
+
+    Args:
+        training_regime: ``"domain_randomized"`` (default, pre-T3.1 behavior unchanged):
+            every episode samples one of the 9 frozen regimes (or, with
+            ``nominal_episode_fraction`` > 0 per T3.2, a disruption-free episode).
+            ``"none"`` (T3.1, Fase 3 ablation cell B -- "entorno estatico, recompensa
+            robusta"): every episode is disruption-free (``DisruptionConfig()``), no
+            :class:`DomainRandomizedRegimeWrapper` at all -- the closest faithful
+            realization of "static environment" using ``DynamicJSSPEnv`` with
+            disruptions off (already validated bit-identical to ``JSSPEnv`` by
+            ``tests/test_dynamic_env.py::TestRegressionAgainstStatic``). ``kappa``'s
+            ``Delta_inest`` term is still applied every step; whether it is close to a
+            no-op in this regime (no breakdown ever floors the estimate) or still has a
+            measurable effect (via ordinary machine contention/policy choice) is an
+            open, disclosed question -- see ``run_2x2_ablation.py``'s module docstring,
+            not asserted as fact here.
+        nominal_episode_fraction: Only consulted under ``training_regime="domain_randomized"``.
     """
 
     def _factory():
         base_config = DisruptionConfig(max_dynamic_jobs=_MAX_DYNAMIC_JOBS)
         env = DynamicJSSPEnv(instance, base_config, kappa=kappa)
-        env = DomainRandomizedRegimeWrapper(env, frozen_regimes(), seed=seed)
+        if training_regime == "domain_randomized":
+            env = DomainRandomizedRegimeWrapper(
+                env, frozen_regimes(), seed=seed, nominal_episode_fraction=nominal_episode_fraction
+            )
+        elif training_regime == "none":
+            env.config = DisruptionConfig()
+        else:
+            raise ValueError(f"unknown training_regime {training_regime!r}. Known: 'domain_randomized', 'none'")
         env = _DynamicNodeFeatureAdapter(env)
         return Monitor(env)
 
     return _factory
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--instance", default="ft06", help="base JSSP instance (fixed-routing only)")
-    parser.add_argument("--kappa", type=float, required=True, help="disruption-aware reward weight")
-    parser.add_argument(
-        "--init-checkpoint",
-        type=Path,
-        default=None,
-        help="warm-start weights (strict=True transfer, matching "
-        "experiments/train_curriculum.py::transfer_weights); omit to train from scratch",
-    )
-    parser.add_argument("--stage", default="D1", help="label used in checkpoint/run-name filenames")
-    parser.add_argument("--timesteps", type=int, default=100_000)
-    parser.add_argument("--n-envs", type=int, default=4)
-    parser.add_argument("--n-steps", type=int, default=None, help="default: 6 x base instance operation count")
-    parser.add_argument("--batch-size", type=int, default=64)
-    parser.add_argument("--n-epochs", type=int, default=3)
-    parser.add_argument("--learning-rate", type=float, default=2e-4)
-    parser.add_argument("--gamma", type=float, default=1.0)
-    parser.add_argument("--gae-lambda", type=float, default=0.95)
-    parser.add_argument("--clip-range", type=float, default=0.2)
-    parser.add_argument("--ent-coef", type=float, default=0.01)
-    parser.add_argument("--vf-coef", type=float, default=0.5)
-    # 96/4, not build_hetero_maskable_ppo's own 64/3 defaults: curriculum_stage19_la20_final
-    # (this script's only intended --init-checkpoint) was itself trained with
-    # experiments/results/hpo_winner.json's winning config (hidden_dim=96, num_layers=4).
-    # A fresh model built at 64/3 fails MaskablePPO.load(...).policy.load_state_dict(...,
-    # strict=True) with a shape mismatch on every encoder/actor/critic layer -- caught by
-    # this script's first-ever smoke test (2026-08-01) before any real training budget was
-    # spent on it.
-    parser.add_argument("--hidden-dim", type=int, default=96)
-    parser.add_argument("--num-layers", type=int, default=4)
-    parser.add_argument("--mlp-layers", type=int, default=2)
-    parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--checkpoint-every", type=int, default=50_000)
-    parser.add_argument("--torch-threads", type=int, default=4)
-    parser.add_argument("--output-dir", type=Path, default=RESULTS_DIR)
-    parser.add_argument("--run-name", default=None)
-    args = parser.parse_args(argv)
+def run_one_seed(args: argparse.Namespace, seed: int) -> dict:
+    """Train one seed end-to-end (everything ``main()`` used to do inline, parametrized
+    by ``seed`` instead of reading ``args.seed`` directly) and return the summary dict.
 
+    T2.1 (Recomendacion del tutor: semillas multiples de entrenamiento): this is the
+    exact single-seed training body from before T2.1, unchanged line-for-line except
+    every ``args.seed`` reference below is now the ``seed`` parameter -- so a single-seed
+    call (``--seeds`` omitted, the pre-T2.1 default) is byte-for-bit identical to the
+    original ``main()`` body, and ``--seeds 0 1 2 3 4`` is exactly five calls to this
+    function.
+    """
     torch.set_num_threads(args.torch_threads)
-    run_name = args.run_name or f"dynamic_kappa{args.kappa}_{args.stage}_{args.instance}_seed{args.seed}"
+    run_name = args.run_name or f"dynamic_kappa{args.kappa}_{args.stage}_{args.instance}_seed{seed}"
     output_dir = args.output_dir.resolve()
     log_dir = output_dir / "tb_logs" / run_name
     checkpoint_dir = output_dir / "checkpoints"
     for directory in (output_dir, log_dir, checkpoint_dir):
         directory.mkdir(parents=True, exist_ok=True)
 
-    factory = make_dynamic_env_factory(args.instance, args.kappa, seed=args.seed)
+    env_kwargs = dict(training_regime=args.training_regime, nominal_episode_fraction=args.nominal_episode_fraction)
+    factory = make_dynamic_env_factory(args.instance, args.kappa, seed=seed, **env_kwargs)
     probe = factory()
     base_ops = probe.unwrapped.base_num_ops
     n_steps = args.n_steps if args.n_steps is not None else 6 * base_ops
@@ -237,7 +275,10 @@ def main(argv: list[str] | None = None) -> int:
     probe.close()
 
     venv = DummyVecEnv(
-        [make_dynamic_env_factory(args.instance, args.kappa, seed=args.seed + i) for i in range(args.n_envs)]
+        [
+            make_dynamic_env_factory(args.instance, args.kappa, seed=seed + i, **env_kwargs)
+            for i in range(args.n_envs)
+        ]
     )
     model = build_hetero_maskable_ppo(
         venv,
@@ -253,7 +294,7 @@ def main(argv: list[str] | None = None) -> int:
         clip_range=args.clip_range,
         ent_coef=args.ent_coef,
         vf_coef=args.vf_coef,
-        seed=args.seed,
+        seed=seed,
         verbose=1,
     )
 
@@ -324,6 +365,8 @@ def main(argv: list[str] | None = None) -> int:
         "instance": args.instance,
         "kappa": args.kappa,
         "stage": args.stage,
+        "training_regime": args.training_regime,
+        "nominal_episode_fraction": args.nominal_episode_fraction,
         "warm_start_checkpoint": transfer_info["source"],
         "transferred_keys": transfer_info["transferred_keys"],
         "timesteps": args.timesteps,
@@ -351,7 +394,7 @@ def main(argv: list[str] | None = None) -> int:
             "vf_coef": args.vf_coef,
             "hidden_dim": args.hidden_dim,
             "num_layers": args.num_layers,
-            "seed": args.seed,
+            "seed": seed,
         },
     }
     summary_path = output_dir / f"summary_{run_name}.json"
@@ -367,6 +410,145 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(f"[done] checkpoint -> {_display_path(final_checkpoint)}")
     print(f"[done] summary -> {_display_path(summary_path)}")
+    return summary
+
+
+def _run_seeds_in_subprocesses(argv: list[str], seeds: list[int], n_workers: int) -> int:
+    """T2.1's ``--n-workers`` path: one subprocess per seed (up to ``n_workers`` at a
+    time), each running ``python experiments/train_dynamic.py ... --seeds <one seed>``.
+
+    Subprocess isolation, not a ``ProcessPoolExecutor`` over :func:`run_one_seed`
+    directly, because SB3/torch construct significant per-process global state
+    (thread pools, TensorBoard writers) that is not designed to be forked/pickled
+    across a pool -- the same reason ``experiments/run_ablations.py``'s own multi-seed
+    loop (T2's precedent, per the codebase's existing convention) runs sequentially
+    in-process rather than pooled. Subprocesses sidestep that entirely, at the cost of
+    each seed re-paying Python/torch import startup -- negligible next to a
+    multi-hundred-second training run.
+    """
+    import subprocess
+
+    # Strip any --seeds/--n-workers the caller passed, so each child gets exactly one
+    # seed via a fresh "--seeds <N>". An index-driven scan (not a per-token "skip the
+    # next one" check), since --seeds is nargs="*" and can swallow an arbitrary number
+    # of following value tokens.
+    base_argv: list[str] = []
+    i = 0
+    while i < len(argv):
+        token = argv[i]
+        if token in ("--seeds", "--n-workers"):
+            i += 1
+            while i < len(argv) and not argv[i].startswith("--"):
+                i += 1
+            continue
+        base_argv.append(token)
+        i += 1
+
+    running: list[subprocess.Popen] = []
+    exit_codes: list[int] = []
+    remaining = list(seeds)
+    while remaining or running:
+        while remaining and len(running) < n_workers:
+            seed = remaining.pop(0)
+            cmd = [sys.executable, str(Path(__file__).resolve()), *base_argv, "--seeds", str(seed)]
+            print(f"[train_dynamic] launching seed {seed}: {' '.join(cmd)}")
+            running.append(subprocess.Popen(cmd))
+        for proc in list(running):
+            ret = proc.poll()
+            if ret is not None:
+                exit_codes.append(ret)
+                running.remove(proc)
+        if running:
+            time.sleep(2.0)
+
+    if any(code != 0 for code in exit_codes):
+        print(f"[train_dynamic] {sum(1 for c in exit_codes if c != 0)}/{len(exit_codes)} seed(s) failed", file=sys.stderr)
+        return 1
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--instance", default="ft06", help="base JSSP instance (fixed-routing only)")
+    parser.add_argument("--kappa", type=float, required=True, help="disruption-aware reward weight")
+    parser.add_argument(
+        "--init-checkpoint",
+        type=Path,
+        default=None,
+        help="warm-start weights (strict=True transfer, matching "
+        "experiments/train_curriculum.py::transfer_weights); omit to train from scratch",
+    )
+    parser.add_argument("--stage", default="D1", help="label used in checkpoint/run-name filenames")
+    parser.add_argument(
+        "--training-regime", choices=["domain_randomized", "none"], default="domain_randomized",
+        help="T3.1 (Fase 3, ablacion 2x2): 'domain_randomized' (default, unchanged "
+        "pre-T3.1 behavior) samples the 9 frozen regimes (+ nominal episodes per "
+        "--nominal-episode-fraction); 'none' trains disruption-free every episode "
+        "(ablation cell B: entorno estatico, recompensa robusta).",
+    )
+    parser.add_argument(
+        "--nominal-episode-fraction", type=float, default=0.2,
+        help="T3.2: probability of a disruption-free training episode under "
+        "--training-regime domain_randomized. Set to 0.0 to reproduce the exact "
+        "pre-T3.2 sampling (every episode disruptive).",
+    )
+    parser.add_argument("--timesteps", type=int, default=100_000)
+    parser.add_argument("--n-envs", type=int, default=4)
+    parser.add_argument("--n-steps", type=int, default=None, help="default: 6 x base instance operation count")
+    parser.add_argument("--batch-size", type=int, default=64)
+    parser.add_argument("--n-epochs", type=int, default=3)
+    parser.add_argument("--learning-rate", type=float, default=2e-4)
+    parser.add_argument("--gamma", type=float, default=1.0)
+    parser.add_argument("--gae-lambda", type=float, default=0.95)
+    parser.add_argument("--clip-range", type=float, default=0.2)
+    parser.add_argument("--ent-coef", type=float, default=0.01)
+    parser.add_argument("--vf-coef", type=float, default=0.5)
+    # 96/4, not build_hetero_maskable_ppo's own 64/3 defaults: curriculum_stage19_la20_final
+    # (this script's only intended --init-checkpoint) was itself trained with
+    # experiments/results/hpo_winner.json's winning config (hidden_dim=96, num_layers=4).
+    # A fresh model built at 64/3 fails MaskablePPO.load(...).policy.load_state_dict(...,
+    # strict=True) with a shape mismatch on every encoder/actor/critic layer -- caught by
+    # this script's first-ever smoke test (2026-08-01) before any real training budget was
+    # spent on it.
+    parser.add_argument("--hidden-dim", type=int, default=96)
+    parser.add_argument("--num-layers", type=int, default=4)
+    parser.add_argument("--mlp-layers", type=int, default=2)
+    parser.add_argument("--seed", type=int, default=0, help="single-seed default; superseded by --seeds if given")
+    parser.add_argument(
+        "--seeds", type=int, nargs="*", default=None,
+        help="T2.1: train one run per seed (e.g. --seeds 0 1 2 3 4), each writing its "
+        "own summary_..._seed{N}.json in the existing format. Omit to keep the "
+        "pre-T2.1 single-seed behavior driven by --seed.",
+    )
+    parser.add_argument(
+        "--n-workers", type=int, default=1,
+        help="T2.1: with --seeds and --n-workers > 1, run up to that many seeds "
+        "concurrently as separate subprocesses (see _run_seeds_in_subprocesses). "
+        "--n-workers 1 (default) runs seeds sequentially in-process.",
+    )
+    parser.add_argument("--checkpoint-every", type=int, default=50_000)
+    parser.add_argument("--torch-threads", type=int, default=4)
+    parser.add_argument("--output-dir", type=Path, default=RESULTS_DIR)
+    parser.add_argument("--run-name", default=None)
+    args = parser.parse_args(argv)
+
+    seeds = args.seeds if args.seeds else [args.seed]
+
+    if len(seeds) > 1 and args.n_workers > 1:
+        return _run_seeds_in_subprocesses(argv or sys.argv[1:], seeds, args.n_workers)
+
+    summaries = []
+    for seed in seeds:
+        if len(seeds) > 1:
+            print(f"\n[train_dynamic] === seed {seed} ({seeds.index(seed) + 1}/{len(seeds)}) ===")
+        summaries.append(run_one_seed(args, seed))
+
+    if len(seeds) > 1:
+        wall_clocks = [s["train_wall_clock_s"] for s in summaries]
+        print(
+            f"\n[done] {len(seeds)} seed(s) complete. train_wall_clock_s: "
+            f"mean={np.mean(wall_clocks):.1f}s std={np.std(wall_clocks, ddof=1) if len(wall_clocks) > 1 else 0.0:.1f}s"
+        )
     return 0
 
 

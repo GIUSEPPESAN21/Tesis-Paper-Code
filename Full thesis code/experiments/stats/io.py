@@ -138,7 +138,8 @@ def _num_operations_row(row: pd.Series) -> float:
 
 def add_derived_columns(df: pd.DataFrame) -> pd.DataFrame:
     """Add ``num_operations``, ``ms_per_decision``, ``rpd_or_makespan``,
-    ``uses_raw_makespan`` (Section 2.4). Returns a new DataFrame; does not mutate ``df``.
+    ``uses_raw_makespan``, ``certified_optimal`` (Section 2.4). Returns a new
+    DataFrame; does not mutate ``df``.
     """
     out = df.copy()
     out["num_operations"] = out.apply(_num_operations_row, axis=1)
@@ -151,6 +152,17 @@ def add_derived_columns(df: pd.DataFrame) -> pd.DataFrame:
     rpd_is_null = out["rpd_pct"].isna()
     out["uses_raw_makespan"] = rpd_is_null
     out["rpd_or_makespan"] = np.where(rpd_is_null, out["makespan"], out["rpd_pct"])
+
+    # Recomendacion 1/10 del tutor (T7.1): a row is "certified optimal" iff CP-SAT
+    # itself reported status == "OPTIMAL" (equivalently mip_gap == 0.0), never merely
+    # because a solution was found. mip_gap is only present on CSVs produced after this
+    # column was added to run_evaluation.py's CSV_FIELDNAMES; older CSVs lack it and
+    # get NaN here rather than failing schema validation (validate_schema only requires
+    # REQUIRED_COLUMNS, which mip_gap is deliberately NOT part of, so pre-existing E1-E8
+    # CSVs keep loading unchanged -- Regla 5, sin regresiones silenciosas).
+    if "mip_gap" not in out.columns:
+        out["mip_gap"] = np.nan
+    out["certified_optimal"] = (out["status"] == "OPTIMAL") & (out["mip_gap"].fillna(0.0) == 0.0)
     return out
 
 

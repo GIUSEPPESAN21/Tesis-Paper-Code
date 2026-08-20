@@ -401,37 +401,16 @@ def write_metrics_csv(stats: HeteroEpisodeStatsCallback, optimum: float, out_pat
 # --------------------------------------------------------------------------------- main
 
 
-def main(argv: list[str] | None = None) -> int:
-    """CLI entry point."""
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--instance", default="ft06")
-    parser.add_argument("--fjsp", action="store_true", help="use FJSPEnv (flexible routing)")
-    parser.add_argument("--stage", default="A", help="label used in checkpoint filenames")
-    parser.add_argument("--timesteps", type=int, default=400_000)
-    # TrainingPlan_Week17.md Section 2 defaults.
-    parser.add_argument("--n-envs", type=int, default=4)
-    parser.add_argument("--n-steps", type=int, default=None, help="default: 6 x episode length")
-    parser.add_argument("--batch-size", type=int, default=64)
-    parser.add_argument("--n-epochs", type=int, default=3)
-    parser.add_argument("--learning-rate", type=float, default=2e-4)
-    parser.add_argument("--gamma", type=float, default=1.0)
-    parser.add_argument("--gae-lambda", type=float, default=0.95)
-    parser.add_argument("--clip-range", type=float, default=0.2)
-    parser.add_argument("--ent-coef", type=float, default=0.01)
-    parser.add_argument("--vf-coef", type=float, default=0.5)
-    parser.add_argument("--hidden-dim", type=int, default=64)
-    parser.add_argument("--num-layers", type=int, default=3)
-    parser.add_argument("--mlp-layers", type=int, default=2)
-    parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--eval-rollouts", type=int, default=100)
-    parser.add_argument("--checkpoint-every", type=int, default=50_000)
-    parser.add_argument("--torch-threads", type=int, default=4)
-    parser.add_argument("--output-dir", type=Path, default=RESULTS_DIR)
-    parser.add_argument("--run-name", default=None)
-    args = parser.parse_args(argv)
+def run_one_seed(args: argparse.Namespace, seed: int) -> dict:
+    """Train one seed end-to-end and return the summary dict.
 
+    T2.1 (Recomendacion del tutor: semillas multiples de entrenamiento): extracted,
+    unchanged line-for-line, from the pre-T2.1 body of ``main()`` -- every ``args.seed``
+    reference below is now the ``seed`` parameter, so a single-seed call (``--seeds``
+    omitted) is byte-for-bit identical to the original ``main()``.
+    """
     torch.set_num_threads(args.torch_threads)
-    run_name = args.run_name or f"hetero_stage{args.stage}_{args.instance}_seed{args.seed}"
+    run_name = args.run_name or f"hetero_stage{args.stage}_{args.instance}_seed{seed}"
     output_dir = args.output_dir.resolve()
     log_dir = output_dir / "tb_logs" / run_name
     checkpoint_dir = output_dir / "checkpoints"
@@ -461,7 +440,7 @@ def main(argv: list[str] | None = None) -> int:
         clip_range=args.clip_range,
         ent_coef=args.ent_coef,
         vf_coef=args.vf_coef,
-        seed=args.seed,
+        seed=seed,
         verbose=1,
     )
     # CSV alongside TensorBoard so the curves survive without a TensorBoard install --
@@ -505,7 +484,7 @@ def main(argv: list[str] | None = None) -> int:
     model.save(final_checkpoint)
 
     evaluation = evaluate_policy_rollouts(
-        model, args.instance, args.fjsp, args.eval_rollouts, args.seed
+        model, args.instance, args.fjsp, args.eval_rollouts, seed
     )
     progress = _read_progress_csv(log_dir / "progress.csv")
 
@@ -550,7 +529,7 @@ def main(argv: list[str] | None = None) -> int:
             "vf_coef": args.vf_coef,
             "hidden_dim": args.hidden_dim,
             "num_layers": args.num_layers,
-            "seed": args.seed,
+            "seed": seed,
         },
         **evaluation,
     }
@@ -564,6 +543,106 @@ def main(argv: list[str] | None = None) -> int:
     print(f"[done] greedy rollout makespan {evaluation['greedy_makespan']}, "
           f"best of {args.eval_rollouts} sampled {evaluation['sampled_best_makespan']}")
     print(f"[done] summary -> {_display_path(summary_path)}")
+    return summary
+
+
+def _run_seeds_in_subprocesses(argv: list[str], seeds: list[int], n_workers: int) -> int:
+    """T2.1's ``--n-workers`` path: one subprocess per seed (up to ``n_workers`` at a
+    time). See ``experiments/train_dynamic.py``'s identical helper for the full
+    rationale (SB3/torch per-process state isn't pool-friendly)."""
+    import subprocess
+
+    base_argv: list[str] = []
+    i = 0
+    while i < len(argv):
+        token = argv[i]
+        if token in ("--seeds", "--n-workers"):
+            i += 1
+            while i < len(argv) and not argv[i].startswith("--"):
+                i += 1
+            continue
+        base_argv.append(token)
+        i += 1
+
+    running: list[subprocess.Popen] = []
+    exit_codes: list[int] = []
+    remaining = list(seeds)
+    while remaining or running:
+        while remaining and len(running) < n_workers:
+            seed = remaining.pop(0)
+            cmd = [sys.executable, str(Path(__file__).resolve()), *base_argv, "--seeds", str(seed)]
+            print(f"[train_hetero] launching seed {seed}: {' '.join(cmd)}")
+            running.append(subprocess.Popen(cmd))
+        for proc in list(running):
+            ret = proc.poll()
+            if ret is not None:
+                exit_codes.append(ret)
+                running.remove(proc)
+        if running:
+            time.sleep(2.0)
+
+    if any(code != 0 for code in exit_codes):
+        print(f"[train_hetero] {sum(1 for c in exit_codes if c != 0)}/{len(exit_codes)} seed(s) failed", file=sys.stderr)
+        return 1
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    """CLI entry point."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--instance", default="ft06")
+    parser.add_argument("--fjsp", action="store_true", help="use FJSPEnv (flexible routing)")
+    parser.add_argument("--stage", default="A", help="label used in checkpoint filenames")
+    parser.add_argument("--timesteps", type=int, default=400_000)
+    # TrainingPlan_Week17.md Section 2 defaults.
+    parser.add_argument("--n-envs", type=int, default=4)
+    parser.add_argument("--n-steps", type=int, default=None, help="default: 6 x episode length")
+    parser.add_argument("--batch-size", type=int, default=64)
+    parser.add_argument("--n-epochs", type=int, default=3)
+    parser.add_argument("--learning-rate", type=float, default=2e-4)
+    parser.add_argument("--gamma", type=float, default=1.0)
+    parser.add_argument("--gae-lambda", type=float, default=0.95)
+    parser.add_argument("--clip-range", type=float, default=0.2)
+    parser.add_argument("--ent-coef", type=float, default=0.01)
+    parser.add_argument("--vf-coef", type=float, default=0.5)
+    parser.add_argument("--hidden-dim", type=int, default=64)
+    parser.add_argument("--num-layers", type=int, default=3)
+    parser.add_argument("--mlp-layers", type=int, default=2)
+    parser.add_argument("--seed", type=int, default=0, help="single-seed default; superseded by --seeds if given")
+    parser.add_argument(
+        "--seeds", type=int, nargs="*", default=None,
+        help="T2.1: train one run per seed (e.g. --seeds 0 1 2 3 4), each writing its "
+        "own summary_..._seed{N}.json. Omit to keep the pre-T2.1 single-seed behavior.",
+    )
+    parser.add_argument(
+        "--n-workers", type=int, default=1,
+        help="T2.1: with --seeds and --n-workers > 1, run seeds concurrently as "
+        "separate subprocesses. --n-workers 1 (default) runs sequentially in-process.",
+    )
+    parser.add_argument("--eval-rollouts", type=int, default=100)
+    parser.add_argument("--checkpoint-every", type=int, default=50_000)
+    parser.add_argument("--torch-threads", type=int, default=4)
+    parser.add_argument("--output-dir", type=Path, default=RESULTS_DIR)
+    parser.add_argument("--run-name", default=None)
+    args = parser.parse_args(argv)
+
+    seeds = args.seeds if args.seeds else [args.seed]
+
+    if len(seeds) > 1 and args.n_workers > 1:
+        return _run_seeds_in_subprocesses(argv or sys.argv[1:], seeds, args.n_workers)
+
+    summaries = []
+    for seed in seeds:
+        if len(seeds) > 1:
+            print(f"\n[train_hetero] === seed {seed} ({seeds.index(seed) + 1}/{len(seeds)}) ===")
+        summaries.append(run_one_seed(args, seed))
+
+    if len(seeds) > 1:
+        wall_clocks = [s["train_wall_clock_s"] for s in summaries]
+        print(
+            f"\n[done] {len(seeds)} seed(s) complete. train_wall_clock_s: "
+            f"mean={np.mean(wall_clocks):.1f}s std={np.std(wall_clocks, ddof=1) if len(wall_clocks) > 1 else 0.0:.1f}s"
+        )
     return 0
 
 

@@ -44,6 +44,14 @@ class TestResetAndSpaces:
         assert obs["action_mask"].shape == (n,)
         assert info["instance"] == "ft06"
 
+    def test_duration_and_machine_per_op_delegate_to_instance(self) -> None:
+        """T8.1: JSSPEnv.duration_per_op()/machine_per_op() are pure delegation to the
+        base instance's arrays -- the static half of the arrival-safety fix, mirrored
+        by DynamicJSSPEnv's growable override (tests/test_dynamic_env.py)."""
+        env = JSSPEnv("ft06")
+        np.testing.assert_array_equal(env.duration_per_op(), env.instance.flat_durations)
+        np.testing.assert_array_equal(env.machine_per_op(), env.instance.flat_machines)
+
     def test_initial_mask_is_first_operation_of_every_job(self, toy: JSSPInstance) -> None:
         env = JSSPEnv(toy)
         obs, _ = env.reset()

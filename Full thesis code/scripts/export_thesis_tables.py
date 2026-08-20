@@ -30,12 +30,18 @@ MAPPING: tuple[tuple[str, str, str], ...] = (
      "Veredicto por hipotesis (H1-H5), resumen ejecutivo del capitulo"),
     ("e1_rpd_summary", "Tabla_6.2.1_rpd_jssp_e1",
      "RPD (%) por instancia y metodo, brazo JSSP estatico (E1, N=43)"),
+    ("comparadores_pdr_e1", "Tabla_6.2.2_comparadores_pdr_e1",
+     "pdr_global, pdr_por_familia y oraculo_best_per_instance (RPD medio, %), separados (T4.1, Recomendacion 6)"),
     ("e3_rpd_summary", "Tabla_6.3.2_rpd_generalizacion_e3",
      "RPD medio +/- desviacion estandar por tier de generalizacion y metodo (E3)"),
+    ("e3_h2_dual_reading", "Tabla_6.3.3_h2_lectura_dual",
+     "H2: lectura de rango (Friedman-Nemenyi) vs. lectura competitiva absoluta (RPD vs. pdr_global), por tier (T4.2, Recomendacion 7)"),
     ("e4e5e6e7_ri_summary", "Tabla_6.4.1_ri_por_regimen",
      "Indice de Robustez (RI) por regimen y serie -- mejor PDR, kappa en {0, 0.5, 1.0} (E4-E7)"),
     ("e8_latency_summary", "Tabla_6.5.1_latencia_e8",
      "Tiempo de decision (ms/epoca, mediana), RL vs. CP-SAT, las 43 instancias (E8)"),
+    ("costo_computacional", "Tabla_6.5.2_costo_computacional",
+     "Costo computacional homogeneo: entrenamiento, inferencia, amortizado (GNN-DRL), CP-SAT, GA, PDR (T5.1, Recomendacion 8)"),
 )
 
 

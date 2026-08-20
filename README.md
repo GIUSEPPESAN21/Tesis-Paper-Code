@@ -36,6 +36,18 @@ THESIS MASTER'S/
                                           experiments, tests, and the trained checkpoints
 ```
 
+**Mejoras del tutor (2026-08-20):** diez recomendaciones formales de revisión,
+auditadas y en su mayoría implementadas en código/tests esta sesión — nada ejecutado
+(ver `AUDIT_PREFLIGHT.md` para los hallazgos de la auditoría, `RUN_PLAN.md` para los
+comandos exactos y estimaciones de tiempo por fase, `MEJORAS_TUTOR_IMPLEMENTADAS.md`
+para el estado recomendación-por-recomendación). Nuevo código relevante:
+`Full thesis code/envs/rescheduling.py` (políticas de reoptimización periódica/por
+evento), `Full thesis code/experiments/slack_analysis.py` (métricas de holgura CPM),
+`Full thesis code/experiments/stats/comparators.py` (comparadores PDR separados),
+`Full thesis code/experiments/stats/seeds.py` (agregación multi-semilla). Todos los
+resultados numéricos que estas piezas producirían quedan `[PENDIENTE-CORRIDA]` hasta
+que se corran.
+
 `Full thesis code/` is a self-contained, installable Python package
 (`thesis_fjsp_drl`) with its own `README.md` covering the code's internal design
 decisions. This top-level README is the reproduction guide; the code README is the

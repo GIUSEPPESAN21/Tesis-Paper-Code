@@ -108,6 +108,37 @@ inferior) = verde `#008300`.
 
 ---
 
+## Fase 1/5 (mejoras del tutor, 2026-08-20) — figuras nuevas, `[PENDIENTE-CORRIDA]`
+
+Escritas esta sesión (`AUDIT_PREFLIGHT.md`, `RUN_PLAN.md`, `MEJORAS_TUTOR_IMPLEMENTADAS.md`),
+no generadas — ningún archivo `.png`/`.pdf` de esta sección existe todavía.
+
+### Fig_holgura_vs_RI — holgura (CPM) vs. Índice de Robustez, un panel por eje de disrupción
+
+`figures/Fig_holgura_vs_RI.png` / `.pdf` — `[PENDIENTE-CORRIDA: experiments/run_slack_study.py + scripts/generate_thesis_figures.py --slack-csv ...]`
+
+**Generador:** `scripts/generate_thesis_figures.py::generate_fig_holgura_vs_ri`.
+**Fuente de datos:** `results/datos_crudos/slack/slack_metrics.csv` (nuevo,
+`experiments/run_slack_study.py`) + E4/E5/E6 (RI). Un panel por eje (averías, tiempos
+estocásticos, llegadas), dispersión de `slack_ratio` vs. RI con ajuste lineal. Reporta
+signo y magnitud tal como salgan de los datos — el generador no fuerza la dirección
+"más holgura → más robustez" (`experiments/slack_vs_robustness.py`'s propio criterio
+de diseño).
+
+---
+
+### Fig_costo_amortizado — costo acumulado GNN-DRL vs. CP-SAT en función de N
+
+`figures/Fig_6.5.2_costo_amortizado.png` / `.pdf` — `[PENDIENTE-CORRIDA: experiments/results/week24/e8_cpu_timing.py (ampliado a 43 instancias) + scripts/generate_thesis_figures.py --training-summary-glob ...]`
+
+**Generador:** `scripts/generate_thesis_figures.py::generate_fig_6_5_2`.
+**Fuente de datos:** `experiments/cost_accounting.py::amortization_curve` sobre
+`e8_cpu_timing.csv` (costo de inferencia por instancia) + `summary_*.json` (costo de
+entrenamiento). Marca el punto de cruce N* donde GNN-DRL deja de ser más caro que
+reoptimizar con CP-SAT desde cero en cada instancia. `results/tablas/Tabla_6.5.2_costo_computacional.*`.
+
+---
+
 ## Validación de paleta (colorblind-safe), *skill* `dataviz`
 
 Ejecutado con `node scripts/validate_palette.js "<hex,...>" --mode light --pairs all`:
