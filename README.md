@@ -28,6 +28,9 @@ THESIS MASTER'S/
 ├── figures/                         <- camera-ready figures (Spanish, colorblind-safe, PNG+PDF)
 │   └── paper/                        <- compact English figures/tables for the conference paper
 ├── CODE_APPENDIX_SUMMARY.md        <- thesis-appendix-ready: repo structure, chapter<->code map
+├── archive/                         <- superseded/orphaned drafts, moved not deleted (git mv,
+│                                        history intact) — see archive/README.md for what's here
+│                                        and why each item was archived, not part of the active thesis
 ├── results/
 │   ├── tablas/                      <- thesis-numbered tables (Tabla_6.X.Y.{csv,md,tex})
 │   ├── datos_crudos/                 <- raw per-row CSVs, by experiment batch
