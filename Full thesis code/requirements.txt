@@ -1,0 +1,21 @@
+# Pinned to the versions validated in VALIDATION_WEEK1.md.
+# Install with: pip install -r requirements.txt
+# (or, preferably, `pip install -e .` which reads pyproject.toml and also
+# puts this repo's top-level packages — envs, models, baselines — on the
+# import path without any sys.path hacking).
+numpy==2.4.6
+pandas==2.2.2
+matplotlib==3.8.4
+gymnasium==1.3.0
+torch==2.12.1
+stable_baselines3==2.9.0
+sb3_contrib==2.9.0
+ortools==9.15.6755
+pytest==9.1.1
+optuna==4.9.0  # Week 21, HPO_TechSpec.md: experiments/hpo_hetero.py
+scipy==1.15.2  # experiments/stats/: wilcoxon, friedmanchisquare, norm (StatsAnalysis_TechSpec.md)
+statsmodels==0.14.6  # experiments/stats/omnibus.py: qsturng (Nemenyi critical difference)
+# Optional (Week 18 monitoring, TrainingPlan_Week17.md Section 4): experiments/
+# train_hetero.py logs to TensorBoard when this is installed and degrades to CSV-only
+# logging when it is not, so nothing in the pipeline depends on it.
+tensorboard==2.21.0

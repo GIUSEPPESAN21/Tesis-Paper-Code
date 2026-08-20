@@ -1,0 +1,13 @@
+instance,family,num_jobs,num_machines,method,disruption,seed,makespan,known_optimum,rpd_pct,wall_clock_s,feasible,status,is_optimal,violations_count,timestamp
+ft06,fisher-thompson,6,6,spt,none,0,122.0,55,121.818,0.0129,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,lpt,none,0,132.0,55,140.0,0.0082,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,mwkr,none,0,74.0,55,34.545,0.0094,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,lwkr,none,0,154.0,55,180.0,0.0072,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,mor,none,0,73.0,55,32.727,0.0097,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,lor,none,0,132.0,55,140.0,0.0161,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,fifo,none,0,67.0,55,21.818,0.0116,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,edd,none,0,154.0,55,180.0,0.0175,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,cr,none,0,171.0,55,210.909,0.0163,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,ga,none,0,55.0,55,0.0,60.029,True,OK,False,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,cpsat,none,0,55.0,55,0.0,0.1155,True,OPTIMAL,True,0,2026-07-29T16:28:13+00:00
+ft06,fisher-thompson,6,6,rl,none,0,55.0,55,0.0,0.1792,True,OK,False,0,2026-07-29T16:28:13+00:00

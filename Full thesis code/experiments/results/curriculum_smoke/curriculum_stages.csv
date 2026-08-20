@@ -1,0 +1,4 @@
+stage,instance,problem,static_lower_bound,reference_optimum,greedy_makespan,rpd_pct,train_wall_clock_s,transfer
+0,la01,JSSP,666,666,1551.0,132.88288288288288,62.4,"{'transferred_keys': 0, 'skipped_keys': 0}"
+1,la02,JSSP,655,655,1171.0,78.77862595419847,29.2,"{'transferred_keys': 183, 'skipped_keys': 0}"
+2,mk01,FJSP,36,40,87.0,117.5,35.4,"{'transferred_keys': 57, 'skipped_keys': 126}"

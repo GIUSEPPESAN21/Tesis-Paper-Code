@@ -1,0 +1,5 @@
+variant,instance,seed,timesteps,reference_optimum,greedy_makespan,greedy_rpd_pct,best_training_makespan,last_100_mean_makespan,milestone_rpd_pct,milestone_reached_at_step,milestone_reached_frac_of_budget
+reference,ft06,0,2000,55,91.0,65.45454545454545,71.0,93.98333333333333,21.82,,
+homogeneous,ft06,0,2000,55,95.0,72.72727272727273,72.0,94.51666666666667,21.82,,
+gat_hybrid,ft06,0,2000,55,84.0,52.72727272727273,71.0,94.55,21.82,,
+sparse_reward,ft06,0,2000,55,129.0,134.54545454545453,71.0,94.45,21.82,,

@@ -1,0 +1,10 @@
+regime_id,axis,level,best_pdr,best_pdr_median_ri,rl_median_ri,median_ri_pdr_minus_rl,wilcoxon_stat,p_value,accept_h3_this_regime,n_pairs
+E4_breakdowns_A0.95,breakdowns,0.95,cr,-0.5469,0.0096,-0.6089,0.0,1.6213913200417515e-11,False,60
+E4_breakdowns_A0.90,breakdowns,0.9,cr,-0.5038,0.1152,-0.6299,0.0,1.6293000864348577e-11,False,60
+E4_breakdowns_A0.80,breakdowns,0.8,cr,-0.4016,0.4052,-0.8181,0.0,1.6295557943119345e-11,False,60
+E5_stochastic_s0.10,stochastic_times,0.1,cr,-0.5982,-0.0314,-0.56,0.0,1.6295557943119345e-11,False,60
+E5_stochastic_s0.25,stochastic_times,0.25,cr,-0.5828,-0.0174,-0.5715,0.0,1.6295557943119345e-11,False,60
+E5_stochastic_s0.50,stochastic_times,0.5,cr,-0.5765,0.067,-0.6353,0.0,1.6295557943119345e-11,False,60
+E6_arrivals_u0.70,arrivals,0.7,lwkr,0.2711,1.7265,-1.5008,0.0,1.6295557943119345e-11,False,60
+E6_arrivals_u0.85,arrivals,0.85,lwkr,0.2769,1.7056,-1.4244,0.0,1.6295557943119345e-11,False,60
+E6_arrivals_u0.95,arrivals,0.95,lwkr,0.2566,1.6311,-1.4136,0.0,1.6295557943119345e-11,False,60

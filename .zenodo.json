@@ -1,0 +1,37 @@
+{
+  "title": "GNN+PPO for Dynamic Flexible Job-Shop Scheduling under Stochastic Perturbations: reproducibility package",
+  "description": "<p>Code, trained checkpoints, experimental results (E0&ndash;E8), statistical analysis pipeline, and camera-ready figures for a master's thesis evaluating a heterogeneous GNN+PPO policy on flexible job-shop scheduling (JSSP/FJSP).</p><p>Five pre-registered hypotheses (frozen before any result existed &mdash; see <code>PreRegistration_FINAL.md</code>) were tested: H1 (static competitiveness vs. priority dispatching rules / CP-SAT / GA), H2 (size generalization, zero-shot), H3 (robustness under breakdowns / stochastic processing times / dynamic arrivals), H4 (a disruption-aware reward term, &kappa;&nbsp;&isin;&nbsp;{0.5,&nbsp;1.0}), and H5 (decision latency vs. CP-SAT). Four hypotheses were rejected and one accepted; every result &mdash; including the four rejections &mdash; is diagnosed to a concrete, reported mechanism (e.g. H4's rejection traces to a training-regime effect quantified in the report, not left as an unexplained negative result).</p><p>This deposit is the complete, long-term reproduction artifact: it includes the trained model checkpoints the accompanying git repository deliberately excludes (regenerable, but large) so that E1&ndash;E8 can be reproduced without retraining. See <code>README.md</code> for exact commands, expected runtime/hardware per experiment, and a quick smoke-test procedure.</p>",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "<fill in before upload -- see FINAL_REPRODUCIBILITY_REPORT.md Sec 5 for the license discussion; CC-BY-4.0 is a common default for a thesis+code deposit but check your institution's requirements first>",
+  "creators": [
+    {
+      "name": "Sanchez, Joseph",
+      "affiliation": "Corporación Universitaria Minuto de Dios (UNIMINUTO)"
+    }
+  ],
+  "keywords": [
+    "reinforcement learning",
+    "job-shop scheduling",
+    "flexible job-shop scheduling",
+    "graph neural networks",
+    "proximal policy optimization",
+    "PPO",
+    "GNN",
+    "disruption robustness",
+    "combinatorial optimization",
+    "constraint programming",
+    "CP-SAT",
+    "master's thesis"
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "<fill in once the thesis itself has a DOI/handle from the university repository, if applicable>",
+      "resource_type": "publication-thesis"
+    }
+  ],
+  "version": "1.0.0",
+  "language": "eng",
+  "notes": "Thesis chapters (Chapter6_FINAL.md, Chapter7_FINAL.md, etc.) are written in Spanish; code, docstrings, and this metadata are in English, matching the codebase's existing convention."
+}

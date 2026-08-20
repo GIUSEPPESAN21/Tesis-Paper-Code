@@ -1,0 +1,155 @@
+{
+  "config": {
+    "learning_rate": 0.0002,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "hidden_dim": 64,
+    "num_layers": 3,
+    "encoder_type": "gin"
+  },
+  "n_stages": 3,
+  "timesteps_per_stage": 2000,
+  "final_checkpoint": "experiments\\results\\curriculum_smoke\\checkpoints\\curriculum_stage02_mk01_final.zip",
+  "stage_log": [
+    {
+      "stage": 0,
+      "instance": "la01",
+      "problem": "JSSP",
+      "static_lower_bound": 666,
+      "reference_optimum": 666,
+      "greedy_makespan": 1551.0,
+      "rpd_pct": 132.88288288288288,
+      "train_wall_clock_s": 62.4,
+      "transfer": {
+        "transferred_keys": 0,
+        "skipped_keys": 0
+      }
+    },
+    {
+      "stage": 1,
+      "instance": "la02",
+      "problem": "JSSP",
+      "static_lower_bound": 655,
+      "reference_optimum": 655,
+      "greedy_makespan": 1171.0,
+      "rpd_pct": 78.77862595419847,
+      "train_wall_clock_s": 29.2,
+      "transfer": {
+        "transferred_keys": 183,
+        "skipped_keys": 0
+      }
+    },
+    {
+      "stage": 2,
+      "instance": "mk01",
+      "problem": "FJSP",
+      "static_lower_bound": 36,
+      "reference_optimum": 40,
+      "greedy_makespan": 87.0,
+      "rpd_pct": 117.5,
+      "train_wall_clock_s": 35.4,
+      "transfer": {
+        "transferred_keys": 57,
+        "skipped_keys": 126
+      }
+    }
+  ],
+  "generalization_log": [
+    {
+      "instance": "la21",
+      "greedy_makespan": 3334.0,
+      "reference_optimum": 1046,
+      "rpd_pct": 218.7380497131931,
+      "stage": 0,
+      "trained_on": "la01"
+    },
+    {
+      "instance": "la25",
+      "greedy_makespan": 2855.0,
+      "reference_optimum": 977,
+      "rpd_pct": 192.22108495394065,
+      "stage": 0,
+      "trained_on": "la01"
+    },
+    {
+      "instance": "la30",
+      "greedy_makespan": 4048.0,
+      "reference_optimum": 1355,
+      "rpd_pct": 198.74538745387454,
+      "stage": 0,
+      "trained_on": "la01"
+    },
+    {
+      "instance": "la35",
+      "greedy_makespan": 6989.0,
+      "reference_optimum": 1888,
+      "rpd_pct": 270.1800847457627,
+      "stage": 0,
+      "trained_on": "la01"
+    },
+    {
+      "instance": "la40",
+      "greedy_makespan": 5689.0,
+      "reference_optimum": 1222,
+      "rpd_pct": 365.5482815057283,
+      "stage": 0,
+      "trained_on": "la01"
+    },
+    {
+      "instance": "la21",
+      "greedy_makespan": 2107.0,
+      "reference_optimum": 1046,
+      "rpd_pct": 101.43403441682601,
+      "stage": 1,
+      "trained_on": "la02"
+    },
+    {
+      "instance": "la25",
+      "greedy_makespan": 1797.0,
+      "reference_optimum": 977,
+      "rpd_pct": 83.93039918116683,
+      "stage": 1,
+      "trained_on": "la02"
+    },
+    {
+      "instance": "la30",
+      "greedy_makespan": 3501.0,
+      "reference_optimum": 1355,
+      "rpd_pct": 158.37638376383765,
+      "stage": 1,
+      "trained_on": "la02"
+    },
+    {
+      "instance": "la35",
+      "greedy_makespan": 3286.0,
+      "reference_optimum": 1888,
+      "rpd_pct": 74.04661016949153,
+      "stage": 1,
+      "trained_on": "la02"
+    },
+    {
+      "instance": "la40",
+      "greedy_makespan": 2648.0,
+      "reference_optimum": 1222,
+      "rpd_pct": 116.69394435351882,
+      "stage": 1,
+      "trained_on": "la02"
+    },
+    {
+      "instance": "mk06",
+      "greedy_makespan": 374.0,
+      "reference_optimum": 58,
+      "rpd_pct": 544.8275862068965,
+      "stage": 2,
+      "trained_on": "mk01"
+    },
+    {
+      "instance": "mk07",
+      "greedy_makespan": 569.0,
+      "reference_optimum": 139,
+      "rpd_pct": 309.3525179856115,
+      "stage": 2,
+      "trained_on": "mk01"
+    }
+  ]
+}

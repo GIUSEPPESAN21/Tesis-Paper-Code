@@ -1,0 +1,23 @@
+      mk01         ga disruption=none             seed=0   Cmax=42.0       RPD=   5.00%   60.010s feasible=True status=OK
+      mk01 cpsat_fjsp disruption=none             seed=0   Cmax=40.0       RPD=   0.00%    0.037s feasible=True status=OPTIMAL
+      mk01         rl disruption=none             seed=0   Cmax=60.0       RPD=  50.00%    0.077s feasible=True status=OK
+      mk02         ga disruption=none             seed=0   Cmax=32.0       RPD=  23.08%   60.010s feasible=True status=OK
+      mk02 cpsat_fjsp disruption=none             seed=0   Cmax=26.0       RPD=   0.00%    3.627s feasible=True status=OPTIMAL
+      mk02         rl disruption=none             seed=0   Cmax=63.0       RPD= 142.31%    3.326s feasible=True status=OK
+      mk03         ga disruption=none             seed=0   Cmax=204.0      RPD=   0.00%   60.021s feasible=True status=OK
+      mk03 cpsat_fjsp disruption=none             seed=0   Cmax=204.0      RPD=   0.00%    0.472s feasible=True status=OPTIMAL
+      mk03         rl disruption=none             seed=0   Cmax=374.0      RPD=  83.33%   38.688s feasible=True status=OK
+      mk04         ga disruption=none             seed=0   Cmax=76.0       RPD=  26.67%   60.022s feasible=True status=OK
+      mk04 cpsat_fjsp disruption=none             seed=0   Cmax=60.0       RPD=   0.00%    0.151s feasible=True status=OPTIMAL
+      mk04         rl disruption=none             seed=0   Cmax=78.0       RPD=  30.00%    0.629s feasible=True status=OK
+      mk05         ga disruption=none             seed=0   Cmax=181.0      RPD=   5.23%   60.026s feasible=True status=OK
+      mk05 cpsat_fjsp disruption=none             seed=0   Cmax=173.0      RPD=   0.58%   60.004s feasible=True status=FEASIBLE
+      mk05         rl disruption=none             seed=0   Cmax=201.0      RPD=  16.86%    0.485s feasible=True status=OK
+      mk06         ga disruption=none             seed=0   Cmax=81.0       RPD=  39.66%   60.014s feasible=True status=OK
+      mk06 cpsat_fjsp disruption=none             seed=0   Cmax=59.0       RPD=   1.72%   60.004s feasible=True status=FEASIBLE
+      mk06         rl disruption=none             seed=0   Cmax=170.0      RPD= 193.10%    0.435s feasible=True status=OK
+      mk07         ga disruption=none             seed=0   Cmax=164.0      RPD=  17.99%   60.023s feasible=True status=OK
+      mk07 cpsat_fjsp disruption=none             seed=0   Cmax=142.0      RPD=   2.16%   60.004s feasible=True status=FEASIBLE
+      mk07         rl disruption=none             seed=0   Cmax=309.0      RPD= 122.30%    0.132s feasible=True status=OK
+
+wrote 21 rows to experiments/results/week24/e2_armB_mk_seed0.csv

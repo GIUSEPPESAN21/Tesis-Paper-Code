@@ -1,0 +1,31 @@
+=== E4 breakdowns (RL) ===
+--- availability=0.95 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e4_breakdowns_avail0.95_rl.csv
+--- availability=0.90 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e4_breakdowns_avail0.90_rl.csv
+--- availability=0.80 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e4_breakdowns_avail0.80_rl.csv
+=== E5 stochastic_times (RL) ===
+--- sigma=0.1 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e5_stochastic_sigma0.1_rl.csv
+--- sigma=0.25 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e5_stochastic_sigma0.25_rl.csv
+--- sigma=0.5 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e5_stochastic_sigma0.5_rl.csv
+=== E6 arrivals (RL -- no arrival-safety restriction, unlike PDRs) ===
+--- utilization=0.7 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e6_arrivals_util0.7_rl.csv
+--- utilization=0.85 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e6_arrivals_util0.85_rl.csv
+--- utilization=0.95 ---
+
+wrote 60 rows to experiments/results/week24/e4e5e6_rl/e6_arrivals_util0.95_rl.csv
+E4E5E6_RL_ALL_DONE

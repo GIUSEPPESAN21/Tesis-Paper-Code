@@ -1,0 +1,34 @@
+=== E4 breakdowns ===
+--- availability=0.95 ---
+
+wrote 540 rows to experiments/results/week24/e4e5e6/e4_breakdowns_avail0.95.csv
+--- availability=0.90 ---
+
+wrote 540 rows to experiments/results/week24/e4e5e6/e4_breakdowns_avail0.90.csv
+--- availability=0.80 ---
+
+wrote 540 rows to experiments/results/week24/e4e5e6/e4_breakdowns_avail0.80.csv
+=== E5 stochastic_times ===
+--- sigma=0.1 ---
+
+wrote 540 rows to experiments/results/week24/e4e5e6/e5_stochastic_sigma0.1.csv
+--- sigma=0.25 ---
+
+wrote 540 rows to experiments/results/week24/e4e5e6/e5_stochastic_sigma0.25.csv
+--- sigma=0.5 ---
+
+wrote 540 rows to experiments/results/week24/e4e5e6/e5_stochastic_sigma0.5.csv
+=== E6 arrivals (arrival-safe PDRs only: lwkr mor lor fifo) ===
+--- utilization=0.7 ---
+
+wrote 240 rows to experiments/results/week24/e4e5e6/e6_arrivals_util0.7.csv
+--- utilization=0.85 ---
+
+wrote 240 rows to experiments/results/week24/e4e5e6/e6_arrivals_util0.85.csv
+--- utilization=0.95 ---
+
+wrote 240 rows to experiments/results/week24/e4e5e6/e6_arrivals_util0.95.csv
+=== descriptive-only: GA/CP-SAT under one regime, one instance (NOT full replication, per matrix guidance) ===
+
+wrote 10 rows to experiments/results/week24/e4e5e6/descriptive_ga_cpsat_breakdowns90_ft06.csv
+E4E5E6_ALL_DONE

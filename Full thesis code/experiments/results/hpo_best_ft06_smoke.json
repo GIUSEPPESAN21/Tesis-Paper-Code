@@ -1,0 +1,14 @@
+{
+  "best_value": 49.09090909090909,
+  "best_params": {
+    "ent_coef_start": 0.01769226795453276,
+    "ent_coef_end": 0.004051266968085445,
+    "learning_rate": 0.00010570046446158275,
+    "num_layers": 4,
+    "hidden_dim": 96,
+    "clip_range": 0.25,
+    "decay_fraction": 0.25227757982092447
+  },
+  "n_trials": 4,
+  "n_pruned": 1
+}

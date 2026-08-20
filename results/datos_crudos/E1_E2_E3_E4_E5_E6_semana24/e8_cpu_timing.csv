@@ -1,0 +1,5 @@
+instance,num_operations,rl_ms_per_decision_multithread,rl_ms_per_decision_singlethread,rl_makespan,cpsat_wall_clock_s,cpsat_status,singlethread_vs_multithread_ratio
+ft06,36,4.8566,1.0613,73.0,0.1029,OPTIMAL,0.219
+la05,50,1.0776,1.036,639.0,0.0058,OPTIMAL,0.961
+la20,100,1.2989,1.3128,951.0,0.1767,OPTIMAL,1.011
+la35,300,3.4483,3.3568,2381.0,0.1716,OPTIMAL,0.973

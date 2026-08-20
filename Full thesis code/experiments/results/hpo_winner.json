@@ -1,0 +1,15 @@
+{
+  "best_params": {
+    "learning_rate": 0.00010570046446158275,
+    "num_layers": 4,
+    "hidden_dim": 96,
+    "clip_range": 0.25,
+    "ent_coef": 0.01769226795453276,
+    "ent_coef_start": 0.01769226795453276,
+    "ent_coef_end": 0.004051266968085445,
+    "decay_fraction": 0.25227757982092447
+  },
+  "source": "optuna_ft06.db Trial 0 (study hpo_ft06, 9 Phase-1 low-fidelity trials)",
+  "validation_rpd_pct": 0.0,
+  "seeds_at_validation": [0.0, 0.0]
+}

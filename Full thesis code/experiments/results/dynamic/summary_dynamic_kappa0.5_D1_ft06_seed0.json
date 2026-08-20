@@ -1,0 +1,31 @@
+{
+  "run_name": "dynamic_kappa0.5_D1_ft06_seed0",
+  "instance": "ft06",
+  "kappa": 0.5,
+  "stage": "D1",
+  "warm_start_checkpoint": "experiments\\results\\curriculum_full\\checkpoints\\curriculum_stage19_la20_final.zip",
+  "transferred_keys": 240,
+  "timesteps": 100000,
+  "episodes": 1355,
+  "train_wall_clock_s": 2106.4,
+  "static_lower_bound": 52,
+  "reference_optimum": 55,
+  "best_training_makespan": 49.10288616031905,
+  "last_100_mean_makespan": 109.65674176490236,
+  "checkpoint": "experiments\\results\\dynamic\\checkpoints\\dynamic_kappa0.5_D1_ft06_final.zip",
+  "hyperparameters": {
+    "n_envs": 4,
+    "n_steps": 216,
+    "batch_size": 64,
+    "n_epochs": 3,
+    "learning_rate": 0.0002,
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "hidden_dim": 96,
+    "num_layers": 4,
+    "seed": 0
+  }
+}

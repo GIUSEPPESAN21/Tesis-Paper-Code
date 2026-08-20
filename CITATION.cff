@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite it as below."
+type: software
+title: "GNN+PPO for Dynamic Flexible Job-Shop Scheduling under Stochastic Perturbations: reproducibility package"
+version: 1.0.0
+date-released: "2026-08-01"
+authors:
+  - family-names: "Sanchez"
+    given-names: "Joseph"
+    affiliation: "Corporación Universitaria Minuto de Dios (UNIMINUTO)"
+    email: "joseph.sanchez@uniminuto.edu.co"
+repository-code: "<GitHub URL -- fill in after publishing the repository>"
+license: "<fill in -- see FINAL_REPRODUCIBILITY_REPORT.md Sec 5 for options>"
+keywords:
+  - reinforcement learning
+  - job-shop scheduling
+  - flexible job-shop scheduling
+  - graph neural networks
+  - proximal policy optimization
+  - disruption robustness
+  - combinatorial optimization
+  - constraint programming
+abstract: >
+  Code, trained checkpoints, experimental results, statistical analysis pipeline, and
+  camera-ready figures for a master's thesis evaluating a heterogeneous GNN+PPO policy
+  on flexible job-shop scheduling (JSSP/FJSP), tested for static competitiveness (H1),
+  size generalization (H2), robustness under three disruption types (H3), a
+  disruption-aware reward mechanism (H4), and decision latency against CP-SAT (H5).
+  Five pre-registered hypotheses were tested against frozen decision rules; four were
+  rejected and one accepted, each diagnosed to a concrete, reported root cause rather
+  than left as an unexplained negative result.

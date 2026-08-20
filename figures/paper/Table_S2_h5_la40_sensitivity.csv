@@ -1,0 +1,3 @@
+reading,la40_ms_per_decision_rl,la40_ms_per_decision_cpsat,cpsat_over_rl_ratio,passes_1pct_threshold,h5_instances_passing_of_43
+Raw (as measured),18.085,32074.086,1773.49,True,1
+"Sensitivity-corrected (la40 CP-SAT wall-clock substituted with la38's, same 15x15/225-op size class, both FEASIBLE under the identical 60s budget)",18.085,266.913,14.76,False,0

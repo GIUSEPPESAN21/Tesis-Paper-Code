@@ -1,0 +1,12 @@
+C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\.venv\Lib\site-packages\optuna\_experimental.py:33: ExperimentalWarning: Argument ``multivariate`` is an experimental feature. The interface can change in the future.
+  optuna_warn(
+[I 2026-07-29 15:11:50,001] A new study created in RDB with name: hpo_ft06
+[I 2026-07-29 15:47:51,585] Trial 0 finished with value: 0.0 and parameters: {'ent_coef_start': 0.01769226795453276, 'ent_coef_end': 0.004051266968085445, 'learning_rate': 0.00010570046446158275, 'num_layers': 4, 'hidden_dim': 96, 'clip_range': 0.25, 'decay_fraction': 0.25227757982092447}. Best is trial 0 with value: 0.0.
+[I 2026-07-29 16:13:51,074] Trial 1 finished with value: 0.0 and parameters: {'ent_coef_start': 0.005238276295543259, 'ent_coef_end': 0.0027004141907670132, 'learning_rate': 0.00020992539475792144, 'num_layers': 3, 'hidden_dim': 64, 'clip_range': 0.15, 'decay_fraction': 0.6645402136605301}. Best is trial 0 with value: 0.0.
+[I 2026-07-29 16:27:36,062] Trial 2 finished with value: 18.18181818181818 and parameters: {'ent_coef_start': 0.014292899386684864, 'ent_coef_end': 0.0016789724239756672, 'learning_rate': 1.0762751359127566e-05, 'num_layers': 2, 'hidden_dim': 32, 'clip_range': 0.1, 'decay_fraction': 0.277355778592912}. Best is trial 0 with value: 0.0.
+[I 2026-07-29 16:37:38,326] Trial 3 pruned. 
+[I 2026-07-29 16:46:45,258] Trial 4 pruned. 
+[I 2026-07-29 18:23:26,384] Trial 5 finished with value: 15.454545454545453 and parameters: {'ent_coef_start': 0.010398080700937999, 'ent_coef_end': 0.0006847768433855068, 'learning_rate': 1.2852412982489396e-05, 'num_layers': 2, 'hidden_dim': 128, 'clip_range': 0.25, 'decay_fraction': 0.3099148172042701}. Best is trial 0 with value: 0.0.
+[I 2026-07-29 18:35:05,835] Trial 6 pruned. 
+[I 2026-07-29 18:39:01,025] Trial 7 pruned. 
+[I 2026-07-29 18:58:07,272] Trial 8 finished with value: 1.8181818181818181 and parameters: {'ent_coef_start': 0.02286354358118723, 'ent_coef_end': 0.00048343124221172587, 'learning_rate': 0.00011219917823432894, 'num_layers': 2, 'hidden_dim': 128, 'clip_range': 0.2, 'decay_fraction': 0.7351540130094034}. Best is trial 0 with value: 0.0.

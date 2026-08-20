@@ -1,0 +1,7 @@
+=== E8 clean pass: deterministic (seed 0) ===
+
+wrote 516 rows to experiments\results\week25\e8_clean\e1_e8_clean_seed0_baselines.csv
+=== E8 clean pass: RL stochastic (seeds 1-4) ===
+
+wrote 172 rows to experiments\results\week25\e8_clean\e1_e8_clean_rl_stochastic.csv
+E8_CLEAN_DONE

@@ -1,0 +1,27 @@
+# Python environments -- rebuilt from pyproject.toml/requirements.txt, never committed.
+# .venv-linux/ in particular is ~5.3GB (a full standalone install, not
+# --system-site-packages like .venv/) -- committing it would make every clone
+# multi-gigabyte for no reason, since it's 100% regenerable from the pinned deps.
+.venv/
+.venv-linux/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# Trained model checkpoints (~1GB across all training stages) and TensorBoard event
+# logs -- large, regenerable (via the training commands in README.md), and not needed
+# to read/audit the results themselves (the CSVs/tables/figures are what's cited).
+# The COMPLETE archive, including every checkpoint, ships as the Zenodo deposit
+# (FINAL_REPRODUCIBILITY_REPORT.md Section 5) -- that is the canonical, full-
+# reproduction artifact; this git repository is the code + small result-summary layer.
+**/checkpoints/*.zip
+**/tb_logs/
+experiments/results/optuna*.db
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.Rhistory

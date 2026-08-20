@@ -1,0 +1,30 @@
+      mk01         rl disruption=none             seed=1   Cmax=53.0       RPD=  32.50%    0.090s feasible=True status=OK
+      mk01         rl disruption=none             seed=2   Cmax=63.0       RPD=  57.50%    0.138s feasible=True status=OK
+      mk01         rl disruption=none             seed=3   Cmax=53.0       RPD=  32.50%    0.192s feasible=True status=OK
+      mk01         rl disruption=none             seed=4   Cmax=54.0       RPD=  35.00%    0.121s feasible=True status=OK
+      mk02         rl disruption=none             seed=1   Cmax=70.0       RPD= 169.23%    0.089s feasible=True status=OK
+      mk02         rl disruption=none             seed=2   Cmax=77.0       RPD= 196.15%    0.096s feasible=True status=OK
+      mk02         rl disruption=none             seed=3   Cmax=61.0       RPD= 134.62%    0.176s feasible=True status=OK
+      mk02         rl disruption=none             seed=4   Cmax=59.0       RPD= 126.92%    0.265s feasible=True status=OK
+      mk03         rl disruption=none             seed=1   Cmax=350.0      RPD=  71.57%    0.434s feasible=True status=OK
+      mk03         rl disruption=none             seed=2   Cmax=333.0      RPD=  63.23%    0.698s feasible=True status=OK
+      mk03         rl disruption=none             seed=3   Cmax=327.0      RPD=  60.29%    1.064s feasible=True status=OK
+      mk03         rl disruption=none             seed=4   Cmax=321.0      RPD=  57.35%    0.552s feasible=True status=OK
+      mk04         rl disruption=none             seed=1   Cmax=82.0       RPD=  36.67%    0.313s feasible=True status=OK
+      mk04         rl disruption=none             seed=2   Cmax=92.0       RPD=  53.33%    0.392s feasible=True status=OK
+      mk04         rl disruption=none             seed=3   Cmax=83.0       RPD=  38.33%    0.384s feasible=True status=OK
+      mk04         rl disruption=none             seed=4   Cmax=97.0       RPD=  61.67%    0.365s feasible=True status=OK
+      mk05         rl disruption=none             seed=1   Cmax=197.0      RPD=  14.54%    0.388s feasible=True status=OK
+      mk05         rl disruption=none             seed=2   Cmax=202.0      RPD=  17.44%    0.327s feasible=True status=OK
+      mk05         rl disruption=none             seed=3   Cmax=200.0      RPD=  16.28%    0.378s feasible=True status=OK
+      mk05         rl disruption=none             seed=4   Cmax=208.0      RPD=  20.93%    0.439s feasible=True status=OK
+      mk06         rl disruption=none             seed=1   Cmax=176.0      RPD= 203.45%    0.273s feasible=True status=OK
+      mk06         rl disruption=none             seed=2   Cmax=202.0      RPD= 248.28%    0.492s feasible=True status=OK
+      mk06         rl disruption=none             seed=3   Cmax=227.0      RPD= 291.38%    0.321s feasible=True status=OK
+      mk06         rl disruption=none             seed=4   Cmax=228.0      RPD= 293.10%    0.336s feasible=True status=OK
+      mk07         rl disruption=none             seed=1   Cmax=300.0      RPD= 115.83%    0.254s feasible=True status=OK
+      mk07         rl disruption=none             seed=2   Cmax=327.0      RPD= 135.25%    0.261s feasible=True status=OK
+      mk07         rl disruption=none             seed=3   Cmax=303.0      RPD= 117.99%    0.135s feasible=True status=OK
+      mk07         rl disruption=none             seed=4   Cmax=299.0      RPD= 115.11%    0.441s feasible=True status=OK
+
+wrote 28 rows to experiments/results/week24/e2_armB_mk_stochastic.csv

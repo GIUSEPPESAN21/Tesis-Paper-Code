@@ -1,0 +1,8 @@
+name,family,num_jobs,num_machines,best_makespan,status,reference
+mk01,brandimarte,10,6,40,proven,"Brandimarte (1993), via SchedulingLab/fjsp-instances"
+mk02,brandimarte,10,6,26,best_known,"Brandimarte (1993), via SchedulingLab/fjsp-instances"
+mk03,brandimarte,15,8,204,proven,"Brandimarte (1993), via SchedulingLab/fjsp-instances"
+mk04,brandimarte,15,8,60,proven,"Brandimarte (1993), via SchedulingLab/fjsp-instances"
+mk05,brandimarte,15,4,172,best_known,"Brandimarte (1993), via SchedulingLab/fjsp-instances"
+mk06,brandimarte,10,15,58,best_known,"Brandimarte (1993), via SchedulingLab/fjsp-instances"
+mk07,brandimarte,20,5,139,best_known,"Brandimarte (1993), via SchedulingLab/fjsp-instances"

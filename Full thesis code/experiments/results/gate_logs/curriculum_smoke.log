@@ -1,0 +1,142 @@
+Logging to C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\results\curriculum_smoke\tb_logs\curriculum_stage00_la01
+[stage 00] la01 (JSSP), transfer={'transferred_keys': 0, 'skipped_keys': 0}
+------------------------------------------
+| custom/                     |          |
+|    actor_logit_abs_max      | 0.0141   |
+|    actor_logit_abs_mean     | 0.00437  |
+|    best_makespan            | 1e+03    |
+|    machine_embedding_norm   | 7.62     |
+|    makespan                 | 1.26e+03 |
+|    makespan_rpd_pct         | 88.7     |
+|    operation_embedding_norm | 7.81     |
+| rollout/                    |          |
+|    ep_len_mean              | 50       |
+|    ep_rew_mean              | -1.13    |
+| time/                       |          |
+|    fps                      | 162      |
+|    iterations               | 1        |
+|    time_elapsed             | 3        |
+|    total_timesteps          | 600      |
+------------------------------------------
+-----------------------------------------------
+| custom/                     |               |
+|    actor_logit_abs_max      | 0.02          |
+|    actor_logit_abs_mean     | 0.00907       |
+|    best_makespan            | 906           |
+|    machine_embedding_norm   | 7.77          |
+|    makespan                 | 1.08e+03      |
+|    makespan_rpd_pct         | 62.8          |
+|    operation_embedding_norm | 7.92          |
+| rollout/                    |               |
+|    ep_len_mean              | 50            |
+|    ep_rew_mean              | -1.14         |
+| time/                       |               |
+|    fps                      | 93            |
+|    iterations               | 2             |
+|    time_elapsed             | 12            |
+|    total_timesteps          | 1200          |
+| train/                      |               |
+|    approx_kl                | 1.1730504e-05 |
+|    clip_fraction            | 0             |
+|    clip_range               | 0.2           |
+|    entropy_loss             | -1.96         |
+|    explained_variance       | 0.478         |
+|    learning_rate            | 0.0002        |
+|    loss                     | -0.00671      |
+|    n_updates                | 3             |
+|    policy_gradient_loss     | -0.000274     |
+|    value_loss               | 0.0237        |
+-----------------------------------------------
+----------------------------------------------
+| custom/                     |              |
+|    actor_logit_abs_max      | 0.0262       |
+|    actor_logit_abs_mean     | 0.0103       |
+|    best_makespan            | 906          |
+|    machine_embedding_norm   | 7.81         |
+|    makespan                 | 1.16e+03     |
+|    makespan_rpd_pct         | 73.4         |
+|    operation_embedding_norm | 7.99         |
+| rollout/                    |              |
+|    ep_len_mean              | 50           |
+|    ep_rew_mean              | -1.14        |
+| time/                       |              |
+|    fps                      | 94           |
+|    iterations               | 3            |
+|    time_elapsed             | 19           |
+|    total_timesteps          | 1800         |
+| train/                      |              |
+|    approx_kl                | 4.282749e-06 |
+|    clip_fraction            | 0            |
+|    clip_range               | 0.2          |
+|    entropy_loss             | -1.95        |
+|    explained_variance       | 0.534        |
+|    learning_rate            | 0.0002       |
+|    loss                     | -0.0147      |
+|    n_updates                | 6            |
+|    policy_gradient_loss     | -0.000106    |
+|    value_loss               | 0.0199       |
+----------------------------------------------
+-----------------------------------------------
+| custom/                     |               |
+|    actor_logit_abs_max      | 0.03          |
+|    actor_logit_abs_mean     | 0.0139        |
+|    best_makespan            | 906           |
+|    machine_embedding_norm   | 7.88          |
+|    makespan                 | 1.28e+03      |
+|    makespan_rpd_pct         | 92.8          |
+|    operation_embedding_norm | 8.07          |
+| rollout/                    |               |
+|    ep_len_mean              | 50            |
+|    ep_rew_mean              | -1.14         |
+| time/                       |               |
+|    fps                      | 88            |
+|    iterations               | 4             |
+|    time_elapsed             | 27            |
+|    total_timesteps          | 2400          |
+| train/                      |               |
+|    approx_kl                | 8.1497865e-06 |
+|    clip_fraction            | 0             |
+|    clip_range               | 0.2           |
+|    entropy_loss             | -1.96         |
+|    explained_variance       | 0.776         |
+|    learning_rate            | 0.0002        |
+|    loss                     | -0.0139       |
+|    n_updates                | 9             |
+|    policy_gradient_loss     | -0.000182     |
+|    value_loss               | 0.0137        |
+-----------------------------------------------
+[stage 00] done: greedy RPD=132.88% (0.5 min)
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\train_curriculum.py", line 329, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\train_curriculum.py", line 316, in main
+    run_curriculum(
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\train_curriculum.py", line 217, in run_curriculum
+    gen_rows = zero_shot_generalization_eval(model, heldout_pairs, n_sampled=min(20, n_sampled_eval), seed=0)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\train_curriculum.py", line 140, in zero_shot_generalization_eval
+    evaluation = evaluate_policy_rollouts(model, name, fjsp, n_sampled, seed)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\train_hetero.py", line 248, in evaluate_policy_rollouts
+    greedy_makespan, greedy_feasible = rollout(True, seed)
+                                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\train_hetero.py", line 241, in rollout
+    action, _ = model.predict(
+                ^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\.venv\Lib\site-packages\sb3_contrib\ppo_mask\ppo_mask.py", line 307, in predict
+    return self.policy.predict(observation, state, episode_start, deterministic, action_masks=action_masks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\.venv\Lib\site-packages\sb3_contrib\common\maskable\policies.py", line 303, in predict
+    obs_tensor, vectorized_env = self.obs_to_tensor(observation)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\.venv\Lib\site-packages\stable_baselines3\common\policies.py", line 258, in obs_to_tensor
+    vectorized_env = vectorized_env or is_vectorized_observation(obs_, obs_space)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\.venv\Lib\site-packages\stable_baselines3\common\utils.py", line 487, in is_vectorized_observation
+    return is_vec_obs_func(observation, observation_space)  # type: ignore[operator]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\.venv\Lib\site-packages\stable_baselines3\common\utils.py", line 354, in is_vectorized_box_observation
+    raise ValueError(
+ValueError: Error: Unexpected observation shape (150, 8) for Box environment, please use (50, 8) or (n_env, 50, 8) for the observation shape.
+exit=1

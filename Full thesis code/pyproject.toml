@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thesis-fjsp-drl"
+version = "0.1.0"
+description = "DRL job-shop scheduling research codebase (master's thesis)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy==2.4.6",
+    "pandas==2.2.2",
+    "matplotlib==3.8.4",
+    "gymnasium==1.3.0",
+    "torch==2.12.1",
+    "stable_baselines3==2.9.0",
+    "sb3_contrib==2.9.0",
+    "ortools==9.15.6755",
+    "scipy==1.15.2",
+    "statsmodels==0.14.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+# TensorBoard is the Week 18 monitoring tool (TrainingPlan_Week17.md Section 4).  It is
+# optional on purpose: experiments/train_hetero.py degrades to CSV logging without it,
+# so nothing in the pipeline is unreproducible on a machine that lacks it.
+monitoring = ["tensorboard==2.21.0"]
+# Week 21 hyperparameter search (experiments/hpo_hetero.py) -- exploratory, upstream of
+# the frozen architecture/hyperparameters E0-E8 actually use (hpo_winner.json). Not
+# needed to reproduce the thesis's confirmatory results, only to re-run the search itself.
+hpo = ["optuna==4.9.0"]
+
+[tool.setuptools]
+packages = ["envs", "models", "baselines"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: exact-solver or long-rollout tests (deselect with '-m \"not slow\"')",
+]

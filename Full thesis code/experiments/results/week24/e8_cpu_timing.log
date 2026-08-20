@@ -1,0 +1,6 @@
+{'instance': 'ft06', 'num_operations': 36, 'rl_ms_per_decision_multithread': 4.8566, 'rl_ms_per_decision_singlethread': 1.0613, 'rl_makespan': 73.0, 'cpsat_wall_clock_s': 0.1029, 'cpsat_status': 'OPTIMAL', 'singlethread_vs_multithread_ratio': 0.219}
+{'instance': 'la05', 'num_operations': 50, 'rl_ms_per_decision_multithread': 1.0776, 'rl_ms_per_decision_singlethread': 1.036, 'rl_makespan': 639.0, 'cpsat_wall_clock_s': 0.0058, 'cpsat_status': 'OPTIMAL', 'singlethread_vs_multithread_ratio': 0.961}
+{'instance': 'la20', 'num_operations': 100, 'rl_ms_per_decision_multithread': 1.2989, 'rl_ms_per_decision_singlethread': 1.3128, 'rl_makespan': 951.0, 'cpsat_wall_clock_s': 0.1767, 'cpsat_status': 'OPTIMAL', 'singlethread_vs_multithread_ratio': 1.011}
+{'instance': 'la35', 'num_operations': 300, 'rl_ms_per_decision_multithread': 3.4483, 'rl_ms_per_decision_singlethread': 3.3568, 'rl_makespan': 2381.0, 'cpsat_wall_clock_s': 0.1716, 'cpsat_status': 'OPTIMAL', 'singlethread_vs_multithread_ratio': 0.973}
+
+wrote 4 rows to /home/aiaindustrial/Downloads/THESIS MASTER'S/Full thesis code/experiments/results/week24/e8_cpu_timing.csv

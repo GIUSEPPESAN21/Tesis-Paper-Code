@@ -1,0 +1,4 @@
+instance,family,num_jobs,num_machines,method,disruption,seed,makespan,known_optimum,rpd_pct,wall_clock_s,feasible,status,is_optimal,violations_count,timestamp
+mk01,brandimarte,10,6,ga,none,0,42.0,40,5.0,60.0127,True,OK,False,0,2026-07-29T16:29:44+00:00
+mk01,brandimarte,10,6,cpsat_fjsp,none,0,40.0,40,0.0,0.2498,True,OPTIMAL,True,0,2026-07-29T16:29:44+00:00
+mk01,brandimarte,10,6,rl,none,0,43.0,40,7.5,0.2962,True,OK,False,0,2026-07-29T16:29:44+00:00

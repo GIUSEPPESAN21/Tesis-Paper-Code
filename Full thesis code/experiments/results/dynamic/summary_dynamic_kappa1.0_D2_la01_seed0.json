@@ -1,0 +1,31 @@
+{
+  "run_name": "dynamic_kappa1.0_D2_la01_seed0",
+  "instance": "la01",
+  "kappa": 1.0,
+  "stage": "D2",
+  "warm_start_checkpoint": "experiments\\results\\dynamic\\checkpoints\\dynamic_kappa1.0_D1_ft06_final.zip",
+  "transferred_keys": 240,
+  "timesteps": 100000,
+  "episodes": 1204,
+  "train_wall_clock_s": 1933.3,
+  "static_lower_bound": 666,
+  "reference_optimum": 666,
+  "best_training_makespan": 620.2434727458689,
+  "last_100_mean_makespan": 1305.6750731287898,
+  "checkpoint": "experiments\\results\\dynamic\\checkpoints\\dynamic_kappa1.0_D2_la01_final.zip",
+  "hyperparameters": {
+    "n_envs": 4,
+    "n_steps": 300,
+    "batch_size": 64,
+    "n_epochs": 3,
+    "learning_rate": 0.0002,
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "hidden_dim": 96,
+    "num_layers": 4,
+    "seed": 0
+  }
+}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+# Trained model checkpoints are large and regenerable; plots/metrics are kept
+# for the validation report.
+experiments/results/*.zip

@@ -1,0 +1,10 @@
+[ablation] reference / ft06 / seed 0
+[ablation] reference/ft06/seed0: greedy RPD=98.18%
+[ablation] homogeneous / ft06 / seed 0
+[ablation] homogeneous/ft06/seed0: greedy RPD=178.18%
+[ablation] gat_hybrid / ft06 / seed 0
+[ablation] gat_hybrid/ft06/seed0: greedy RPD=60.00%
+[ablation] sparse_reward / ft06 / seed 0
+[ablation] sparse_reward/ft06/seed0: greedy RPD=58.18%
+[done] 4 runs -> C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\results\ablations_smoke\ablation_results.csv
+exit=0

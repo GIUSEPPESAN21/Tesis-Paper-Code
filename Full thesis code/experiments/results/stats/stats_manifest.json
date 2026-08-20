@@ -1,0 +1,309 @@
+{
+  "provenance": [
+    {
+      "experiment_id": "E1",
+      "paths": [
+        "experiments\\results\\week24\\e1_seed0_baselines.csv",
+        "experiments\\results\\week24\\e1_rl_stochastic.csv"
+      ],
+      "n_rows_loaded": 688,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E2a",
+      "paths": [
+        "experiments\\results\\week24\\e2_armA_synth_seed0.csv",
+        "experiments\\results\\week24\\e2_armA_synth_stochastic.csv"
+      ],
+      "n_rows_loaded": 301,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E2b",
+      "paths": [
+        "experiments\\results\\week24\\e2_armB_mk_seed0.csv",
+        "experiments\\results\\week24\\e2_armB_mk_stochastic.csv"
+      ],
+      "n_rows_loaded": 49,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E3",
+      "paths": [
+        "experiments\\results\\week24\\e3_generalization_la21_la40.csv"
+      ],
+      "n_rows_loaded": 240,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E8",
+      "paths": [
+        "experiments\\results\\week25\\e8_clean\\e1_e8_clean_seed0_baselines.csv",
+        "experiments\\results\\week25\\e8_clean\\e1_e8_clean_rl_stochastic.csv"
+      ],
+      "n_rows_loaded": 688,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E4_breakdowns_A0.95",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e4_breakdowns_avail0.95.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e4_breakdowns_avail0.95_rl.csv"
+      ],
+      "n_rows_loaded": 600,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E4_breakdowns_A0.90",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e4_breakdowns_avail0.90.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e4_breakdowns_avail0.90_rl.csv"
+      ],
+      "n_rows_loaded": 600,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E4_breakdowns_A0.80",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e4_breakdowns_avail0.80.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e4_breakdowns_avail0.80_rl.csv"
+      ],
+      "n_rows_loaded": 600,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E5_stochastic_s0.10",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e5_stochastic_sigma0.1.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e5_stochastic_sigma0.1_rl.csv"
+      ],
+      "n_rows_loaded": 600,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E5_stochastic_s0.25",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e5_stochastic_sigma0.25.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e5_stochastic_sigma0.25_rl.csv"
+      ],
+      "n_rows_loaded": 600,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E5_stochastic_s0.50",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e5_stochastic_sigma0.5.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e5_stochastic_sigma0.5_rl.csv"
+      ],
+      "n_rows_loaded": 600,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E6_arrivals_u0.70",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e6_arrivals_util0.7.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e6_arrivals_util0.7_rl.csv"
+      ],
+      "n_rows_loaded": 300,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E6_arrivals_u0.85",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e6_arrivals_util0.85.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e6_arrivals_util0.85_rl.csv"
+      ],
+      "n_rows_loaded": 300,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E6_arrivals_u0.95",
+      "paths": [
+        "experiments\\results\\week24\\e4e5e6\\e6_arrivals_util0.95.csv",
+        "experiments\\results\\week24\\e4e5e6_rl\\e6_arrivals_util0.95_rl.csv"
+      ],
+      "n_rows_loaded": 300,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E4_breakdowns_A0.95",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E4_breakdowns_A0.95.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E4_breakdowns_A0.90",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E4_breakdowns_A0.90.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E4_breakdowns_A0.80",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E4_breakdowns_A0.80.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E5_stochastic_s0.10",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E5_stochastic_s0.10.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E5_stochastic_s0.25",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E5_stochastic_s0.25.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E5_stochastic_s0.50",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E5_stochastic_s0.50.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E6_arrivals_u0.70",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E6_arrivals_u0.70.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E6_arrivals_u0.85",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E6_arrivals_u0.85.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_E6_arrivals_u0.95",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_E6_arrivals_u0.95.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa0.5_nominal",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa0.5_nominal.csv"
+      ],
+      "n_rows_loaded": 2,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E4_breakdowns_A0.95",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E4_breakdowns_A0.95.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E4_breakdowns_A0.90",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E4_breakdowns_A0.90.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E4_breakdowns_A0.80",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E4_breakdowns_A0.80.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E5_stochastic_s0.10",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E5_stochastic_s0.10.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E5_stochastic_s0.25",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E5_stochastic_s0.25.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E5_stochastic_s0.50",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E5_stochastic_s0.50.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E6_arrivals_u0.70",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E6_arrivals_u0.70.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E6_arrivals_u0.85",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E6_arrivals_u0.85.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_E6_arrivals_u0.95",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_E6_arrivals_u0.95.csv"
+      ],
+      "n_rows_loaded": 60,
+      "n_rows_infeasible_dropped": 0
+    },
+    {
+      "experiment_id": "E7_kappa1.0_nominal",
+      "paths": [
+        "experiments\\results\\dynamic\\eval_kappa1.0_nominal.csv"
+      ],
+      "n_rows_loaded": 2,
+      "n_rows_infeasible_dropped": 0
+    }
+  ],
+  "n_verdicts": 39,
+  "figures": {
+    "1.5-2x (la21-la25)": "experiments\\results\\stats\\figures\\cd_diagram_e3_1.5-2x.png",
+    "2.0x (la26-la30)": "experiments\\results\\stats\\figures\\cd_diagram_e3_2.0x.png",
+    "3.0x (la31-la35)": "experiments\\results\\stats\\figures\\cd_diagram_e3_3.0x.png",
+    "2.25x (la36-la40)": "experiments\\results\\stats\\figures\\cd_diagram_e3_2.25x.png",
+    "e3_rpd_vs_size": "experiments\\results\\stats\\figures\\e3_rpd_vs_size.png",
+    "ri_vs_availability": "experiments\\results\\stats\\figures\\ri_vs_availability_breakdowns.png",
+    "ri_vs_sigma": "experiments\\results\\stats\\figures\\ri_vs_sigma_stochastic_times.png",
+    "ri_vs_utilization": "experiments\\results\\stats\\figures\\ri_vs_utilization_arrivals.png",
+    "e8_latency_vs_size": "experiments\\results\\stats\\figures\\e8_latency_vs_size.png"
+  },
+  "tables": [
+    "h1_h5_verdict.md",
+    "h1_h5_verdict.tex",
+    "e1_rpd_summary.md",
+    "e3_rpd_summary.md",
+    "e4e5e6e7_ri_summary.md",
+    "e8_latency_summary.md"
+  ]
+}

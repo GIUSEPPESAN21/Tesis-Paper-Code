@@ -1,0 +1,20 @@
+# Environments -- the image builds its own
+.venv/
+.venv-linux/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Results tree: checkpoints (~1GB), TensorBoard logs, per-row CSVs -- mount these in
+# at `docker run` time instead of baking them into the image (see README.md).
+# Keep the scripts/configs/small summary files that ARE code, not results data.
+experiments/results/**/*.zip
+experiments/results/**/tb_logs/
+experiments/results/**/*.png
+experiments/results/optuna*.db
+
+.git/
+.gitignore

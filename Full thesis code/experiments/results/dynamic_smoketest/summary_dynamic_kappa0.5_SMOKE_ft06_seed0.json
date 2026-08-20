@@ -1,0 +1,31 @@
+{
+  "run_name": "dynamic_kappa0.5_SMOKE_ft06_seed0",
+  "instance": "ft06",
+  "kappa": 0.5,
+  "stage": "SMOKE",
+  "warm_start_checkpoint": "experiments\\results\\curriculum_full\\checkpoints\\curriculum_stage19_la20_final.zip",
+  "transferred_keys": 240,
+  "timesteps": 2000,
+  "episodes": 27,
+  "train_wall_clock_s": 55.9,
+  "static_lower_bound": 52,
+  "reference_optimum": 55,
+  "best_training_makespan": 58.14568813285847,
+  "last_100_mean_makespan": 112.27709281688391,
+  "checkpoint": "experiments\\results\\dynamic_smoketest\\checkpoints\\dynamic_kappa0.5_SMOKE_ft06_final.zip",
+  "hyperparameters": {
+    "n_envs": 2,
+    "n_steps": 216,
+    "batch_size": 64,
+    "n_epochs": 3,
+    "learning_rate": 0.0002,
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "hidden_dim": 96,
+    "num_layers": 4,
+    "seed": 0
+  }
+}

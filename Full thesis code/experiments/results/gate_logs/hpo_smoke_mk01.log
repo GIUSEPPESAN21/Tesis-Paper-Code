@@ -1,0 +1,12 @@
+C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\.venv\Lib\site-packages\optuna\_experimental.py:33: ExperimentalWarning: Argument ``multivariate`` is an experimental feature. The interface can change in the future.
+  optuna_warn(
+[I 2026-07-29 12:59:40,540] A new study created in RDB with name: hpo_mk01_smoke
+[I 2026-07-29 13:03:40,840] Trial 0 finished with value: 165.0 and parameters: {'ent_coef_start': 0.01769226795453276, 'ent_coef_end': 0.004051266968085445, 'learning_rate': 0.00010570046446158275, 'num_layers': 4, 'hidden_dim': 96, 'clip_range': 0.25, 'decay_fraction': 0.25227757982092447}. Best is trial 0 with value: 165.0.
+[I 2026-07-29 13:05:22,137] Trial 1 finished with value: 190.0 and parameters: {'ent_coef_start': 0.005238276295543259, 'ent_coef_end': 0.0027004141907670132, 'learning_rate': 0.00020992539475792144, 'num_layers': 3, 'hidden_dim': 64, 'clip_range': 0.15, 'decay_fraction': 0.6645402136605301}. Best is trial 0 with value: 165.0.
+C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\hpo_hetero.py:463: ExperimentalWarning: optuna.visualization.matplotlib._param_importances.plot_param_importances is experimental (supported from v2.2.0). The interface can change in the future.
+  ax = plot_param_importances(study)
+[done] 2 trials, best value=165.000
+[done] best params={'ent_coef_start': 0.01769226795453276, 'ent_coef_end': 0.004051266968085445, 'learning_rate': 0.00010570046446158275, 'num_layers': 4, 'hidden_dim': 96, 'clip_range': 0.25, 'decay_fraction': 0.25227757982092447}
+[done] best config -> C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\results\hpo_best_mk01_smoke.json
+[done] param importance plot -> C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\experiments\results\hpo_param_importance_mk01_smoke.png
+exit=0
