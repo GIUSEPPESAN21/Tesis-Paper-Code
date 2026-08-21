@@ -320,9 +320,10 @@ md = tabla_politicas_reprogramacion_markdown(
 1. **Fase 0(d) — Estudio 1 sin datos crudos.** Decisión pendiente del usuario:
    ¿regenerar con este código (T8.1 lo deja preparado) o corregir la Declaración de
    disponibilidad de datos del manuscrito? Ver `AUDIT_PREFLIGHT.md` §(d).
-2. **Fase 0(a) — rho de Spearman del artefacto de RI.** `experiments/audit/ri_artifact_check.py`
-   escrito pero no corrido; el valor real (esperado entre -0.93 y -0.98) queda
-   pendiente de la primera ejecución.
+2. ~~**Fase 0(a) — rho de Spearman del artefacto de RI.**~~ **RESUELTO 2026-08-21**:
+   corrido, ver `EXECUTION_LOG_2026-08-21.md` y `AUDIT_PREFLIGHT.md` §(a). Los seis
+   regímenes de averías/tiempos estocásticos caen dentro del rango predicho
+   (-0.93 a -0.98), p entre 1e-11 y 1e-13.
 3. **Fase 1(T1.3) — formato del CSV de entrada.** `slack_vs_robustness.py` espera un
    CSV largo `instance,method,regime,ri` que hoy no existe como archivo independiente
    (el RI vive calculado inline en `report.py`); hay que exportarlo primero.

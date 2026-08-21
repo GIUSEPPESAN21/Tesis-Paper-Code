@@ -19,14 +19,15 @@ def _combined_frame() -> pd.DataFrame:
                 {
                     "instance": instance, "family": family, "method": method,
                     "disruption": "none", "seed": 0, "rpd_pct": 10.0 + i, "makespan": 100.0 + i,
-                    "num_operations": 36, "wall_clock_s": 0.01, "experiment_id": "E1",
+                    "num_operations": 36, "wall_clock_s": 0.01, "ms_per_decision": 0.01 / 36 * 1000,
+                    "experiment_id": "E1",
                 }
             )
         e1_rows.append(
             {
                 "instance": instance, "family": family, "method": "rl", "disruption": "none",
                 "seed": 0, "rpd_pct": 15.0, "makespan": 105.0, "num_operations": 36,
-                "wall_clock_s": 0.02, "experiment_id": "E1",
+                "wall_clock_s": 0.02, "ms_per_decision": 0.02 / 36 * 1000, "experiment_id": "E1",
             }
         )
     return pd.DataFrame(e1_rows)

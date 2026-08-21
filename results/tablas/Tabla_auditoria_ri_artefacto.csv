@@ -1,0 +1,10 @@
+regime,n_pdrs,rho,p_value,within_expected_range,pdr_names
+e4_breakdowns_avail0.95,10,-0.9774107469916955,1.3402218331346665e-13,True,"('cr', 'edd', 'fifo', 'lor', 'lpt', 'lwkr', 'mor', 'mwkr', 'rl', 'spt')"
+e4_breakdowns_avail0.90,10,-0.9585854244379265,2.928245430467432e-11,True,"('cr', 'edd', 'fifo', 'lor', 'lpt', 'lwkr', 'mor', 'mwkr', 'rl', 'spt')"
+e4_breakdowns_avail0.80,10,-0.9585854244379265,2.928245430467432e-11,True,"('cr', 'edd', 'fifo', 'lor', 'lpt', 'lwkr', 'mor', 'mwkr', 'rl', 'spt')"
+e5_stochastic_sigma0.1,10,-0.9751517082852432,3.134450661438511e-13,True,"('cr', 'edd', 'fifo', 'lor', 'lpt', 'lwkr', 'mor', 'mwkr', 'rl', 'spt')"
+e5_stochastic_sigma0.25,10,-0.9743986953830925,4.0894192710125133e-13,True,"('cr', 'edd', 'fifo', 'lor', 'lpt', 'lwkr', 'mor', 'mwkr', 'rl', 'spt')"
+e5_stochastic_sigma0.5,10,-0.9713866437744894,1.1006743373408042e-12,True,"('cr', 'edd', 'fifo', 'lor', 'lpt', 'lwkr', 'mor', 'mwkr', 'rl', 'spt')"
+e6_arrivals_util0.7,5,-0.9483326481409007,2.9285883237761186e-05,True,"('fifo', 'lor', 'lwkr', 'mor', 'rl')"
+e6_arrivals_util0.85,5,-0.9240164263936982,0.00013295265816009116,False,"('fifo', 'lor', 'lwkr', 'mor', 'rl')"
+e6_arrivals_util0.95,5,-0.9240164263936982,0.00013295265816009116,False,"('fifo', 'lor', 'lwkr', 'mor', 'rl')"

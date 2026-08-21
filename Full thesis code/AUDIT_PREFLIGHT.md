@@ -33,10 +33,34 @@ llegadas (E6), donde solo hay 4 PDR (ver (c)).
 **Valor a reproducir:** rho de Spearman entre -0.93 y -0.98, p < 3e-4, en los seis
 regímenes de averías/tiempos estocásticos.
 
-**Estado:** `[PENDIENTE-CORRIDA: experiments/audit/ri_artifact_check.py]` — no se computó
-la correlación completa sobre las 9 PDR (habría requerido ejecutar el pipeline de
-agregación sobre las 9×6 celdas, fuera de lo que la Regla Cero permite como "lectura").
-Lo que **sí** se verificó por lectura directa, como evidencia consistente con la
+**Estado: EJECUTADO el 2026-08-21** (corrida corta, autorizada explícitamente por el
+usuario para producir resultados preliminares — ver `EXECUTION_LOG_2026-08-21.md`).
+Resultado real, sobre las 10 series disponibles por régimen (9 PDR + RL):
+
+| Régimen | rho | p | ¿Dentro del rango del tutor (-0.93 a -0.98, p<3e-4)? |
+|---|---|---|---|
+| E4 averías A=0.95 | -0.9774 | 1.34e-13 | **Sí** |
+| E4 averías A=0.90 | -0.9586 | 2.93e-11 | **Sí** |
+| E4 averías A=0.80 | -0.9586 | 2.93e-11 | **Sí** |
+| E5 tiempos σ=0.10 | -0.9752 | 3.13e-13 | **Sí** |
+| E5 tiempos σ=0.25 | -0.9744 | 4.09e-13 | **Sí** |
+| E5 tiempos σ=0.50 | -0.9714 | 1.10e-12 | **Sí** |
+| E6 llegadas ρ=0.70 (descriptivo, n=5) | -0.9483 | 2.93e-05 | fuera del rango numérico exacto, pero misma dirección/fuerza |
+| E6 llegadas ρ=0.85 (descriptivo, n=5) | -0.9240 | 1.33e-04 | fuera del rango numérico exacto, pero misma dirección/fuerza |
+| E6 llegadas ρ=0.95 (descriptivo, n=5) | -0.9240 | 1.33e-04 | fuera del rango numérico exacto, pero misma dirección/fuerza |
+
+**Los seis regímenes de averías/tiempos estocásticos caen EXACTAMENTE dentro del rango
+que predijo el tutor, con significancia muy superior al umbral pedido** (p entre 1e-11 y
+1e-13, muy por debajo de 3e-4). Esto es una confirmación fuerte, medida, del artefacto
+mecánico: el RI de una PDR está casi perfectamente anti-correlacionado con qué tan malo
+es su plan nominal, en los seis regímenes donde las 9 PDR compiten en igualdad de
+condiciones. Bajo llegadas (solo 4 PDR + RL, n=5), la correlación sigue siendo fuerte y
+en la misma dirección, pero se reporta aparte (rango numérico del tutor no calibrado
+para n=5) — consistente con (c) más abajo.
+
+Tabla completa: [`../results/tablas/Tabla_auditoria_ri_artefacto.csv`](../results/tablas/Tabla_auditoria_ri_artefacto.csv).
+
+Lo que **también** se verificó por lectura directa, como evidencia consistente con la
 hipótesis del tutor (ver (b)): la PDR con el RPD nominal más alto del conjunto (`cr`,
 210.9%–229.3%) es también la que tiene el RI más negativo en los seis regímenes
 (-0.40 a -0.59), mientras que la PDR con mejor RPD nominal del conjunto (`fifo`, la

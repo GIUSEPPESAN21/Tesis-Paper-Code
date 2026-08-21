@@ -48,7 +48,7 @@ class TestComputeRealizedQuality:
 
 class TestRiNegativeWarning:
     def test_ri_negative_flag_set_when_perturbed_below_nominal(self) -> None:
-        with pytest.warns(RuntimeWarning, match="not interpretable as robustness"):
+        with pytest.warns(RuntimeWarning, match="NOT interpretable as robustness"):
             result = compute_ri(np.array([80.0] * 30), nominal_makespan=171.0)
         assert result.ri_negative is True
         assert result.ri < 0.0

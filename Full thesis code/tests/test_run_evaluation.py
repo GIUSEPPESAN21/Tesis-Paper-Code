@@ -411,11 +411,11 @@ class TestCsvHardening:
         real_evaluate_one = run_evaluation.evaluate_one
         call_count = {"n": 0}
 
-        def flaky_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s):
+        def flaky_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s, **kwargs):
             call_count["n"] += 1
             if baseline.name == "mwkr" and seed == 1:
                 raise ValueError("simulated checkpoint-mismatch-style failure")
-            return real_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s)
+            return real_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s, **kwargs)
 
         monkeypatch.setattr(run_evaluation, "evaluate_one", flaky_evaluate_one)
 
@@ -441,10 +441,10 @@ class TestCsvHardening:
     ) -> None:
         real_evaluate_one = run_evaluation.evaluate_one
 
-        def flaky_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s):
+        def flaky_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s, **kwargs):
             if seed == 1:
                 raise RuntimeError("boom")
-            return real_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s)
+            return real_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s, **kwargs)
 
         monkeypatch.setattr(run_evaluation, "evaluate_one", flaky_evaluate_one)
         instances = run_evaluation.load_instances(["ft06"], fjsp=False, fjsp_seed=0)
@@ -473,13 +473,13 @@ class TestCsvHardening:
         seen_on_disk_before_crash: list[dict] = []
         out_path = tmp_path / "results.csv"
 
-        def flaky_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s):
+        def flaky_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s, **kwargs):
             if seed == 1:
                 # By the time the last cell runs, earlier successful rows must already
                 # be readable on disk -- not buffered only in the in-memory `rows` list.
                 seen_on_disk_before_crash.extend(_read_csv(out_path))
                 raise RuntimeError("simulated crash on the final cell")
-            return real_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s)
+            return real_evaluate_one(baseline, instance, disruption_name, disruption_config, seed, time_limit_s, **kwargs)
 
         monkeypatch.setattr(run_evaluation, "evaluate_one", flaky_evaluate_one)
         exit_code = run_evaluation.main(
@@ -492,7 +492,7 @@ class TestCsvHardening:
     def test_all_cells_failing_raises_with_failure_count_not_a_generic_message(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        def always_fails(baseline, instance, disruption_name, disruption_config, seed, time_limit_s):
+        def always_fails(baseline, instance, disruption_name, disruption_config, seed, time_limit_s, **kwargs):
             raise ValueError("every cell fails")
 
         monkeypatch.setattr(run_evaluation, "evaluate_one", always_fails)

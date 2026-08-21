@@ -22,7 +22,28 @@ documentado como tal en ``MEJORAS_TUTOR_IMPLEMENTADAS.md`` -- suficiente para ej
 la capa de politicas de ejecucion que es el entregable central de esta fase) -- con
 presupuesto reducido, y respetan las operaciones ya en curso (nunca las reasignan).
 
-No se ejecuta nada de este modulo en esta sesion (Regla Cero).
+**Hallazgo de la primera ejecucion (2026-08-21), no un defecto de este modulo:**
+un plan residual optimo, reproducido via el mismo tipo de reejecucion en orden de
+inicio que ``run_evaluation.run_predictive_reactive``/``baselines.cpsat.dispatch_order_from_starts``
+ya usan con exito para ``JSSPEnv`` (estatico), NO reproduce exactamente el optimo
+al reejecutarse contra ``DynamicJSSPEnv`` -- en ft06, sin ninguna disrupcion, un
+unico reoptimize upfront realiza 60 en vez de 55 (~9%); con reoptimizaciones
+frecuentes (period=5) baja a 59, pero no cierra la brecha del todo. Esto NO es un
+bug de ``rescheduling.py`` -- es la MISMA discrepancia de legalidad
+"completion-gated vs. dispatch-gated" que ``E7_E8_FinalPlan.md`` Sec 2.3 ya
+cuantifica para el adaptador de la politica RL ("a few percent of makespan on
+ft06/la01 with disruptions off"): ``DynamicJSSPEnv.action_masks()`` exige que la
+maquina de una operacion este libre EN ESE INSTANTE para que la accion sea legal
+(dispatch-gated), no solo que su predecesora de precedencia ya haya terminado
+(completion-gated, el supuesto bajo el cual la garantia "reproduce el optimo o
+mejora" de la tecnica de reejecucion fue probada para ``JSSPEnv``). Reportar esto
+como un hallazgo explicito en cualquier tabla que compare ``right_shift`` contra
+``periodic``/``event_triggered`` (T6.3), no como ruido -- es evidencia adicional,
+medida independientemente, de que la brecha de legalidad dispatch-gated tiene un
+costo real incluso sin disrupcion.
+
+No se ejecuta nada mas de este modulo en esta sesion salvo la verificacion anterior
+(Regla Cero para el resto del trabajo de esta sesion).
 """
 
 from __future__ import annotations
@@ -113,6 +134,28 @@ def _precedence_pairs(env: DynamicJSSPEnv, ops: tuple[int, ...]) -> list[tuple[i
             if succ in op_set:
                 pairs.append((op, succ))
     return pairs
+
+
+def _select_next_op(candidates: list[int], planned_starts: dict[int, float], env: DynamicJSSPEnv) -> int:
+    """Pick the legal op to dispatch next, honoring the plan's intended order.
+
+    Bug found by execution (2026-08-21, not caught by Regla-Cero-era review): sorting
+    candidates by ``planned_starts[op]`` alone, with no tiebreak, let Python's ``min()``
+    fall back to an effectively arbitrary tiebreak (set/dict iteration order) whenever
+    two candidates shared the same planned start time -- common at t=0 when several
+    operations are all scheduled to begin immediately on different machines. That
+    silently permuted the machine sequencing relative to the residual solver's actual
+    optimal plan, producing a worse realized makespan (60 instead of the true 55 on a
+    disruption-free ft06 residual solve). Fixed by using the SAME tiebreak
+    ``baselines.cpsat.dispatch_order_from_starts`` already uses and already relies on
+    elsewhere in this codebase (``run_evaluation.run_predictive_reactive``):
+    ``(start_time, job, position)`` -- the ``position`` component guarantees the
+    result still respects each job's technological order.
+    """
+    def key(op: int) -> tuple[float, int, int]:
+        return (planned_starts[op], int(env._job_index[op]), int(env._position_index[op]))
+
+    return min(candidates, key=key)
 
 
 def solve_residual_cpsat(
@@ -350,13 +393,13 @@ def _run_with_reopt(
         legal = set(np.flatnonzero(env.action_masks()).tolist())
         candidates = [op for op in legal if op in planned_starts]
         if candidates:
-            action = min(candidates, key=lambda op: planned_starts[op])
+            action = _select_next_op(candidates, planned_starts, env)
         else:
             # Nothing in the current plan covers a legal op (e.g. a job arrived after
             # the last reopt) -- reoptimize immediately rather than guessing.
             planned_starts = reoptimize()
             candidates = [op for op in legal if op in planned_starts]
-            action = min(candidates, key=lambda op: planned_starts[op]) if candidates else min(legal)
+            action = _select_next_op(candidates, planned_starts, env) if candidates else min(legal)
 
         _, _, terminated, _, info = env.step(action)
 
@@ -476,11 +519,11 @@ def event_triggered_reopt(
         legal = set(np.flatnonzero(env.action_masks()).tolist())
         candidates = [op for op in legal if op in planned_starts]
         if candidates:
-            action = min(candidates, key=lambda op: planned_starts[op])
+            action = _select_next_op(candidates, planned_starts, env)
         else:
             planned_starts = reoptimize()
             candidates = [op for op in legal if op in planned_starts]
-            action = min(candidates, key=lambda op: planned_starts[op]) if candidates else min(legal)
+            action = _select_next_op(candidates, planned_starts, env) if candidates else min(legal)
 
         _, _, terminated, _, info = env.step(action)
         if trigger.deviation_threshold is not None and "planned_start_deviation" in info:
