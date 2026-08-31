@@ -1,7 +1,7 @@
 # Contributing
 
 This repository accompanies a master's thesis and its two companion papers
-(`JournalArticle_LaTeX/`, `PaperCIE_LaTeX/`). It is not under active feature
+(`papers/JournalArticle_LaTeX/`, `papers/PaperCIE_LaTeX/`). It is not under active feature
 development, but issues and pull requests are welcome for:
 
 - Reproducibility problems (a command in `README.md` that doesn't work as

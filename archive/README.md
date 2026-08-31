@@ -12,7 +12,7 @@ trabajo actual):
 - `borradores_tempranos/` (25 borradores tempranos en inglés, cada uno superado por su
   versión final en español ya citada en el repo).
 - `JournalArticle.docx` / `JournalArticle_OR_DRAFT.docx` (superados por
-  `../JournalArticle_LaTeX/`), `HPO_ABLATION_REPORT_WEEK21.html` (copia sin referencias
+  `../papers/JournalArticle_LaTeX/`), `HPO_ABLATION_REPORT_WEEK21.html` (copia sin referencias
   del mismo reporte que ya existe como `.md`/`.pdf`), y los dos documentos de entrega
   institucional en Word (`Tesis Joseph Español.docx`,
   `Revision_y_ajustes_Tesis_Joseph_TNR12_Negro_Justificado.docx`) — superados por

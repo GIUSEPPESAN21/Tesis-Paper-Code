@@ -32,7 +32,7 @@ THESIS MASTER'S/                          <- archived repository root (git-tagge
 ├── docs/especificaciones/Baselines_TechSpec.md, docs/especificaciones/DynamicEnv_TechSpec.md,
 │   docs/especificaciones/GNN_PPO_Architecture_Spec.md            <- Anexos E-G (§1.7 of the thesis)
 ├── E7_E8_FinalPlan.md                      <- E7/E8 design rationale (also folded into §5.4)
-├── ConferencePaper_DRAFT.md                <- companion IEEE conference paper
+├── papers/ConferencePaper_DRAFT.md         <- companion IEEE conference paper
 ├── docs/                                    <- non-canonical drafts (docs/capitulos, docs/especificaciones,
 │                                                docs/planificacion, docs/auditorias, docs/logs) --
 │                                                see docs/README.md; not cited as primary sources
@@ -142,7 +142,7 @@ from via `FINAL_RESULTS_REPORT.md`.
 |---|---|---|
 | `figures/Fig_6.*.png/pdf` | `scripts/generate_thesis_figures.py` | Spanish labels, thesis figure numbering |
 | `results/tablas/Tabla_6.*.{csv,md,tex}` | `scripts/export_thesis_tables.py` | Format-converts already-tested pipeline tables, no recomputation |
-| `figures/paper/Fig_P*.png/pdf`, `Table_S*.{csv,md}` | `scripts/generate_paper_figures.py`, `scripts/export_paper_supplement_tables.py` | Companion paper's compact figures/supplementary tables — see `PAPER_SUPPLEMENT_NOTES.md` |
+| `figures/paper/Fig_P*.png/pdf`, `Table_S*.{csv,md}` | `scripts/generate_paper_figures.py`, `scripts/export_paper_supplement_tables.py` | Companion paper's compact figures/supplementary tables — see `papers/PAPER_SUPPLEMENT_NOTES.md` |
 
 ---
 

@@ -1,5 +1,5 @@
 """Compact, English-language figures for the IEEE conference paper
-(``ConferencePaper_DRAFT.md``), page-budget-aware (target: 6-8 pages,
+(``papers/ConferencePaper_DRAFT.md``), page-budget-aware (target: 6-8 pages,
 two-column).
 
 This does NOT recompute any statistic independently of the already-tested

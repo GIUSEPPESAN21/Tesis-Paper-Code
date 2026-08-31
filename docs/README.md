@@ -69,9 +69,13 @@ Reportes de experimentos por semana: `E0_CLOSEOUT_WEEK24.md`,
 
 - El núcleo citable: `Thesis_FINAL.md`, `Chapter6_FINAL.md`, `Chapter7_FINAL.md`,
   `FIGURES_INDEX.md`, `PreRegistration_FINAL.md`, `StatsAnalysis_TechSpec.md`,
-  `E7_E8_FinalPlan.md`, `ConferencePaper_DRAFT.md`, `CODE_APPENDIX_SUMMARY.md`,
-  `README.md`, `FINAL_REPRODUCIBILITY_REPORT.md`, `PAPER_SUPPLEMENT_NOTES.md`,
-  `CITATION.cff`, `.zenodo.json`.
-- `DefensePresentation_Outline.md` y `QA_Prep.md` — material activo de preparación
-  para la sustentación (decisión explícita del usuario, 2026-08-20: no son un
-  borrador superado, se siguen usando).
+  `E7_E8_FinalPlan.md`, `CODE_APPENDIX_SUMMARY.md`, `README.md`,
+  `FINAL_REPRODUCIBILITY_REPORT.md`, `CITATION.cff`, `.zenodo.json`.
+- `papers/ConferencePaper_DRAFT.md` y `papers/PAPER_SUPPLEMENT_NOTES.md` —
+  movidos a `papers/` (junto con `JournalArticle_LaTeX/` y `PaperCIE_LaTeX/`)
+  durante la profesionalización de la estructura, 2026-08-31 — no son borrador
+  superado, siguen citables, solo cambiaron de ubicación.
+- `defense/DefensePresentation_Outline.md` y `defense/QA_Prep.md` — material
+  activo de preparación para la sustentación (decisión explícita del usuario,
+  2026-08-20: no son un borrador superado, se siguen usando), movidos a
+  `defense/` en la misma pasada de profesionalización.

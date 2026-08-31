@@ -28,19 +28,22 @@ Tesis-Paper-Code/
 ├── FIGURES_INDEX.md                <- every figure -> thesis section, caption, data source
 ├── PreRegistration_FINAL.md        <- frozen (2026-07-29) hypotheses H1-H5, decision rules
 ├── StatsAnalysis_TechSpec.md       <- spec for experiments/stats/ (Wilcoxon/Friedman/Nemenyi)
-├── PAPER_SUPPLEMENT_NOTES.md       <- supplementary notes for the companion papers
 ├── E7_E8_FinalPlan.md              <- E7/E8 scope, preconditions, schedule
 ├── Chapter6_FINAL.md, Chapter7_FINAL.md  <- Chapter 6/7 standalone, resynced from Thesis_FINAL.md
-├── ConferencePaper_DRAFT.md         <- companion IEEE conference paper (H1-H5, condensed)
-├── JournalArticle_LaTeX/            <- companion journal article, full LaTeX source + compiled PDF
-├── PaperCIE_LaTeX/                  <- companion Computers & Industrial Engineering (Elsevier, Q1)
+├── CODE_APPENDIX_SUMMARY.md        <- thesis-appendix-ready: repo structure, chapter<->code map
+├── papers/                          <- companion papers, self-contained
+│   ├── ConferencePaper_DRAFT.md      <- companion IEEE conference paper (H1-H5, condensed)
+│   ├── PAPER_SUPPLEMENT_NOTES.md     <- supplementary notes for the companion papers
+│   ├── JournalArticle_LaTeX/         <- companion journal article, full LaTeX source + compiled PDF
+│   └── PaperCIE_LaTeX/               <- companion Computers & Industrial Engineering (Elsevier, Q1)
 │                                        submission on the RI-artifact finding: bilingual EN/ES
 │                                        manuscripts, the analysis code behind every number, and
 │                                        Paper_CIE_DecisionRecord.md (methodology/correction log)
 ├── figures/                         <- camera-ready figures (Spanish, colorblind-safe, PNG+PDF)
 │   └── paper/                        <- compact English figures/tables for the conference paper
-├── CODE_APPENDIX_SUMMARY.md        <- thesis-appendix-ready: repo structure, chapter<->code map
-├── DefensePresentation_Outline.md, QA_Prep.md  <- active defense-prep material (kept at root)
+├── defense/                         <- active defense-prep material
+│   ├── DefensePresentation_Outline.md
+│   └── QA_Prep.md
 ├── docs/                             <- non-canonical chapter/section drafts, tech specs,
 │                                        planning docs, audits, and weekly logs — see
 │                                        docs/README.md for the map; cite Thesis_FINAL.md, not these
