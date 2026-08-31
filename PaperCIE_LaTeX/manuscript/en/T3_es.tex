@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\caption{Desacuerdo entre los dos ordenamientos. $\tau$ es la correlación de rangos de Kendall entre el orden por $\RI$ y el orden por calidad realizada. Las tres últimas columnas dan la calidad realizada del método que nomina el índice, la del método realmente mejor, y la penalización de seguir al índice.}\label{tbl:reversal}
+\begin{tabular*}{\tblwidth}{@{}LLrllrrr@{}}
+\toprule
+\multirow{2}{*}{Clase} & \multirow{2}{*}{Severidad} & \multirow{2}{*}{$\tau$} & \multicolumn{2}{c}{Método elegido} & \multicolumn{3}{c}{Calidad realizada (\%)} \\
+\cmidrule(lr){4-5}\cmidrule(l){6-8}
+ & & & por $\RI$ & por $\RQ$ & del 1.\textordmasculine{} & del 2.\textordmasculine{} & penaliz. \\
+\midrule
+Averías & $A_k=0.95$ & $-0.600$ & CR & MWKR & 46.9 & 23.6 & $+23.3$ \\
+ & $A_k=0.90$ & $-0.422$ & CR & MWKR & 63.3 & 34.8 & $+28.5$ \\
+ & $A_k=0.80$ & $-0.511$ & CR & \textbf{GNN--PPO} & 90.6 & 64.9 & $+25.7$ \\
+Tiempos estocásticos & $\sigma=0.10$ & $-0.289$ & CR & MWKR & 30.6 & 12.3 & $+18.4$ \\
+ & $\sigma=0.25$ & $-0.378$ & CR & MWKR & 33.7 & 13.7 & $+20.0$ \\
+ & $\sigma=0.50$ & $-0.511$ & CR & MWKR & 40.8 & 24.9 & $+15.8$ \\
+Llegadas dinámicas & $\rho=0.70$ & $-0.400$ & LWKR & \textbf{GNN--PPO} & 268.0 & 230.4 & $+37.6$ \\
+ & $\rho=0.85$ & $-0.600$ & LWKR & \textbf{GNN--PPO} & 268.1 & 219.2 & $+48.9$ \\
+ & $\rho=0.95$ & $-0.400$ & LWKR & \textbf{GNN--PPO} & 261.1 & 211.7 & $+49.3$ \\
+\bottomrule
+\end{tabular*}
+\end{table*}

@@ -1,0 +1,11 @@
+instance,family,num_jobs,num_machines,method,disruption,seed,makespan,known_optimum,rpd_pct,wall_clock_s,feasible,status,is_optimal,violations_count,timestamp
+ft06,fisher-thompson,6,6,ga,breakdowns,0,91.82324367100652,55,66.951,30.0158,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,ga,breakdowns,1,84.80702598857772,55,54.195,30.0235,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,ga,breakdowns,2,59.0,55,7.273,30.0183,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,ga,breakdowns,3,78.56356694253779,55,42.843,30.014,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,ga,breakdowns,4,74.41148276788451,55,35.294,30.0225,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,cpsat,breakdowns,0,91.82324367100652,55,66.951,0.1396,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,cpsat,breakdowns,1,84.80702598857772,55,54.195,0.0208,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,cpsat,breakdowns,2,60.0,55,9.091,0.024,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,cpsat,breakdowns,3,78.56356694253779,55,42.843,0.0239,True,OK,False,0,2026-07-31T15:55:14+00:00
+ft06,fisher-thompson,6,6,cpsat,breakdowns,4,75.41148276788451,55,37.112,0.0198,True,OK,False,0,2026-07-31T15:55:14+00:00

@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\caption{Disagreement between the two orderings. $\tau$ is Kendall's rank correlation between the ordering by $\RI$ and the ordering by realised quality. The last three columns give the realised quality of the method the index nominates, that of the method that is actually best, and the penalty incurred by following the index.}\label{tbl:reversal}
+\begin{tabular*}{\tblwidth}{@{}LLrllrrr@{}}
+\toprule
+\multirow{2}{*}{Disruption class} & \multirow{2}{*}{Severity} & \multirow{2}{*}{$\tau$} & \multicolumn{2}{c}{Selected method} & \multicolumn{3}{c}{Realised quality (\%)} \\
+\cmidrule(lr){4-5}\cmidrule(l){6-8}
+ & & & by $\RI$ & by $\RQ$ & of former & of latter & penalty \\
+\midrule
+Breakdowns & $A_k=0.95$ & $-0.600$ & CR & MWKR & 46.9 & 23.6 & $+23.3$ \\
+ & $A_k=0.90$ & $-0.422$ & CR & MWKR & 63.3 & 34.8 & $+28.5$ \\
+ & $A_k=0.80$ & $-0.511$ & CR & \textbf{GNN--PPO} & 90.6 & 64.9 & $+25.7$ \\
+Stochastic times & $\sigma=0.10$ & $-0.289$ & CR & MWKR & 30.6 & 12.3 & $+18.4$ \\
+ & $\sigma=0.25$ & $-0.378$ & CR & MWKR & 33.7 & 13.7 & $+20.0$ \\
+ & $\sigma=0.50$ & $-0.511$ & CR & MWKR & 40.8 & 24.9 & $+15.8$ \\
+Dynamic arrivals & $\rho=0.70$ & $-0.400$ & LWKR & \textbf{GNN--PPO} & 268.0 & 230.4 & $+37.6$ \\
+ & $\rho=0.85$ & $-0.600$ & LWKR & \textbf{GNN--PPO} & 268.1 & 219.2 & $+48.9$ \\
+ & $\rho=0.95$ & $-0.400$ & LWKR & \textbf{GNN--PPO} & 261.1 & 211.7 & $+49.3$ \\
+\bottomrule
+\end{tabular*}
+\end{table*}

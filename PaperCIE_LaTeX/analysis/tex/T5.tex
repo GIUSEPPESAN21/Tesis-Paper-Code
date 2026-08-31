@@ -1,0 +1,18 @@
+\begin{table*}[t]
+\caption{The same policy against three definitions of ``best dispatching rule''. Deviations are relative percentage deviation from the certified optimum; the difference column is the median paired difference in percentage points, with Wilcoxon $z$, $p$ and rank-biserial effect size over the paired instances; $N=43$ for the learned-policy rows and $N=40$ where exact ties are dropped, as the $n$ column records.}\label{tbl:comparators}
+\begin{tabular*}{\tblwidth}{@{}LrLrrrrlrl@{}}
+\toprule
+Comparator & Its RPD & Method & Its RPD & Median diff. & $n$ & $z$ & $p$ & $r_{rb}$ & Verdict \\
+\midrule
+$\mathrm{PDR}_{\mathrm{global}}$ & 251.4 & \textbf{GNN--PPO} & 24.8 & $+233.4$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{wins} \\
+ & 251.4 & GA & 5.5 & $+251.5$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{wins} \\
+ & 251.4 & CP-SAT & 0.0 & $+254.6$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{wins} \\
+$\mathrm{PDR}_{\mathrm{family}}$ & 148.1 & \textbf{GNN--PPO} & 24.8 & $+132.4$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{wins} \\
+ & 148.1 & GA & 5.5 & $+144.3$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{wins} \\
+ & 148.1 & CP-SAT & 0.0 & $+152.1$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{wins} \\
+$\mathrm{PDR}_{\mathrm{oracle}}$ & 19.0 & \textbf{GNN--PPO} & 24.8 & $-7.6$ & 43 & -4.11 & $4.0\times10^{-5}$ & $-0.719$ & \textsc{loses} \\
+ & 19.0 & GA & 5.5 & $+11.5$ & 40 & -5.51 & $3.6\times10^{-8}$ & $+1.000$ & \textsc{wins} \\
+ & 19.0 & CP-SAT & 0.0 & $+21.1$ & 40 & -5.51 & $3.6\times10^{-8}$ & $+1.000$ & \textsc{wins} \\
+\bottomrule
+\end{tabular*}
+\end{table*}

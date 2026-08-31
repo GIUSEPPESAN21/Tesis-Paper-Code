@@ -1,0 +1,195 @@
+{
+  "prop1_n_cells": 150,
+  "prop1_max_abs_err": 9.378255156011761e-06,
+  "prop1_sign_agreement_pct": 100.0,
+  "frac_cells_RI_negative": 0.6466666666666666,
+  "n_cells_RI_negative": 97,
+  "rl_vs_cpsat_mean_diff_pp": 5.9992,
+  "rl_vs_cpsat_p": 0.375,
+  "rl_vs_cpsat_n_eff": 4,
+  "rl_vs_ga_mean_diff_pp": 6.726400000000001,
+  "rl_vs_ga_p": 0.25,
+  "rl_vs_ga_n_eff": 4,
+  "Q_cpsat_ft06_A090": 42.038399999999996,
+  "wall_cpsat_ft06_A090": 0.04562,
+  "Q_ga_ft06_A090": 41.3112,
+  "wall_ga_ft06_A090": 30.018819999999998,
+  "Q_mor_ft06_A090": 44.1092,
+  "wall_mor_ft06_A090": 0.00992,
+  "Q_mwkr_ft06_A090": 46.7578,
+  "wall_mwkr_ft06_A090": 0.0097,
+  "Q_rl_ft06_A090": 48.0376,
+  "wall_rl_ft06_A090": 0.09482,
+  "cvar_tail_sizes": [
+    3
+  ],
+  "cvar_tail_size_max": 3,
+  "seeds_per_cell": 30,
+  "nemenyi_cliques": {
+    "Breakdowns": [
+      "fifo",
+      "mor",
+      "mwkr",
+      "rl"
+    ],
+    "Dynamic arrivals": [
+      "mor",
+      "rl"
+    ],
+    "Stochastic times": [
+      "fifo",
+      "mor",
+      "mwkr",
+      "rl"
+    ]
+  },
+  "clique_sizes": {
+    "Breakdowns": 4,
+    "Dynamic arrivals": 2,
+    "Stochastic times": 4
+  },
+  "nominal_two_instances": {
+    "cpsat": 0.0,
+    "cr": 220.094,
+    "edd": 187.4475,
+    "fifo": 21.119,
+    "ga": 0.0,
+    "lor": 189.219,
+    "lpt": 165.946,
+    "lwkr": 187.4475,
+    "mor": 31.4535,
+    "mwkr": 30.711,
+    "rl": 18.3905,
+    "spt": 120.669
+  },
+  "nominal_all_instances": {
+    "cpsat": 0.020186046511627906,
+    "cr": 430.31369767441856,
+    "edd": 387.339976744186,
+    "fifo": 19.15455813953489,
+    "ga": 5.51660465116279,
+    "lor": 401.1523488372093,
+    "lpt": 281.8777441860466,
+    "lwkr": 391.91179069767446,
+    "mor": 39.83125581395348,
+    "mwkr": 42.58937209302325,
+    "rl": 24.818767441860462,
+    "spt": 268.2252093023256
+  },
+  "arrivals_CD": 0.7875057671746496,
+  "arrivals_rl_rank_min": 1.575,
+  "arrivals_rl_rank_max": 1.6166666666666667,
+  "arrivals_tied_methods": [
+    "mor"
+  ],
+  "arrivals_runnerup_gap_min": 0.1083333333333331,
+  "arrivals_runnerup_gap_max": 0.2000000000000001,
+  "arrivals_n_methods_tied_with_best": 1,
+  "methods_per_regime": {
+    "e4_breakdowns_avail0.80": [
+      "cr",
+      "edd",
+      "fifo",
+      "lor",
+      "lpt",
+      "lwkr",
+      "mor",
+      "mwkr",
+      "rl",
+      "spt"
+    ],
+    "e4_breakdowns_avail0.90": [
+      "cr",
+      "edd",
+      "fifo",
+      "lor",
+      "lpt",
+      "lwkr",
+      "mor",
+      "mwkr",
+      "rl",
+      "spt"
+    ],
+    "e4_breakdowns_avail0.95": [
+      "cr",
+      "edd",
+      "fifo",
+      "lor",
+      "lpt",
+      "lwkr",
+      "mor",
+      "mwkr",
+      "rl",
+      "spt"
+    ],
+    "e5_stochastic_sigma0.1": [
+      "cr",
+      "edd",
+      "fifo",
+      "lor",
+      "lpt",
+      "lwkr",
+      "mor",
+      "mwkr",
+      "rl",
+      "spt"
+    ],
+    "e5_stochastic_sigma0.25": [
+      "cr",
+      "edd",
+      "fifo",
+      "lor",
+      "lpt",
+      "lwkr",
+      "mor",
+      "mwkr",
+      "rl",
+      "spt"
+    ],
+    "e5_stochastic_sigma0.5": [
+      "cr",
+      "edd",
+      "fifo",
+      "lor",
+      "lpt",
+      "lwkr",
+      "mor",
+      "mwkr",
+      "rl",
+      "spt"
+    ],
+    "e6_arrivals_util0.7": [
+      "fifo",
+      "lor",
+      "lwkr",
+      "mor",
+      "rl"
+    ],
+    "e6_arrivals_util0.85": [
+      "fifo",
+      "lor",
+      "lwkr",
+      "mor",
+      "rl"
+    ],
+    "e6_arrivals_util0.95": [
+      "fifo",
+      "lor",
+      "lwkr",
+      "mor",
+      "rl"
+    ]
+  },
+  "pdr_excluded_under_arrivals": [
+    "cr",
+    "edd",
+    "lpt",
+    "mwkr",
+    "spt"
+  ],
+  "n_pdr_excluded_under_arrivals": 5,
+  "comparator_p_max_rl": 4.034042145857651e-05,
+  "comparator_p_min_rl": 1.1201596434767781e-08,
+  "friedman_p_max": 6.637082476901451e-28,
+  "artifact_p_max": 0.1040880386618278
+}

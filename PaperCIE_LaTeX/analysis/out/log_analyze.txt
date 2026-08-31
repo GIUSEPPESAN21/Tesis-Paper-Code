@@ -1,0 +1,49 @@
+{
+  "n_regimes": 9,
+  "n_runs_disrupted": 4500,
+  "n_instances_nominal": 43,
+  "n_methods_nominal": 12,
+  "rho_min": -0.9848069807617046,
+  "rho_max": -0.7999999999999999,
+  "p_max": 0.10408803866182788,
+  "n_regimes_significant": 6,
+  "n_regimes_disagree": 9,
+  "max_penalty_pp": 49.31604824534338,
+  "median_penalty_pp": 25.681849423389778
+}
+
+=== RI ARTIFACT ===
+                 regime             axis         level  k  rho_RI_vs_nominalRPD      p_value  rho_RI_vs_realizedQ  p_value_Q
+e4_breakdowns_avail0.95       Breakdowns    $A_k=0.95$ 10             -0.984807 2.288834e-07            -0.806061   0.004862
+e4_breakdowns_avail0.90       Breakdowns    $A_k=0.90$ 10             -0.948333 2.928588e-05            -0.636364   0.047912
+e4_breakdowns_avail0.80       Breakdowns    $A_k=0.80$ 10             -0.948333 2.928588e-05            -0.781818   0.007547
+ e5_stochastic_sigma0.1 Stochastic times $\sigma=0.10$ 10             -0.948333 2.928588e-05            -0.539394   0.107593
+e5_stochastic_sigma0.25 Stochastic times $\sigma=0.25$ 10             -0.984807 2.288834e-07            -0.648485   0.042540
+ e5_stochastic_sigma0.5 Stochastic times $\sigma=0.50$ 10             -0.948333 2.928588e-05            -0.696970   0.025097
+    e6_arrivals_util0.7 Dynamic arrivals   $\rho=0.70$  5             -0.800000 1.040880e-01            -0.600000   0.284757
+   e6_arrivals_util0.85 Dynamic arrivals   $\rho=0.85$  5             -0.800000 1.040880e-01            -0.700000   0.188120
+   e6_arrivals_util0.95 Dynamic arrivals   $\rho=0.95$  5             -0.800000 1.040880e-01            -0.600000   0.284757
+
+=== RANK REVERSAL ===
+                 regime             axis         level  kendall_tau  p_value winner_by_RI winner_by_Q  agree  Q_of_RI_winner  Q_of_Q_winner  penalty_pp
+e4_breakdowns_avail0.95       Breakdowns    $A_k=0.95$    -0.600000 0.016666           cr        mwkr  False       46.933988      23.640651   23.293337
+e4_breakdowns_avail0.90       Breakdowns    $A_k=0.90$    -0.422222 0.108313           cr        mwkr  False       63.285528      34.823764   28.461765
+e4_breakdowns_avail0.80       Breakdowns    $A_k=0.80$    -0.511111 0.046623           cr          rl  False       90.630919      64.949069   25.681849
+ e5_stochastic_sigma0.1 Stochastic times $\sigma=0.10$    -0.288889 0.291248           cr        mwkr  False       30.633487      12.274232   18.359255
+e5_stochastic_sigma0.25 Stochastic times $\sigma=0.25$    -0.377778 0.155742           cr        mwkr  False       33.717356      13.669717   20.047639
+ e5_stochastic_sigma0.5 Stochastic times $\sigma=0.50$    -0.511111 0.046623           cr        mwkr  False       40.770808      24.941931   15.828877
+    e6_arrivals_util0.7 Dynamic arrivals   $\rho=0.70$    -0.400000 0.483333         lwkr          rl  False      268.037177     230.426177   37.611000
+   e6_arrivals_util0.85 Dynamic arrivals   $\rho=0.85$    -0.600000 0.233333         lwkr          rl  False      268.101136     219.166419   48.934717
+   e6_arrivals_util0.95 Dynamic arrivals   $\rho=0.95$    -0.400000 0.483333         lwkr          rl  False      261.062989     211.746940   49.316048
+
+=== FRIEDMAN ===
+                 regime             axis         level  k  n_blocks       chi2      p_value       CD best_rank_method  best_rank  rl_rank
+e4_breakdowns_avail0.95       Breakdowns    $A_k=0.95$ 10        60 255.996865 5.401363e-50 1.748967             mwkr   2.808333 2.833333
+e4_breakdowns_avail0.90       Breakdowns    $A_k=0.90$ 10        60 252.530465 2.915174e-49 1.748967               rl   2.825000 2.825000
+e4_breakdowns_avail0.80       Breakdowns    $A_k=0.80$ 10        60 170.397006 5.100629e-32 1.748967               rl   3.116667 3.116667
+ e5_stochastic_sigma0.1 Stochastic times $\sigma=0.10$ 10        60 289.057860 5.453208e-57 1.748967             mwkr   2.500000 3.283333
+e5_stochastic_sigma0.25 Stochastic times $\sigma=0.25$ 10        60 267.348231 2.152906e-52 1.748967             mwkr   2.600000 3.150000
+ e5_stochastic_sigma0.5 Stochastic times $\sigma=0.50$ 10        60 150.595996 6.637082e-28 1.748967             mwkr   3.166667 3.850000
+    e6_arrivals_util0.7 Dynamic arrivals   $\rho=0.70$  5        60 182.973545 1.713480e-38 0.787506               rl   1.616667 1.616667
+   e6_arrivals_util0.85 Dynamic arrivals   $\rho=0.85$  5        60 200.425894 3.043029e-42 0.787506               rl   1.575000 1.575000
+   e6_arrivals_util0.95 Dynamic arrivals   $\rho=0.95$  5        60 190.130619 4.968522e-40 0.787506               rl   1.575000 1.575000

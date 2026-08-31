@@ -1,0 +1,86 @@
+{
+  "n_regimes": 9,
+  "n_runs_disrupted": 4500,
+  "n_instances_nominal": 43,
+  "n_methods_nominal": 12,
+  "rho_min": -0.9848069807617046,
+  "rho_max": -0.7999999999999999,
+  "p_max": 0.10408803866182788,
+  "n_regimes_significant": 6,
+  "n_regimes_disagree": 9,
+  "max_penalty_pp": 49.31604824534338,
+  "median_penalty_pp": 25.681849423389778,
+  "n_conf_regimes": 6,
+  "n_desc_regimes": 3,
+  "rho_conf_min": -0.9848069807617046,
+  "rho_conf_max": -0.9483326481409008,
+  "rho_conf_median": -0.9483326481409008,
+  "p_conf_max": 2.928588323776116e-05,
+  "rho_desc_min": -0.7999999999999999,
+  "rho_desc_max": -0.7999999999999999,
+  "n_regimes_rho_negative": 9,
+  "rho_median": -0.9483326481409008,
+  "tau_min": -0.6,
+  "tau_max": -0.2888888888888888,
+  "n_regimes_tau_negative": 9,
+  "friedman_p_max": 6.637082476901451e-28,
+  "n_regimes_rl_not_sig_worse": 9,
+  "n_regimes_rl_best": 5,
+  "cr_wins_by_RI": 6,
+  "lwkr_wins_by_RI": 3,
+  "comp_rl_vs_global": 233.37544444444444,
+  "comp_rl_vs_family": 132.3728,
+  "comp_rl_vs_oracle": -7.648
+}
+
+=== COMPARATOR TESTS (corrected) ===
+              comparator method  n  mean_comparator  mean_method  median_diff  mean_diff     W       z  p_value  rank_biserial
+              pdr_global     rl 43         251.3773      24.8188     233.3754   226.5586   0.0 -5.7115      0.0         1.0000
+              pdr_global     ga 43         251.3773       5.5166     251.5040   245.8607   0.0 -5.7115      0.0         1.0000
+              pdr_global  cpsat 43         251.3773       0.0202     254.5597   251.3571   0.0 -5.7115      0.0         1.0000
+          pdr_per_family     rl 43         148.1307      24.8188     132.3728   123.3120   0.0 -5.7115      0.0         1.0000
+          pdr_per_family     ga 43         148.1307       5.5166     144.3228   142.6141   0.0 -5.7115      0.0         1.0000
+          pdr_per_family  cpsat 43         148.1307       0.0202     152.1172   148.1105   0.0 -5.7115      0.0         1.0000
+oracle_best_per_instance     rl 43          18.9566      24.8188      -7.6480    -5.8621 133.0 -4.1055      0.0        -0.7188
+oracle_best_per_instance     ga 40          18.9566       5.5166      11.5380    13.4400   0.0 -5.5109      0.0         1.0000
+oracle_best_per_instance  cpsat 40          18.9566       0.0202      21.1130    18.9364   0.0 -5.5110      0.0         1.0000
+
+=== AXIS TABLE ===
+            axis method     RI       Q  CVaR90  rpd_nom    label
+      Breakdowns     cr -0.478  66.950 131.054  220.094       CR
+      Breakdowns    edd -0.411  69.217 129.686  187.448      EDD
+      Breakdowns   fifo  0.212  46.820  89.613   21.119     FIFO
+      Breakdowns    lor -0.410  65.772 130.259  189.219      LOR
+      Breakdowns    lpt -0.402  57.711 107.407  165.946      LPT
+      Breakdowns   lwkr -0.412  68.843 134.627  187.448     LWKR
+      Breakdowns    mor  0.090  43.235  85.626   31.454      MOR
+      Breakdowns   mwkr  0.084  41.681  87.981   30.711     MWKR
+      Breakdowns     rl  0.210  41.804  85.270   18.390 GNN--PPO
+      Breakdowns    spt -0.256  64.182 122.820  120.669      SPT
+Dynamic arrivals   fifo  1.762 234.660 287.062   21.119     FIFO
+Dynamic arrivals    lor  0.321 266.394 310.645  189.219      LOR
+Dynamic arrivals   lwkr  0.275 265.734 307.597  187.448     LWKR
+Dynamic arrivals    mor  1.441 221.058 273.365   31.454      MOR
+Dynamic arrivals     rl  1.728 220.447 275.075   18.390 GNN--PPO
+Stochastic times     cr -0.578  35.041  67.020  220.094       CR
+Stochastic times    edd -0.505  42.178  71.381  187.448      EDD
+Stochastic times   fifo  0.006  21.854  49.420   21.119     FIFO
+Stochastic times    lor -0.505  38.620  69.818  189.219      LOR
+Stochastic times    lpt -0.493  33.227  59.796  165.946      LPT
+Stochastic times   lwkr -0.503  42.647  74.645  187.448     LWKR
+Stochastic times    mor -0.094  19.121  38.021   31.454      MOR
+Stochastic times   mwkr -0.105  16.962  35.995   30.711     MWKR
+Stochastic times     rl  0.023  20.018  43.397   18.390 GNN--PPO
+Stochastic times    spt -0.368  39.602  63.775  120.669      SPT
+
+=== RL vs BEST (Nemenyi) ===
+                 regime             axis         level method  avg_rank best_method  rank_gap    CD  sig_worse_than_best
+e4_breakdowns_avail0.80       Breakdowns    $A_k=0.80$     rl     3.117          rl     0.000 1.749                False
+e4_breakdowns_avail0.90       Breakdowns    $A_k=0.90$     rl     2.825          rl     0.000 1.749                False
+e4_breakdowns_avail0.95       Breakdowns    $A_k=0.95$     rl     2.833        mwkr     0.025 1.749                False
+ e5_stochastic_sigma0.1 Stochastic times $\sigma=0.10$     rl     3.283        mwkr     0.783 1.749                False
+e5_stochastic_sigma0.25 Stochastic times $\sigma=0.25$     rl     3.150        mwkr     0.550 1.749                False
+ e5_stochastic_sigma0.5 Stochastic times $\sigma=0.50$     rl     3.850        mwkr     0.683 1.749                False
+    e6_arrivals_util0.7 Dynamic arrivals   $\rho=0.70$     rl     1.617          rl     0.000 0.788                False
+   e6_arrivals_util0.85 Dynamic arrivals   $\rho=0.85$     rl     1.575          rl     0.000 0.788                False
+   e6_arrivals_util0.95 Dynamic arrivals   $\rho=0.95$     rl     1.575          rl     0.000 0.788                False

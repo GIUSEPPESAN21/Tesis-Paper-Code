@@ -1,0 +1,18 @@
+\begin{table*}[t]
+\caption{Friedman tests on realised quality with Nemenyi post-hoc, by regime. Blocks are (instance, seed) pairs. The last column records whether the learned policy is statistically indistinguishable from the best-ranked method at the critical difference.}\label{tbl:friedman}
+\begin{tabular*}{\tblwidth}{@{}LLrrrlrlrc@{}}
+\toprule
+Disruption class & Severity & $k$ & $N$ & $\chi^2$ & $p$ & CD & Best-ranked & GNN--PPO rank & Tied \\
+\midrule
+Breakdowns & $A_k=0.95$ & 10 & 60 & 256.0 & $<10^{-8}$ & 1.75 & MWKR & 2.83 & \checkmark \\
+ & $A_k=0.90$ & 10 & 60 & 252.5 & $<10^{-8}$ & 1.75 & \textbf{GNN--PPO} & 2.83 & \checkmark \\
+ & $A_k=0.80$ & 10 & 60 & 170.4 & $<10^{-8}$ & 1.75 & \textbf{GNN--PPO} & 3.12 & \checkmark \\
+Stochastic times & $\sigma=0.10$ & 10 & 60 & 289.1 & $<10^{-8}$ & 1.75 & MWKR & 3.28 & \checkmark \\
+ & $\sigma=0.25$ & 10 & 60 & 267.3 & $<10^{-8}$ & 1.75 & MWKR & 3.15 & \checkmark \\
+ & $\sigma=0.50$ & 10 & 60 & 150.6 & $<10^{-8}$ & 1.75 & MWKR & 3.85 & \checkmark \\
+Dynamic arrivals & $\rho=0.70$ & 5 & 60 & 183.0 & $<10^{-8}$ & 0.79 & \textbf{GNN--PPO} & 1.62 & \checkmark \\
+ & $\rho=0.85$ & 5 & 60 & 200.4 & $<10^{-8}$ & 0.79 & \textbf{GNN--PPO} & 1.57 & \checkmark \\
+ & $\rho=0.95$ & 5 & 60 & 190.1 & $<10^{-8}$ & 0.79 & \textbf{GNN--PPO} & 1.57 & \checkmark \\
+\bottomrule
+\end{tabular*}
+\end{table*}

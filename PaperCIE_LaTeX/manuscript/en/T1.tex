@@ -1,0 +1,18 @@
+\begin{table}[t]
+\caption{Rank correlation between nominal deviation and the conventional robustness index, by regime. $k$ is the number of methods compared. A strongly negative $\rho_s$ means that methods with worse nominal schedules receive better robustness scores.}\label{tbl:artifact}
+\begin{tabular*}{\tblwidth}{@{}LLcrl@{}}
+\toprule
+Disruption class & Severity & $k$ & $\rho_s$ & $p$ \\
+\midrule
+Breakdowns & $A_k=0.95$ & 10 & $-0.985$ & $2.3\times10^{-7}$ \\
+ & $A_k=0.90$ & 10 & $-0.948$ & $2.9\times10^{-5}$ \\
+ & $A_k=0.80$ & 10 & $-0.948$ & $2.9\times10^{-5}$ \\
+Stochastic times & $\sigma=0.10$ & 10 & $-0.948$ & $2.9\times10^{-5}$ \\
+ & $\sigma=0.25$ & 10 & $-0.985$ & $2.3\times10^{-7}$ \\
+ & $\sigma=0.50$ & 10 & $-0.948$ & $2.9\times10^{-5}$ \\
+Dynamic arrivals & $\rho=0.70$ & 5 & $-0.800$ & 0.104 \\
+ & $\rho=0.85$ & 5 & $-0.800$ & 0.104 \\
+ & $\rho=0.95$ & 5 & $-0.800$ & 0.104 \\
+\bottomrule
+\end{tabular*}
+\end{table}

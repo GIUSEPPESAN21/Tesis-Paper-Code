@@ -1,0 +1,18 @@
+\begin{table}[t]
+\caption{Correlación de rangos entre la desviación nominal y el índice de robustez convencional, por régimen. $k$ es el número de métodos comparados. Un $\rho_s$ fuertemente negativo significa que los métodos con peores planificaciones nominales reciben mejores puntuaciones de robustez.}\label{tbl:artifact}
+\begin{tabular*}{\tblwidth}{@{}LLcrl@{}}
+\toprule
+Clase de perturbación & Severidad & $k$ & $\rho_s$ & $p$ \\
+\midrule
+Averías & $A_k=0.95$ & 10 & $-0.985$ & $2.3\times10^{-7}$ \\
+ & $A_k=0.90$ & 10 & $-0.948$ & $2.9\times10^{-5}$ \\
+ & $A_k=0.80$ & 10 & $-0.948$ & $2.9\times10^{-5}$ \\
+Tiempos estocásticos & $\sigma=0.10$ & 10 & $-0.948$ & $2.9\times10^{-5}$ \\
+ & $\sigma=0.25$ & 10 & $-0.985$ & $2.3\times10^{-7}$ \\
+ & $\sigma=0.50$ & 10 & $-0.948$ & $2.9\times10^{-5}$ \\
+Llegadas dinámicas & $\rho=0.70$ & 5 & $-0.800$ & 0.104 \\
+ & $\rho=0.85$ & 5 & $-0.800$ & 0.104 \\
+ & $\rho=0.95$ & 5 & $-0.800$ & 0.104 \\
+\bottomrule
+\end{tabular*}
+\end{table}

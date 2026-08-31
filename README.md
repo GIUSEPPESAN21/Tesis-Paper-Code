@@ -25,6 +25,11 @@ THESIS MASTER'S/
 ├── E7_E8_FinalPlan.md              <- E7/E8 scope, preconditions, schedule
 ├── Chapter6_FINAL.md, Chapter7_FINAL.md  <- Chapter 6/7 standalone, resynced from Thesis_FINAL.md
 ├── ConferencePaper_DRAFT.md         <- companion IEEE conference paper (H1-H5, condensed)
+├── JournalArticle_LaTeX/            <- companion journal article, full LaTeX source + compiled PDF
+├── PaperCIE_LaTeX/                  <- companion Computers & Industrial Engineering (Elsevier, Q1)
+│                                        submission on the RI-artifact finding: bilingual EN/ES
+│                                        manuscripts, the analysis code behind every number, and
+│                                        Paper_CIE_DecisionRecord.md (methodology/correction log)
 ├── figures/                         <- camera-ready figures (Spanish, colorblind-safe, PNG+PDF)
 │   └── paper/                        <- compact English figures/tables for the conference paper
 ├── CODE_APPENDIX_SUMMARY.md        <- thesis-appendix-ready: repo structure, chapter<->code map

@@ -1,0 +1,39 @@
+\begin{table}[t]
+\caption{Metric panel by disruption class, methods ordered by realised quality. $r$ is nominal deviation from the certified optimum; $\RI$ the conventional index; $\RQ$ realised quality; $\CVaR_{90}$ its worst-decile mean. All percentages. $^{\star}$ marks the learned policy.}\label{tbl:axis}
+\begin{tabular*}{\tblwidth}{@{}Lrrrr@{}}
+\toprule
+Method & $r$ (\%) & $\RI$ & $\RQ$ (\%) & $\CVaR_{90}$ (\%) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Breakdowns}} \\[2pt]
+\quad MWKR & 30.7 & +0.084 & 41.7 & 88.0 \\
+\quad \textbf{GNN--PPO}$^{\star}$ & 18.4 & +0.210 & 41.8 & 85.3 \\
+\quad MOR & 31.5 & +0.090 & 43.2 & 85.6 \\
+\quad FIFO & 21.1 & +0.212 & 46.8 & 89.6 \\
+\quad LPT & 165.9 & -0.402 & 57.7 & 107.4 \\
+\quad SPT & 120.7 & -0.256 & 64.2 & 122.8 \\
+\quad LOR & 189.2 & -0.410 & 65.8 & 130.3 \\
+\quad CR & 220.1 & -0.478 & 67.0 & 131.1 \\
+\quad LWKR & 187.4 & -0.412 & 68.8 & 134.6 \\
+\quad EDD & 187.4 & -0.411 & 69.2 & 129.7 \\
+\addlinespace
+\multicolumn{5}{@{}l}{\textit{Stochastic times}} \\[2pt]
+\quad MWKR & 30.7 & -0.105 & 17.0 & 36.0 \\
+\quad MOR & 31.5 & -0.094 & 19.1 & 38.0 \\
+\quad \textbf{GNN--PPO}$^{\star}$ & 18.4 & +0.023 & 20.0 & 43.4 \\
+\quad FIFO & 21.1 & +0.006 & 21.9 & 49.4 \\
+\quad LPT & 165.9 & -0.493 & 33.2 & 59.8 \\
+\quad CR & 220.1 & -0.578 & 35.0 & 67.0 \\
+\quad LOR & 189.2 & -0.505 & 38.6 & 69.8 \\
+\quad SPT & 120.7 & -0.368 & 39.6 & 63.8 \\
+\quad EDD & 187.4 & -0.505 & 42.2 & 71.4 \\
+\quad LWKR & 187.4 & -0.503 & 42.6 & 74.6 \\
+\addlinespace
+\multicolumn{5}{@{}l}{\textit{Dynamic arrivals}} \\[2pt]
+\quad \textbf{GNN--PPO}$^{\star}$ & 18.4 & +1.728 & 220.4 & 275.1 \\
+\quad MOR & 31.5 & +1.441 & 221.1 & 273.4 \\
+\quad FIFO & 21.1 & +1.762 & 234.7 & 287.1 \\
+\quad LWKR & 187.4 & +0.275 & 265.7 & 307.6 \\
+\quad LOR & 189.2 & +0.321 & 266.4 & 310.6 \\
+\bottomrule
+\end{tabular*}
+\end{table}

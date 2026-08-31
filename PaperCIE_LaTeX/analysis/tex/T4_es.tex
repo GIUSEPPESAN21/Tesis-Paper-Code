@@ -1,0 +1,18 @@
+\begin{table*}[t]
+\caption{Pruebas de Friedman sobre calidad realizada con post-hoc de Nemenyi, por régimen. Los bloques son pares (instancia, semilla). La última columna indica si la política aprendida es estadísticamente indistinguible del método mejor clasificado a la diferencia crítica.}\label{tbl:friedman}
+\begin{tabular*}{\tblwidth}{@{}LLrrrlrlrc@{}}
+\toprule
+Clase & Severidad & $k$ & $N$ & $\chi^2$ & $p$ & CD & Mejor rango & Rango GNN--PPO & Empata \\
+\midrule
+Averías & $A_k=0.95$ & 10 & 60 & 256.0 & $<10^{-8}$ & 1.75 & MWKR & 2.83 & \checkmark \\
+ & $A_k=0.90$ & 10 & 60 & 252.5 & $<10^{-8}$ & 1.75 & \textbf{GNN--PPO} & 2.83 & \checkmark \\
+ & $A_k=0.80$ & 10 & 60 & 170.4 & $<10^{-8}$ & 1.75 & \textbf{GNN--PPO} & 3.12 & \checkmark \\
+Tiempos estocásticos & $\sigma=0.10$ & 10 & 60 & 289.1 & $<10^{-8}$ & 1.75 & MWKR & 3.28 & \checkmark \\
+ & $\sigma=0.25$ & 10 & 60 & 267.3 & $<10^{-8}$ & 1.75 & MWKR & 3.15 & \checkmark \\
+ & $\sigma=0.50$ & 10 & 60 & 150.6 & $<10^{-8}$ & 1.75 & MWKR & 3.85 & \checkmark \\
+Llegadas dinámicas & $\rho=0.70$ & 5 & 60 & 183.0 & $<10^{-8}$ & 0.79 & \textbf{GNN--PPO} & 1.62 & \checkmark \\
+ & $\rho=0.85$ & 5 & 60 & 200.4 & $<10^{-8}$ & 0.79 & \textbf{GNN--PPO} & 1.57 & \checkmark \\
+ & $\rho=0.95$ & 5 & 60 & 190.1 & $<10^{-8}$ & 0.79 & \textbf{GNN--PPO} & 1.57 & \checkmark \\
+\bottomrule
+\end{tabular*}
+\end{table*}

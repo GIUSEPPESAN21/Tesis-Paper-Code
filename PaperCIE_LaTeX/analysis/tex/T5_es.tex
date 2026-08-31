@@ -1,0 +1,18 @@
+\begin{table*}[t]
+\caption{La misma política frente a tres definiciones de «mejor regla de despacho». Las desviaciones son RPD respecto del óptimo certificado; la columna de diferencia es la mediana de la diferencia pareada en puntos porcentuales, con $z$, $p$ de Wilcoxon y tamaño de efecto biserial de rangos sobre las instancias pareadas; $N=43$ en las filas de la política aprendida y $N=40$ donde se descartan empates exactos, como registra la columna $n$.}\label{tbl:comparators}
+\begin{tabular*}{\tblwidth}{@{}LrLrrrrlrl@{}}
+\toprule
+Comparador & Su RPD & Método & Su RPD & Dif.\ mediana & $n$ & $z$ & $p$ & $r_{rb}$ & Veredicto \\
+\midrule
+$\mathrm{PDR}_{\mathrm{global}}$ & 251.4 & \textbf{GNN--PPO} & 24.8 & $+233.4$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{gana} \\
+ & 251.4 & GA & 5.5 & $+251.5$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{gana} \\
+ & 251.4 & CP-SAT & 0.0 & $+254.6$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{gana} \\
+$\mathrm{PDR}_{\mathrm{family}}$ & 148.1 & \textbf{GNN--PPO} & 24.8 & $+132.4$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{gana} \\
+ & 148.1 & GA & 5.5 & $+144.3$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{gana} \\
+ & 148.1 & CP-SAT & 0.0 & $+152.1$ & 43 & -5.71 & $1.1\times10^{-8}$ & $+1.000$ & \textsc{gana} \\
+$\mathrm{PDR}_{\mathrm{oracle}}$ & 19.0 & \textbf{GNN--PPO} & 24.8 & $-7.6$ & 43 & -4.11 & $4.0\times10^{-5}$ & $-0.719$ & \textsc{pierde} \\
+ & 19.0 & GA & 5.5 & $+11.5$ & 40 & -5.51 & $3.6\times10^{-8}$ & $+1.000$ & \textsc{gana} \\
+ & 19.0 & CP-SAT & 0.0 & $+21.1$ & 40 & -5.51 & $3.6\times10^{-8}$ & $+1.000$ & \textsc{gana} \\
+\bottomrule
+\end{tabular*}
+\end{table*}
