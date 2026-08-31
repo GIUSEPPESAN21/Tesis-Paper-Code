@@ -9,8 +9,8 @@ authors:
     given-names: "Joseph"
     affiliation: "Corporación Universitaria Minuto de Dios (UNIMINUTO)"
     email: "joseph.sanchez@uniminuto.edu.co"
-repository-code: "<GitHub URL -- fill in after publishing the repository>"
-license: "<fill in -- see FINAL_REPRODUCIBILITY_REPORT.md Sec 5 for options>"
+repository-code: "https://github.com/GIUSEPPESAN21/gnn-ppo-dynamic-fjsp"
+license: MIT
 keywords:
   - reinforcement learning
   - job-shop scheduling

@@ -2,7 +2,7 @@
 
 **Date produced:** 2026-07-30 (updated with full-run results)
 **Companion documents:** `HPO_TechSpec.md`, `../docs/planificacion/AblationPlan.md`, `../docs/especificaciones/GNN_PPO_Architecture_Spec_v2.md`, `../docs/logs/TrainingPlan_Week17.md`
-**Code base:** `Full thesis code/` (commit state at end of Week 21 sprint)
+**Code base:** `code/` (commit state at end of Week 21 sprint)
 **Test suite:** 593 tests, all passed (`experiments/results/pytest_week21.txt`)
 
 ---

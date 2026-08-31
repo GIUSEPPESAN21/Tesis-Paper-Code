@@ -2,7 +2,7 @@
 
 **Status:** Reviewed and finalized against the actual codebase state as of **2026-07-30**.
 **Author of this review:** Cowork (doctoral thesis auditor role), at Joseph Sanchez's request.
-**Provenance:** operationalizes `../docs/planificacion/Step 4 Thesis.md` Part D4 (original E0–E8 matrix) against `PreRegistration_FINAL.md` (frozen 2026-07-29T05:22:26Z UTC, H1–H5 decision rules), `../docs/logs/HPO_ABLATION_REPORT_WEEK21.md` (dated 2026-07-30, trained checkpoints and compute accounting), `../docs/planificacion/AblationPlan.md`, `REFACTOR_NOTES_WEEK15.md`, and a direct read of `Full thesis code/` (`envs/`, `baselines/`, `data/`) as it stands today.
+**Provenance:** operationalizes `../docs/planificacion/Step 4 Thesis.md` Part D4 (original E0–E8 matrix) against `PreRegistration_FINAL.md` (frozen 2026-07-29T05:22:26Z UTC, H1–H5 decision rules), `../docs/logs/HPO_ABLATION_REPORT_WEEK21.md` (dated 2026-07-30, trained checkpoints and compute accounting), `../docs/planificacion/AblationPlan.md`, `REFACTOR_NOTES_WEEK15.md`, and a direct read of `code/` (`envs/`, `baselines/`, `data/`) as it stands today.
 **Companion documents this plan assumes exist and are frozen:** `PreRegistration_FINAL.md` (H1–H5 decision rules — this document does not alter them), `../docs/planificacion/AblationPlan.md` (Axis 3 = H4, not double-commissioned).
 
 ---
@@ -18,7 +18,7 @@ Before confirming instance sets and replications per experiment, two things surf
 What is actually bundled: **`mk01`–`mk07`** only (not the full `mk01`–`mk10`, and no Hurink instances D4 also named), with reference makespans of mixed provenance — `mk01`, `mk03`, `mk04` are `status=proven`; `mk02`, `mk05`, `mk06`, `mk07` are `status=best_known` (per `data/fjsp_known_optima.csv`).
 
 Two things are **not** yet true, even though the loader exists:
-- **No test coverage.** The loader's own module docstring promises `tests/test_fjsp_loader.py` pins the rectangular-padding neutrality claim ("CP-SAT reaches the literature optimum on the padded instance"). That file does not exist in `Full thesis code/tests/`. This is new, unvalidated code being proposed for a confirmatory thesis result.
+- **No test coverage.** The loader's own module docstring promises `tests/test_fjsp_loader.py` pins the rectangular-padding neutrality claim ("CP-SAT reaches the literature optimum on the padded instance"). That file does not exist in `code/tests/`. This is new, unvalidated code being proposed for a confirmatory thesis result.
 - **No baselines measured.** `BASELINES_RESULTS_WEEK12.md` explicitly deferred `MK01–MK10`/FJSP evaluation for lack of a loader. That deferral is now stale but nothing has filled it — there is no CP-SAT or GA result on file for `mk01`–`mk07`.
 
 **Per `PreRegistration_FINAL.md` §1's own contingency clause** ("If a real FJSP loader is built before H1 is executed, it should be added as a second, separately-reported FJSP arm — an addition, not a substitution"), this is exactly the situation anticipated. Since **zero FJSP results of any kind exist yet** (the freeze's purpose — preventing HARKing — is not at risk), amending now is legitimate and should be done before E2 executes, not silently. §5 of this document gives the amendment text to append to `PreRegistration_FINAL.md` §7.

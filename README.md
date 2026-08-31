@@ -1,5 +1,10 @@
 # GNN+PPO for Dynamic FJSP under Stochastic Perturbations — thesis reproducibility package
 
+[![tests](https://github.com/GIUSEPPESAN21/gnn-ppo-dynamic-fjsp/actions/workflows/tests.yml/badge.svg)](https://github.com/GIUSEPPESAN21/gnn-ppo-dynamic-fjsp/actions/workflows/tests.yml)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](code/pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CPU-only](https://img.shields.io/badge/hardware-CPU--only-lightgrey.svg)](#hardware--this-thesis-actual-environment)
+
 This is the top-level entry point for reproducing this master's thesis end-to-end: the
 code, the trained checkpoints, the raw experimental results (E0–E8), the statistical
 analysis pipeline, the camera-ready figures, and the thesis chapters that cite them all.
@@ -11,7 +16,7 @@ confidence, and what an examiner should run first.**
 ## What's in this repository
 
 ```
-THESIS MASTER'S/
+gnn-ppo-dynamic-fjsp/
 ├── README.md                      <- you are here
 ├── Thesis_FINAL.md                 <- THE thesis: single integrated document (all 8 chapters,
 │                                       references, changelog); cite this, not the per-chapter
@@ -50,8 +55,8 @@ THESIS MASTER'S/
 ├── results/
 │   ├── tablas/                      <- thesis-numbered tables (Tabla_6.X.Y.{csv,md,tex})
 │   ├── datos_crudos/                 <- raw per-row CSVs, by experiment batch
-│   └── README.md                     <- what's here vs. what stays in Full thesis code/
-└── Full thesis code/                 <- the actual Python package: envs, models, baselines,
+│   └── README.md                     <- what's here vs. what stays in code/
+└── code/                            <- the actual Python package: envs, models, baselines,
     │                                     experiments, tests, and the trained checkpoints
     └── docs/                          <- weekly progress/audit reports for the code package
                                            itself (training, validation, refactor, HPO logs)
@@ -59,18 +64,18 @@ THESIS MASTER'S/
 
 **Mejoras del tutor (2026-08-20):** diez recomendaciones formales de revisión,
 auditadas y en su mayoría implementadas en código/tests esta sesión — nada ejecutado
-(ver `Full thesis code/docs/AUDIT_PREFLIGHT.md` para los hallazgos de la auditoría,
-`Full thesis code/docs/RUN_PLAN.md` para los comandos exactos y estimaciones de tiempo
-por fase, `Full thesis code/docs/MEJORAS_TUTOR_IMPLEMENTADAS.md` para el estado
+(ver `code/docs/AUDIT_PREFLIGHT.md` para los hallazgos de la auditoría,
+`code/docs/RUN_PLAN.md` para los comandos exactos y estimaciones de tiempo
+por fase, `code/docs/MEJORAS_TUTOR_IMPLEMENTADAS.md` para el estado
 recomendación-por-recomendación). Nuevo código relevante:
-`Full thesis code/envs/rescheduling.py` (políticas de reoptimización periódica/por
-evento), `Full thesis code/experiments/slack_analysis.py` (métricas de holgura CPM),
-`Full thesis code/experiments/stats/comparators.py` (comparadores PDR separados),
-`Full thesis code/experiments/stats/seeds.py` (agregación multi-semilla). Todos los
+`code/envs/rescheduling.py` (políticas de reoptimización periódica/por
+evento), `code/experiments/slack_analysis.py` (métricas de holgura CPM),
+`code/experiments/stats/comparators.py` (comparadores PDR separados),
+`code/experiments/stats/seeds.py` (agregación multi-semilla). Todos los
 resultados numéricos que estas piezas producirían quedan `[PENDIENTE-CORRIDA]` hasta
 que se corran.
 
-`Full thesis code/` is a self-contained, installable Python package
+`code/` is a self-contained, installable Python package
 (`thesis_fjsp_drl`) with its own `README.md` covering the code's internal design
 decisions. This top-level README is the reproduction guide; the code README is the
 API/module reference.
@@ -90,7 +95,7 @@ E1–E8 without retraining. This git repository is the code + small result-summa
 ### Option A — native Python (recommended for development)
 
 ```bash
-cd "Full thesis code"
+cd "code"
 python -m venv .venv
 # Windows:        .venv\Scripts\activate
 # macOS/Linux:    source .venv/bin/activate
@@ -107,12 +112,12 @@ supported and is what every result in this thesis was actually produced on — s
 ### Option B — Docker (recommended for long-term reproducibility)
 
 ```bash
-cd "Full thesis code"
+cd "code"
 docker build -t thesis-fjsp-drl .
 docker run --rm -it -v "$(pwd)/experiments/results:/app/experiments/results" thesis-fjsp-drl
 ```
 
-See [`Full thesis code/Dockerfile`](Full%20thesis%20code/Dockerfile) — CPU-only, pinned
+See [`code/Dockerfile`](code/Dockerfile) — CPU-only, pinned
 base image, reproduces the exact dependency set below without depending on whatever
 Python/OS the reader happens to have in three years. This is the environment to use if
 "native" installation ever breaks due to upstream package/OS drift.
@@ -149,7 +154,7 @@ correctness) depends on it too:
 you have one, `torch`/`sb3_contrib` will still work, but no result here was validated
 against GPU execution, and the codebase's own evaluation path
 (`baselines.interface.TrainedRLBaseline`) is deliberately pinned to CPU regardless
-(see `Full thesis code/models/policy.py`'s `device` parameter).
+(see `code/models/policy.py`'s `device` parameter).
 
 ---
 
@@ -189,7 +194,7 @@ exception:
 
 ## Reproducing the thesis results: E0–E8
 
-All commands below assume `cd "Full thesis code"` and an activated environment (native
+All commands below assume `cd "code"` and an activated environment (native
 or `docker run -it thesis-fjsp-drl bash`). **Trained checkpoints are already included in
 this repository** (`experiments/results/checkpoints/`,
 `experiments/results/curriculum_full/checkpoints/`, `experiments/results/dynamic/checkpoints/`)
@@ -295,9 +300,9 @@ done
 ```
 
 Full copy-pasteable scripts (all 9 regimes × both arms, exactly as run for this thesis):
-[`experiments/results/week24/run_e4e5e6.sh`](Full%20thesis%20code/experiments/results/week24/run_e4e5e6.sh)
+[`experiments/results/week24/run_e4e5e6.sh`](code/experiments/results/week24/run_e4e5e6.sh)
 (PDR arm) and
-[`run_e4e5e6_rl.sh`](Full%20thesis%20code/experiments/results/week24/run_e4e5e6_rl.sh)
+[`run_e4e5e6_rl.sh`](code/experiments/results/week24/run_e4e5e6_rl.sh)
 (RL arm).
 
 **Hardware/runtime:** the RL arm (9 × 30 × 2 = 540 rollouts) took **~9-10 minutes**
@@ -376,7 +381,7 @@ Once E1–E8's CSVs exist (either freshly reproduced above, or using the ones al
 checked into `experiments/results/` / `results/datos_crudos/`):
 
 ```bash
-cd "Full thesis code"
+cd "code"
 
 # H1-H5 verdicts, RPD/RI/latency summary tables, CD diagrams -- writes
 # experiments/results/stats/{tables,figures}/
@@ -411,7 +416,7 @@ disruption rollout, the stats pipeline) in minutes, not to reproduce a specific
 thesis number.
 
 ```bash
-cd "Full thesis code"
+cd "code"
 
 # 1. Environment sanity (skips the slow CP-SAT-heavy tests)
 pytest -m "not slow" -q
@@ -459,7 +464,7 @@ clean result.
 ## Design decisions (code-level)
 
 Most of the "why", not just the "what", lives next to the code as module docstrings.
-See [`Full thesis code/README.md`](Full%20thesis%20code/README.md) for the architectural
+See [`code/README.md`](code/README.md) for the architectural
 decisions (hand-rolled GIN vs. `torch_geometric`, `MaskablePPO` vs. vanilla PPO,
 `SchedulingEnv`'s shared base, CP-SAT as ground truth, etc.) and the module-by-module
 directory structure. For a thesis-chapter-by-thesis-chapter map of which code module
@@ -468,6 +473,6 @@ produced which result, see [`CODE_APPENDIX_SUMMARY.md`](CODE_APPENDIX_SUMMARY.md
 
 ## License and citation
 
-See `Full thesis code/pyproject.toml` for the package metadata. If you use this code or
+See `code/pyproject.toml` for the package metadata. If you use this code or
 its results, please cite the thesis (citation details to be finalized at defense/
 publication — see `FINAL_REPRODUCIBILITY_REPORT.md` §5 for the archival/DOI plan).

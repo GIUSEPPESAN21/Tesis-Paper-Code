@@ -87,7 +87,7 @@ now says so explicitly instead of repeating an unverified assumption.
 
 ## 3. Dockerfile
 
-Written (`Full thesis code/Dockerfile` + `.dockerignore`): CPU-only base image
+Written (`code/Dockerfile` + `.dockerignore`): CPU-only base image
 (`python:3.11.9-slim`, matching the exact Python patch version this thesis used),
 layer-cached dependency install, editable package install, and a fast-subset `pytest`
 run baked into the build so a broken image fails at `docker build` time, not at first
@@ -100,7 +100,7 @@ sprint ran in (`docker --version` → command not found), so the Dockerfile has 
 build-tested.** It follows standard, conventional Dockerfile practice and mirrors the
 already-verified native dependency list exactly, but "written correctly" and "verified
 to build" are different claims, and only the first one is true right now. **Recommended
-before relying on it:** `docker build -t thesis-fjsp-drl "Full thesis code"` on a
+before relying on it:** `docker build -t thesis-fjsp-drl "code"` on a
 machine with Docker installed, and report back if anything fails — most likely failure
 mode would be a missing system library for one of the CP-SAT/torch wheels on the slim
 base image, which `apt-get install` inside the Dockerfile would fix if it comes up.

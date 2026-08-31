@@ -10,12 +10,12 @@ excede una simple lectura/agregación de datos ya existentes (Fase 0a), se deja 
 `[PENDIENTE-CORRIDA: experiments/audit/ri_artifact_check.py]`, según regla del prompt del
 tutor.
 
-**Fuentes leídas:** `Full thesis code/experiments/results/week24/e1_seed0_baselines.csv`,
-`Full thesis code/experiments/results/week24/e4e5e6/*_with_rl.csv`,
-`Full thesis code/experiments/results/week24/baselines_week12.csv`,
-`Full thesis code/envs/dynamic_jssp_env.py`, `Full thesis code/envs/disjunctive_graph.py`,
-`Full thesis code/baselines/dispatching_rules.py`, `Full thesis code/baselines/due_dates.py`,
-`Full thesis code/experiments/stats/*.py`, `results/tablas/*.md`,
+**Fuentes leídas:** `code/experiments/results/week24/e1_seed0_baselines.csv`,
+`code/experiments/results/week24/e4e5e6/*_with_rl.csv`,
+`code/experiments/results/week24/baselines_week12.csv`,
+`code/envs/dynamic_jssp_env.py`, `code/envs/disjunctive_graph.py`,
+`code/baselines/dispatching_rules.py`, `code/baselines/due_dates.py`,
+`code/experiments/stats/*.py`, `results/tablas/*.md`,
 `PreRegistration_FINAL.md`, `StatsAnalysis_TechSpec.md`, `FINAL_RESULTS_REPORT.md`,
 `E7_E8_FinalPlan.md`.
 
@@ -171,7 +171,7 @@ por el tutor.
 ## (d) Procedencia del Estudio 1
 
 **Búsqueda exhaustiva realizada** sobre todo `.md` y `.csv` del repositorio (dentro y
-fuera de `Full thesis code/`) de los términos "Estudio 1", "estudio1", "study1", "47520",
+fuera de `code/`) de los términos "Estudio 1", "estudio1", "study1", "47520",
 y de datasets con la forma 16 instancias × 9 regímenes × 11 métodos × 30 escenarios.
 
 **Resultado: los datos crudos del "Estudio 1" (16×9×11×30 = 47,520 corridas) NO existen
@@ -179,7 +179,7 @@ en este repositorio, bajo ningún nombre reconocible.** La única coincidencia t
 "Estudio 1"/"47520" en todo el repositorio es el propio archivo que contiene el prompt
 del tutor guardado como `.md` (`PROMPT_AsistenteIA_MejorasTutor.md` o equivalente) — cero
 menciones en `Thesis_FINAL.md`, `Chapter6_FINAL.md`, `Chapter7_FINAL.md`, o en cualquier
-CSV bajo `results/` o `Full thesis code/experiments/results/`.
+CSV bajo `results/` o `code/experiments/results/`.
 
 Los dos datasets existentes más cercanos por forma, y por qué **no** son el Estudio 1:
 

@@ -1,0 +1,10 @@
+# Normalize line endings on checkout/commit so text diffs and checksums are
+# consistent across Windows/macOS/Linux clones (the repo was authored on
+# Windows; CRLF-vs-LF drift previously produced spurious filesystem-level
+# diffs against identical git-tracked content).
+* text=auto eol=lf
+
+*.png binary
+*.pdf binary
+*.jpeg binary
+*.jpg binary

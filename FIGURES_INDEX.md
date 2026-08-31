@@ -2,7 +2,7 @@
 
 Mapa de cada figura final (`figures/`) a su sección de tesis, tabla/dato fuente,
 y el pie de figura exacto ya citado en `Chapter6_FINAL.md`. Todas las figuras se
-generaron con `Full thesis code/scripts/generate_thesis_figures.py`, en español,
+generaron con `code/scripts/generate_thesis_figures.py`, en español,
 paleta segura para daltonismo (validada con `validate_palette.js` del *skill*
 `dataviz` — ver notas de validación al final), fuente legible, 300dpi PNG +
 PDF vectorial (fuentes incrustadas, `pdf.fonttype=42`, aptas para inclusión
@@ -159,7 +159,7 @@ verificado explícitamente para esta tesis.
 ## Cómo regenerar
 
 ```bash
-cd "Full thesis code"
+cd "code"
 ./.venv/Scripts/python.exe scripts/generate_thesis_figures.py --out-dir ../figures
 ```
 

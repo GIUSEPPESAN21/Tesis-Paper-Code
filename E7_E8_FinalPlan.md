@@ -2,7 +2,7 @@
 
 **Status:** Finalized, pending execution.
 **Reviewer:** Cowork (doctoral thesis auditor role), at Joseph Sanchez's request.
-**Reviewed against:** `docs/logs/EXPERIMENT_LOG_WEEK24.md` (dated 2026-07-31), `docs/planificacion/FinalExperimentMatrix.md` (frozen review, dated 2026-07-30), `PreRegistration_FINAL.md` (frozen 2026-07-29T05:22:26Z UTC), `docs/planificacion/AblationPlan.md`, `docs/logs/E0_CLOSEOUT_WEEK24.md`, and a direct read of `Full thesis code/` (`envs/dynamic_jssp_env.py`, `experiments/train_hetero.py`, `models/policy.py`) as it stands today.
+**Reviewed against:** `docs/logs/EXPERIMENT_LOG_WEEK24.md` (dated 2026-07-31), `docs/planificacion/FinalExperimentMatrix.md` (frozen review, dated 2026-07-30), `PreRegistration_FINAL.md` (frozen 2026-07-29T05:22:26Z UTC), `docs/planificacion/AblationPlan.md`, `docs/logs/E0_CLOSEOUT_WEEK24.md`, and a direct read of `code/` (`envs/dynamic_jssp_env.py`, `experiments/train_hetero.py`, `models/policy.py`) as it stands today.
 **This document is `docs/planificacion/FinalExperimentMatrix.md`'s own Semana 25 deliverable** (§6 of that document: *"Review `docs/logs/EXPERIMENT_LOG_WEEK24.md` against this priority order; decide rerun/scope-down/accept-as-limitation for anything incomplete; finalize E7 scope (`E7_E8_FinalPlan.md`)..."*), produced on the actual date this review happened (2026-07-31), one working day after Week 24's log rather than on the matrix's original placeholder calendar mapping — see §3 for what this acceleration means for scheduling.
 
 ---

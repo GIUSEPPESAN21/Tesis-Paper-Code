@@ -10,7 +10,7 @@ assertion that it should be.
 Companion documents this appendix summarizes rather than duplicates: `README.md` (full
 installation/reproduction instructions with exact commands and measured runtimes),
 `FINAL_REPRODUCIBILITY_REPORT.md` (the reproducibility audit and its findings),
-`FIGURES_INDEX.md` (figure-by-figure provenance), and `Full thesis code/README.md`
+`FIGURES_INDEX.md` (figure-by-figure provenance), and `code/README.md`
 (code-level design decisions). This document is the map between them and the thesis
 prose; it does not re-derive anything they already establish.
 
@@ -42,16 +42,16 @@ THESIS MASTER'S/                          <- archived repository root (git-tagge
 ├── results/
 │   ├── tablas/                               <- thesis-numbered tables (Tabla_6.X.Y.*)
 │   ├── datos_crudos/                          <- raw per-row CSVs, by experiment batch
-│   └── README.md                              <- what's here vs. Full thesis code/
+│   └── README.md                              <- what's here vs. code/
 ├── CITATION.cff, .zenodo.json               <- archival/citation metadata
-└── Full thesis code/                        <- the installable Python package (below)
+└── code/                        <- the installable Python package (below)
 ```
 
-### `Full thesis code/` — the Python package (`thesis_fjsp_drl`, ~9,500 lines across the
+### `code/` — the Python package (`thesis_fjsp_drl`, ~9,500 lines across the
 modules below, excluding tests)
 
 ```
-Full thesis code/
+code/
 ├── envs/            <- Gymnasium environments (JSSP/FJSP, static + dynamic/stochastic);
 │                       rescheduling.py (2026-08-20, tutor rec 9): periodic/event-triggered
 │                       reoptimization execution policies for the offline (ga/cpsat) methods
@@ -71,7 +71,7 @@ Full thesis code/
 ## 2. Chapter/section -> code module map
 
 This table is the authoritative cross-reference between `Thesis_FINAL.md`'s prose and
-the code that produced it. All paths are relative to `Full thesis code/` unless noted.
+the code that produced it. All paths are relative to `code/` unless noted.
 
 ### Chapter 4 — Marco metodológico y arquitectura de la solución
 

@@ -1,7 +1,7 @@
 # `results/` — resultados finales, organizados para citar en la tesis
 
 Este directorio es la vista **limpia y numerada por tesis** de los resultados de
-E1–E8. No reemplaza `Full thesis code/experiments/results/` (el árbol de trabajo
+E1–E8. No reemplaza `code/experiments/results/` (el árbol de trabajo
 completo, con *checkpoints*, logs de entrenamiento, TensorBoard, y todo CSV
 intermedio) — es una copia derivada, generada por scripts reproducibles, pensada
 para citarse directamente desde `Chapter6_FINAL.md`/`Chapter7_FINAL.md` y para
@@ -18,7 +18,7 @@ results/
 
 ## `tablas/` — tablas citadas en el Capítulo 6
 
-Generadas por `Full thesis code/scripts/export_thesis_tables.py`, que **convierte
+Generadas por `code/scripts/export_thesis_tables.py`, que **convierte
 de formato** (Markdown → CSV/TeX) las tablas ya producidas y probadas por el
 *pipeline* de estadística (`experiments/stats/`, 84/84 pruebas superadas) —
 **no recalcula ningún número**, así que estas copias son, por construcción,
@@ -62,9 +62,9 @@ existe un CSV de E8 separado. Esto es intencional, no un archivo faltante.
 **Lo que NO está aquí, y dónde encontrarlo:** *checkpoints* de los modelos
 entrenados (`.zip`), logs de TensorBoard, curvas de entrenamiento (`.png`), y
 logs de ejecución (`.log`) permanecen en
-`Full thesis code/experiments/results/` — son artefactos de ingeniería/
+`code/experiments/results/` — son artefactos de ingeniería/
 reproducibilidad, no datos que una tabla o figura del Capítulo 6 cite
-directamente. `stats_manifest.json` (`Full thesis code/experiments/results/stats/`)
+directamente. `stats_manifest.json` (`code/experiments/results/stats/`)
 es la fuente de verdad para trazar cualquier número específico hasta su CSV y
 fila de origen exactos.
 
@@ -74,7 +74,7 @@ Ambos scripts son deterministas dado el mismo estado de
 `experiments/results/` — no dependen de aleatoriedad ni de fecha/hora:
 
 ```bash
-cd "Full thesis code"
+cd "code"
 ./.venv/Scripts/python.exe scripts/export_thesis_tables.py --out-dir ../results/tablas
 ./.venv/Scripts/python.exe scripts/generate_thesis_figures.py --out-dir ../figures
 ```

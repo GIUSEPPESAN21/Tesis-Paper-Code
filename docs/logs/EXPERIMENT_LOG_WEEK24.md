@@ -1,7 +1,7 @@
 # Experiment Log — Week 24 (2026-07-31)
 
 **Scope:** Execution of E1–E6 per `../docs/planificacion/FinalExperimentMatrix.md`, on a single-machine Linux
-dev environment (`Full thesis code/.venv-linux`, Python 3.12, PyTorch 2.12.1+cu130,
+dev environment (`code/.venv-linux`, Python 3.12, PyTorch 2.12.1+cu130,
 16 logical CPU cores, GPU present but not used by the evaluation code path — see the
 device note under E1). No significance testing performed this window, per STEP4 of the
 task brief — that is explicitly deferred to next month's dedicated analysis script.

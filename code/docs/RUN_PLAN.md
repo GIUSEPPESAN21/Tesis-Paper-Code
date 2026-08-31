@@ -19,8 +19,8 @@ existentes. Lo único pendiente de ejecución real:
 
 ```
 python -m experiments.audit.ri_artifact_check \
-    --e1-csv "Full thesis code/experiments/results/week24/e1_seed0_baselines.csv" \
-    --e4e5e6-dir "Full thesis code/experiments/results/week24/e4e5e6" \
+    --e1-csv "code/experiments/results/week24/e1_seed0_baselines.csv" \
+    --e4e5e6-dir "code/experiments/results/week24/e4e5e6" \
     --out results/tablas/Tabla_auditoria_ri_artefacto.csv
 ```
 **Produce:** `results/tablas/Tabla_auditoria_ri_artefacto.csv`.
@@ -65,7 +65,7 @@ python -m pytest tests/test_stats_comparators.py tests/test_stats_report_compara
 
 ### T5.3 — ampliar e8_cpu_timing.csv a las 43 instancias
 ```
-python "Full thesis code/experiments/results/week24/e8_cpu_timing.py"
+python "code/experiments/results/week24/e8_cpu_timing.py"
 ```
 **Produce:** `experiments/results/week24/e8_cpu_timing.csv` (43 filas, no 4).
 **Tiempo estimado:** 43 instancias × (5 réplicas RL multihilo + 5 monohilo + 1 CP-SAT
@@ -76,11 +76,11 @@ resuelven CP-SAT en <1s; solo las la31+ pueden acercarse al límite de 30s).
 ### T5.1 — Tabla_costo_computacional
 ```
 python -m experiments.cost_accounting \
-    --e1-csv "Full thesis code/experiments/results/week24/e1_seed0_baselines.csv" \
-    --e8-timing-csv "Full thesis code/experiments/results/week24/e8_cpu_timing.csv" \
-    --summary-glob "Full thesis code/experiments/results/dynamic/summary_dynamic_kappa0.0_D1_ft06_seed*.json" \
-    --out "Full thesis code/experiments/results/stats/tables/costo_computacional.md"
-python "Full thesis code/scripts/export_thesis_tables.py"
+    --e1-csv "code/experiments/results/week24/e1_seed0_baselines.csv" \
+    --e8-timing-csv "code/experiments/results/week24/e8_cpu_timing.csv" \
+    --summary-glob "code/experiments/results/dynamic/summary_dynamic_kappa0.0_D1_ft06_seed*.json" \
+    --out "code/experiments/results/stats/tables/costo_computacional.md"
+python "code/scripts/export_thesis_tables.py"
 ```
 **Depende de:** T5.3 (e8_cpu_timing.csv completo) y de que existan
 `summary_dynamic_kappa0.0_D1_ft06_seed*.json` (Fase 2, T2.1 — si aún no hay corridas
@@ -90,9 +90,9 @@ entrenamiento queda `[PENDIENTE-CORRIDA]`, no falla).
 
 ### T5.2 — Fig_costo_amortizado
 ```
-python "Full thesis code/scripts/generate_thesis_figures.py" \
-    --e8-timing-csv "Full thesis code/experiments/results/week24/e8_cpu_timing.csv" \
-    --training-summary-glob "Full thesis code/experiments/results/dynamic/summary_dynamic_kappa0.0_D1_ft06_seed*.json"
+python "code/scripts/generate_thesis_figures.py" \
+    --e8-timing-csv "code/experiments/results/week24/e8_cpu_timing.csv" \
+    --training-summary-glob "code/experiments/results/dynamic/summary_dynamic_kappa0.0_D1_ft06_seed*.json"
 ```
 **Depende de:** lo mismo que T5.1. **Tiempo estimado:** < 5 s.
 
@@ -141,11 +141,11 @@ results/datos_crudos/slack/slack_metrics.csv` (ya wireado). **Tiempo estimado:**
 
 ### T8.1 — malla de disrupción ampliada (8+ instancias, 9 PDR completas)
 ```
-python "Full thesis code/run_evaluation.py" \
+python "code/run_evaluation.py" \
     --instances ft06 ft10 ft20 la01 la11 la21 la31 la36 \
     --methods pdr \
     --disruption breakdowns --availability 0.95 --seeds $(python -c "print(' '.join(str(i) for i in range(30)))") \
-    --out "Full thesis code/experiments/results/week24_wide/e4_breakdowns_A0.95_wide.csv"
+    --out "code/experiments/results/week24_wide/e4_breakdowns_A0.95_wide.csv"
 # repetir con --availability 0.90/0.80, --disruption stochastic_times --proc-sigma 0.10/0.25/0.50,
 # y --disruption arrivals --utilization 0.70/0.85/0.95 (ahora con las 9 PDR completas
 # gracias a T8.1's arrival-safety fix, no solo 4)
@@ -162,7 +162,7 @@ lanzar los 9 regímenes en procesos separados si el usuario quiere acelerar.
 ### T8.2/T8.4 — calidad realizada + comparación contra los tres comparadores
 ```
 python -m experiments.stats.realized_quality \
-    --results-dir "Full thesis code/experiments/results" \
+    --results-dir "code/experiments/results" \
     --out results/tablas/Tabla_calidad_realizada_disrupcion
 ```
 **Depende de:** E1 (ya existe) + E4/E5/E6 (ya existen para ft06/la01; T8.1 los amplía).
@@ -182,21 +182,21 @@ usuario): kappa=0 primero, luego kappa=1.0, luego kappa=0.5.**
 
 ```
 # kappa=0 (prioridad 1)
-python "Full thesis code/experiments/train_dynamic.py" \
+python "code/experiments/train_dynamic.py" \
     --instance ft06 --kappa 0.0 --stage D1 \
-    --init-checkpoint "Full thesis code/experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip" \
+    --init-checkpoint "code/experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip" \
     --timesteps 100000 --seeds 0 1 2 3 4 --nominal-episode-fraction 0.2
 
 # kappa=1.0 (prioridad 2)
-python "Full thesis code/experiments/train_dynamic.py" \
+python "code/experiments/train_dynamic.py" \
     --instance ft06 --kappa 1.0 --stage D1 \
-    --init-checkpoint "Full thesis code/experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip" \
+    --init-checkpoint "code/experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip" \
     --timesteps 100000 --seeds 0 1 2 3 4 --nominal-episode-fraction 0.2
 
 # kappa=0.5 (prioridad 3)
-python "Full thesis code/experiments/train_dynamic.py" \
+python "code/experiments/train_dynamic.py" \
     --instance ft06 --kappa 0.5 --stage D1 \
-    --init-checkpoint "Full thesis code/experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip" \
+    --init-checkpoint "code/experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip" \
     --timesteps 100000 --seeds 0 1 2 3 4 --nominal-episode-fraction 0.2
 ```
 **Produce:** 5 × `summary_dynamic_kappa{k}_D1_ft06_seed{0..4}.json` por valor de kappa.
@@ -216,9 +216,9 @@ reproducir exactamente el E7 ya publicado, añadir `--nominal-episode-fraction 0
 ### T2.4 — Tabla_H4_multisemilla_posthoc
 ```
 python -m experiments.stats.posthoc_multiseed \
-    --kappa-glob 0.0 "Full thesis code/experiments/results/dynamic/summary_dynamic_kappa0.0_D1_ft06_seed*.json" \
-    --kappa-glob 0.5 "Full thesis code/experiments/results/dynamic/summary_dynamic_kappa0.5_D1_ft06_seed*.json" \
-    --kappa-glob 1.0 "Full thesis code/experiments/results/dynamic/summary_dynamic_kappa1.0_D1_ft06_seed*.json" \
+    --kappa-glob 0.0 "code/experiments/results/dynamic/summary_dynamic_kappa0.0_D1_ft06_seed*.json" \
+    --kappa-glob 0.5 "code/experiments/results/dynamic/summary_dynamic_kappa0.5_D1_ft06_seed*.json" \
+    --kappa-glob 1.0 "code/experiments/results/dynamic/summary_dynamic_kappa1.0_D1_ft06_seed*.json" \
     --out results/tablas/Tabla_H4_multisemilla_posthoc
 ```
 **Depende de:** las corridas de arriba. **Tiempo estimado:** < 5 s.
@@ -230,7 +230,7 @@ python -m experiments.stats.posthoc_multiseed \
 ```
 python -m experiments.run_2x2_ablation \
     --instance ft06 \
-    --static-checkpoint "Full thesis code/experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip" \
+    --static-checkpoint "code/experiments/results/curriculum_full/checkpoints/curriculum_stage19_la20_final.zip" \
     --kappa-robust 0.5 \
     --timesteps 100000 --seeds 0 1 2 3 4 --nominal-episode-fraction 0.2 \
     --execute
@@ -242,10 +242,10 @@ checkpoints existentes — si `--kappa-d-checkpoint` no se pasa, D también se r
 
 ```
 python -m experiments.stats.ablation_2x2 \
-    --cell-csv A "Full thesis code/experiments/results/ablation_2x2/eval_cellA_none.csv" \
-    --cell-csv B "Full thesis code/experiments/results/ablation_2x2/eval_cellB_none.csv" \
-    --cell-csv C "Full thesis code/experiments/results/ablation_2x2/eval_cellC_none.csv" \
-    --cell-csv D "Full thesis code/experiments/results/ablation_2x2/eval_cellD_none.csv" \
+    --cell-csv A "code/experiments/results/ablation_2x2/eval_cellA_none.csv" \
+    --cell-csv B "code/experiments/results/ablation_2x2/eval_cellB_none.csv" \
+    --cell-csv C "code/experiments/results/ablation_2x2/eval_cellC_none.csv" \
+    --cell-csv D "code/experiments/results/ablation_2x2/eval_cellD_none.csv" \
     --out results/tablas/Tabla_ablacion_2x2
 ```
 **Supuesto a verificar en la primera corrida:** `run_2x2_ablation.py --execute` NO
@@ -264,31 +264,31 @@ celda antes de este paso (el comando exacto está en
 cualquier número que produzca.**
 
 ```
-python -m pytest "Full thesis code/tests/test_rescheduling.py" -v
-python -m pytest "Full thesis code/tests/test_rescheduling.py" -m slow -v
+python -m pytest "code/tests/test_rescheduling.py" -v
+python -m pytest "code/tests/test_rescheduling.py" -m slow -v
 ```
 **Tiempo estimado:** los tests no-`slow` (backend `ga`/priority-search): ~10–30 s
 en total. El test `slow` (CP-SAT, ft06, sin disrupción): ~5–30 s (ft06 resuelve
 óptimo rápido).
 
 ```
-python "Full thesis code/run_evaluation.py" \
+python "code/run_evaluation.py" \
     --instances ft06 la01 --methods ga cpsat \
     --disruption breakdowns --availability 0.90 --seeds 0 1 2 \
     --execution-policy periodic --reopt-period 20 --reopt-time-limit 5 \
-    --out "Full thesis code/experiments/results/reprogramacion/e4_periodic.csv"
+    --out "code/experiments/results/reprogramacion/e4_periodic.csv"
 
-python "Full thesis code/run_evaluation.py" \
+python "code/run_evaluation.py" \
     --instances ft06 la01 --methods ga cpsat \
     --disruption breakdowns --availability 0.90 --seeds 0 1 2 \
     --execution-policy event_triggered --reopt-time-limit 5 \
-    --out "Full thesis code/experiments/results/reprogramacion/e4_event_triggered.csv"
+    --out "code/experiments/results/reprogramacion/e4_event_triggered.csv"
 
-python "Full thesis code/run_evaluation.py" \
+python "code/run_evaluation.py" \
     --instances ft06 la01 --methods ga cpsat \
     --disruption breakdowns --availability 0.90 --seeds 0 1 2 \
     --execution-policy right_shift \
-    --out "Full thesis code/experiments/results/reprogramacion/e4_right_shift.csv"
+    --out "code/experiments/results/reprogramacion/e4_right_shift.csv"
 ```
 **Tiempo estimado:** cada reoptimización cuesta hasta `--reopt-time-limit` segundos
 (5s aquí); con ~10-20 reoptimizaciones típicas por episodio bajo A=0.90, 2
