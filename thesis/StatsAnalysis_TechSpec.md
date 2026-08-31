@@ -1,6 +1,6 @@
 # Statistical Analysis Pipeline — Technical Specification
 
-**Status:** Specification only. No code in this repository implements this yet — nothing here has been executed. This document is written to be handed directly to el asistente de IA for implementation once E1–E8 results exist.
+**Status:** Specification only. No code in this repository implements this yet — nothing here has been executed. This document is written to be handed directly to an implementer (human or AI-assisted) for implementation once E1–E8 results exist.
 **Companion documents this spec is bound by:** `PreRegistration.md` (frozen 2026-07-29T05:22:26Z UTC — every statistical test, alternative hypothesis, and accept/reject threshold below is copied from there, not reinvented), `../docs/planificacion/Step 4 Thesis.md` Part D6 (exact formulas for RPD/RI/effect size/CD), `../docs/planificacion/FinalExperimentMatrix.md` (which experiments produce which CSVs, on what schedule), `REFACTOR_NOTES_WEEK15.md` / `run_evaluation.py` (the input CSV schema this pipeline consumes).
 **Consumer:** whoever executes E1–E8 (Semana 24/27 per `../docs/planificacion/FinalExperimentMatrix.md`) and Chapter 6/7 of the thesis.
 
