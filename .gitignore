@@ -19,9 +19,12 @@ dist/
 # reproduction artifact; this git repository is the code + small result-summary layer.
 **/checkpoints/*.zip
 **/tb_logs/
-experiments/results/optuna*.db
+**/experiments/results/optuna_*.db
 
 # OS/editor noise
 .DS_Store
 Thumbs.db
 .Rhistory
+
+# el asistente de IA session runtime state -- not project content.
+.el asistente de IA/
