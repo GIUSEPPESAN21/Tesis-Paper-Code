@@ -34,8 +34,19 @@ los Anexos E–G de la tesis (§1.7).
 Documentos de planificación y proceso: `AblationPlan.md`,
 `BaselineAnalysis.md`/`BaselineComparativeAnalysis.md`, `VandV_Protocol.md`,
 `FinalExperimentMatrix.md`, y los prompts de plan mensual `Step 2 Thesis.md`/
-`Step 4 Thesis.md` (Step 1, 3 y 5 ya estaban en `../archive/` desde la limpieza
-anterior).
+`Step 4 Thesis.md` (Step 1, 3, 5 y `PROMPT_AsistenteIA_MejorasTutor.md` se eliminaron el
+2026-08-31 — cero referencias entrantes, ver `../archive/README.md`).
+
+**`Step 2 Thesis.md` y, sobre todo, `Step 4 Thesis.md` NO son prompts descartables** —
+pese al nombre, son el documento de marco metodológico (`Thesis_FINAL.md` los llama
+"Parte B/D1/D3/D4/D5/D7/E1" del "documento de marco") del que `PreRegistration_FINAL.md`
+deriva literalmente su disciplina anti-HARKing y su rejilla experimental congelada, y del
+que partes de la tesis **todavía no redactadas en prosa** (p. ej. el contenido teórico
+del Capítulo 2, Parte B) siguen dependiendo directamente como única fuente. Más de 15
+citas activas en `Thesis_FINAL.md`/`PreRegistration_FINAL.md` apuntan a `Step 4
+Thesis.md` por ruta exacta — borrarlo rompería esas citas y dejaría sin fuente contenido
+de tesis aún por escribir. Verificado por búsqueda de texto completo el 2026-08-31, no
+supuesto.
 
 ## `auditorias/`
 
