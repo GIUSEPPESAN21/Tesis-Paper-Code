@@ -19,9 +19,11 @@ THESIS MASTER'S/
 │                                       (§6.5.1, Table 6.0, etc.) and are kept byte-identical to
 │                                       Thesis_FINAL.md's own Chapter 6/7 sections
 ├── FINAL_RESULTS_REPORT.md        <- E1-E8 results, H1-H5 verdicts, full traceability
+├── FINAL_REPRODUCIBILITY_REPORT.md <- seed/hardware/dependency audit, archival/DOI plan (Section 5)
 ├── FIGURES_INDEX.md                <- every figure -> thesis section, caption, data source
 ├── PreRegistration_FINAL.md        <- frozen (2026-07-29) hypotheses H1-H5, decision rules
 ├── StatsAnalysis_TechSpec.md       <- spec for experiments/stats/ (Wilcoxon/Friedman/Nemenyi)
+├── PAPER_SUPPLEMENT_NOTES.md       <- supplementary notes for the companion papers
 ├── E7_E8_FinalPlan.md              <- E7/E8 scope, preconditions, schedule
 ├── Chapter6_FINAL.md, Chapter7_FINAL.md  <- Chapter 6/7 standalone, resynced from Thesis_FINAL.md
 ├── ConferencePaper_DRAFT.md         <- companion IEEE conference paper (H1-H5, condensed)

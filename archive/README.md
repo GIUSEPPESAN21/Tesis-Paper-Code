@@ -17,15 +17,26 @@ trabajo actual):
   institucional en Word (`Tesis Joseph Español.docx`,
   `Revision_y_ajustes_Tesis_Joseph_TNR12_Negro_Justificado.docx`) — superados por
   `../Thesis_FINAL.md`.
-- `Step 1 Thesis.md`, `Step 3 Thesis.md`, `Step 5 Thesis (Month Plan With All
-  Promts).md`, `PROMPT_AsistenteIA_MejorasTutor.md` — prompts/planes de trabajo mensual
-  usados para producir la tesis, sin ninguna referencia entrante desde ningún documento
-  del repo (a diferencia de `docs/planificacion/Step 2 Thesis.md` y `Step 4 Thesis.md`,
-  que **sí** siguen siendo fuente primaria activa — ver la nota en `../docs/README.md`
-  antes de tocar esos dos).
+- `Step 1 Thesis.md`, `Step 3 Thesis.md`, `PROMPT_AsistenteIA_MejorasTutor.md` —
+  prompts/planes de trabajo mensual usados para producir la tesis, sin ninguna
+  referencia entrante desde ningún documento del repo (a diferencia de
+  `docs/planificacion/Step 2 Thesis.md` y `Step 4 Thesis.md`, que **sí** siguen siendo
+  fuente primaria activa — ver la nota en `../docs/README.md` antes de tocar esos dos).
+
+**Corrección, 2026-08-31 (auditoría posterior a la misma limpieza):** `Step 5 Thesis
+(Month Plan With All Promts).md` se había eliminado en la misma pasada bajo la misma
+justificación de "cero referencias entrantes" — esa verificación fue incompleta.
+`docs/planificacion/FinalExperimentMatrix.md` lo cita por nombre exacto dos veces
+("The master project plan (`Step 5 Thesis (Month Plan With All Prompts).md`)
+schedules..." y "The master plan (`Step 5 Thesis (Month Plan)`) labels..."). Restaurado
+con `git checkout <commit-previo> -- archive/Step 5...md` (mismo objeto git, historial
+intacto). Sigue archivado, no es fuente primaria activa como Step 2/4, pero no es
+huérfano.
 
 ## Lo que queda en la raíz de `archive/`
 
 - `ProofreadingChangelog.md` — registro de correcciones de redacción, proceso cerrado.
 - `Chapter3.md` — borrador de capítulo anterior a `Thesis_FINAL.md` (ver también
   `../docs/capitulos/Chapter3_final.md`, la revisión posterior de este mismo borrador).
+- `Step 5 Thesis (Month Plan With All Promts).md` — restaurado el 2026-08-31, ver nota
+  de corrección arriba.

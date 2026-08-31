@@ -48,6 +48,12 @@ Thesis.md` por ruta exacta — borrarlo rompería esas citas y dejaría sin fuen
 de tesis aún por escribir. Verificado por búsqueda de texto completo el 2026-08-31, no
 supuesto.
 
+**Corrección, 2026-08-31:** `Step 5 Thesis (Month Plan With All Promts).md` se eliminó
+en la misma pasada bajo la misma verificación de "cero referencias", pero esa
+verificación fue incompleta — `FinalExperimentMatrix.md` (este mismo directorio) lo cita
+por nombre dos veces. Restaurado en `../archive/`; ver la nota de corrección en
+`../archive/README.md`.
+
 ## `auditorias/`
 
 `AuditoriaCapitulos1-5.md`, `ConsistencyCheckReport.md`, `PreDefenseAudit.md`,
