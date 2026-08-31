@@ -55,6 +55,14 @@ thesis_fjsp_drl/
 ├── data/fjsp_known_optima.csv # same, for the flexible benchmarks
 ├── scripts/                  # one-off provenance scripts (fetch/verify instances)
 ├── experiments/              # training scripts, historical eval script, results
+│   └── results/               # week24/, week25/, dynamic/, stats/, curriculum_full/,
+│                                 ablations_full/, ablations_la16/ -- the E1-E8 batches
+│                                 that back the thesis; week18/, hpo_smoke/ -- earlier
+│                                 (Week 9-21) hetero-training/HPO dev artifacts, archived
+│                                 not cited; baselines_week9.{csv,md}, baselines_week12.
+│                                 {csv,md} stay at this root (not archived) because
+│                                 Thesis_FINAL.md/PreRegistration_FINAL.md cite them by
+│                                 this exact path
 ├── tests/                    # pytest suite (unit + run_evaluation.py integration tests)
 └── notebooks/                 # exploratory analysis (empty for now)
 ```

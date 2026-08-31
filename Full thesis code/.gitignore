@@ -8,3 +8,8 @@ dist/
 # Trained model checkpoints are large and regenerable; plots/metrics are kept
 # for the validation report.
 experiments/results/*.zip
+
+# Optuna HPO search-state databases: large binary blobs, fully regenerable by
+# re-running experiments/hpo_hetero.py, zero citation value (conclusions are
+# captured in hpo_best_*.json/hpo_winner.json and HPO_ABLATION_REPORT_WEEK21).
+experiments/results/**/optuna_*.db

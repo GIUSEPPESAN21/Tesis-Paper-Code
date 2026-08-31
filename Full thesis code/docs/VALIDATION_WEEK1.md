@@ -101,11 +101,11 @@ python experiments/train_ft06.py --timesteps 20000 --seed 0
   actions before sampling, so the environment's own constraint checks (see §b)
   apply to every training episode, not just the evaluation ones.
 
-![ft06 training curves](experiments/results/reward_curve_ft06.png)
+![ft06 training curves](experiments/results/week18/reward_curve_ft06.png)
 
 *Left: per-episode return (scaled, undiscounted). Right: per-episode
 makespan, with the proven optimum (55) as a reference line. Full per-episode
-data: `experiments/results/train_ft06_metrics.csv`; trained checkpoint:
+data: `experiments/results/week18/train_ft06_metrics.csv`; trained checkpoint:
 `experiments/results/ppo_gin_ft06.zip`.*
 
 The pipeline's plumbing is also covered by fast dedicated smoke tests

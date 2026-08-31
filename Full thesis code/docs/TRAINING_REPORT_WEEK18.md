@@ -33,7 +33,7 @@ GA's wall clock.
 Four new modules (`envs/fjsp_env.py`, `envs/fjsp_loader.py`,
 `scripts/fetch_fjsp_instances.py`, `experiments/train_hetero.py`), three new test files,
 and eight modified source files. The full test suite went from **510 to 585 passing tests
-with zero regressions** (`experiments/results/pytest_week18.txt`). Every change is
+with zero regressions** (`experiments/results/week18/pytest_week18.txt`). Every change is
 additive: `RelationalGINLayer`, `GINEncoder`, `JSSPGraphFeaturesExtractor`,
 `build_maskable_ppo` and `tests/test_policy.py` are untouched, per the architecture spec's
 prime directive, and the homogeneous path remains available as the ablation configuration.
@@ -144,9 +144,9 @@ isolation beforehand was 275 steps/s (`ft06`) and 134 steps/s (`mk01`).
 
 ## 3. Training curves
 
-![ft06 training curves](experiments/results/training_curves_hetero_stageA_ft06_seed0.png)
+![ft06 training curves](experiments/results/week18/training_curves_hetero_stageA_ft06_seed0.png)
 
-![mk01 training curves](experiments/results/training_curves_hetero_stageF_mk01_seed0.png)
+![mk01 training curves](experiments/results/week18/training_curves_hetero_stageF_mk01_seed0.png)
 
 Six panels each: episode return, episode makespan vs. the reference optimum, entropy loss,
 value loss (log scale), explained variance, and the PPO step-size diagnostics
@@ -280,7 +280,7 @@ python run_evaluation.py --fjsp --instances mk01 --methods ga cpsat rl \
     --rl-policy experiments/results/checkpoints/ppo_hetero_stageF_mk01_final.zip
 ```
 
-Full CSV: `experiments/results/week18_comparison.csv`.
+Full CSV: `experiments/results/week18/week18_comparison.csv`.
 
 ### 5.1 `ft06` (JSSP, 6×6, proven optimum 55)
 
