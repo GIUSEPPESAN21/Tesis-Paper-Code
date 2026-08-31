@@ -1,7 +1,7 @@
 # Code appendix summary
 
 **Purpose.** This document is written to be included as a thesis appendix (e.g. "Anexo
-I — Resumen del código fuente"). It answers three things a reader of `Thesis_FINAL.md`
+I — Resumen del código fuente"). It answers three things a reader of `Thesis.md`
 needs and the chapter text itself does not provide: (1) what is in the accompanying
 repository, (2) which code module implements which chapter/section, and (3) concrete
 evidence that every reported number is reproducible from the archived code, not just an
@@ -9,8 +9,8 @@ assertion that it should be.
 
 Companion documents this appendix summarizes rather than duplicates: `README.md` (full
 installation/reproduction instructions with exact commands and measured runtimes),
-`FINAL_REPRODUCIBILITY_REPORT.md` (the reproducibility audit and its findings),
-`FIGURES_INDEX.md` (figure-by-figure provenance), and `code/README.md`
+`REPRODUCIBILITY_REPORT.md` (the reproducibility audit and its findings),
+`FIGURES_INDEX.md` (figure-by-figure provenance), and `../code/README.md`
 (code-level design decisions). This document is the map between them and the thesis
 prose; it does not re-derive anything they already establish.
 
@@ -19,26 +19,32 @@ prose; it does not re-derive anything they already establish.
 ## 1. Repository structure
 
 ```
-THESIS MASTER'S/                          <- archived repository root (git-tagged, see §3)
-├── Thesis_FINAL.md                        <- the thesis: single integrated document
-├── Chapter6_FINAL.md, Chapter7_FINAL.md    <- Ch.6/7 standalone, byte-identical to
-│                                              Thesis_FINAL.md's own Ch.6/7 sections
+Tesis-Paper-Code/                         <- archived repository root (git-tagged, see §3)
 ├── README.md                               <- reproduction guide (start here to re-run E0-E8)
-├── FINAL_RESULTS_REPORT.md                 <- E1-E8 results, H1-H5 verdicts, full traceability
-├── FINAL_REPRODUCIBILITY_REPORT.md         <- reproducibility audit + smoke-test record
-├── FIGURES_INDEX.md                        <- every figure -> thesis section, caption, source
-├── PreRegistration_FINAL.md                <- frozen (2026-07-29) H1-H5, decision rules
-├── StatsAnalysis_TechSpec.md               <- spec for experiments/stats/
+├── thesis/
+│   ├── Thesis.md                          <- the thesis: single integrated document, all 8
+│   │                                         chapters (no separate per-chapter files anymore --
+│   │                                         cite by section number, see ../archive/README.md)
+│   ├── RESULTS_REPORT.md                   <- E1-E8 results, H1-H5 verdicts, full traceability
+│   ├── REPRODUCIBILITY_REPORT.md           <- reproducibility audit + smoke-test record
+│   ├── FIGURES_INDEX.md                    <- every figure -> thesis section, caption, source
+│   ├── PreRegistration.md                  <- frozen (2026-07-29) H1-H5, decision rules
+│   ├── StatsAnalysis_TechSpec.md           <- spec for experiments/stats/
+│   ├── E7_E8_Plan.md                       <- E7/E8 design rationale (also folded into §5.4)
+│   ├── CODE_APPENDIX_SUMMARY.md            <- this document
+│   └── defense/                            <- active defense-prep material
+├── paper/PaperCIE_LaTeX/                   <- companion Computers & Industrial Engineering submission
 ├── docs/especificaciones/Baselines_TechSpec.md, docs/especificaciones/DynamicEnv_TechSpec.md,
 │   docs/especificaciones/GNN_PPO_Architecture_Spec.md            <- Anexos E-G (§1.7 of the thesis)
-├── E7_E8_FinalPlan.md                      <- E7/E8 design rationale (also folded into §5.4)
-├── papers/ConferencePaper_DRAFT.md         <- companion IEEE conference paper
-├── docs/                                    <- non-canonical drafts (docs/capitulos, docs/especificaciones,
-│                                                docs/planificacion, docs/auditorias, docs/logs) --
+├── docs/                                    <- active, non-duplicated support (especificaciones,
+│                                                planificacion, auditorias, logs, future_work) --
 │                                                see docs/README.md; not cited as primary sources
-├── archive/                                 <- superseded/orphaned material, git mv not deleted
+├── archive/                                 <- superseded/historical material, git mv not deleted --
+│                                                includes the former docs/capitulos/ (absorbed into
+│                                                Thesis.md, verified by diff) and the paper drafts
+│                                                superseded by the RI-artifact metric correction,
+│                                                see archive/README.md
 ├── figures/                                 <- camera-ready figures (Spanish, 300dpi PNG+PDF)
-│   └── paper/                                <- compact English figures/tables for the paper
 ├── results/
 │   ├── tablas/                               <- thesis-numbered tables (Tabla_6.X.Y.*)
 │   ├── datos_crudos/                          <- raw per-row CSVs, by experiment batch
@@ -47,7 +53,7 @@ THESIS MASTER'S/                          <- archived repository root (git-tagge
 └── code/                        <- the installable Python package (below)
 ```
 
-### `code/` — the Python package (`thesis_fjsp_drl`, ~9,500 lines across the
+### `../code/` — the Python package (`thesis_fjsp_drl`, ~9,500 lines across the
 modules below, excluding tests)
 
 ```
@@ -62,7 +68,7 @@ code/
 ├── tests/                 <- 752 tests (pytest), one file per module below
 ├── data/                    <- benchmark instances (Fisher-Thompson/Lawrence/Brandimarte)
 ├── run_evaluation.py          <- unified evaluation harness (instances x methods x disruption)
-├── requirements.txt, pyproject.toml  <- pinned dependencies (see FINAL_REPRODUCIBILITY_REPORT.md §1)
+├── requirements.txt, pyproject.toml  <- pinned dependencies (see REPRODUCIBILITY_REPORT.md §1)
 └── Dockerfile, .dockerignore    <- CPU-only reproduction environment
 ```
 
@@ -70,8 +76,8 @@ code/
 
 ## 2. Chapter/section -> code module map
 
-This table is the authoritative cross-reference between `Thesis_FINAL.md`'s prose and
-the code that produced it. All paths are relative to `code/` unless noted.
+This table is the authoritative cross-reference between `Thesis.md`'s prose and
+the code that produced it. All paths are relative to `../code/` unless noted.
 
 ### Chapter 4 — Marco metodológico y arquitectura de la solución
 
@@ -115,7 +121,7 @@ Chapter 7 is interpretive prose over Chapter 6's already-computed verdicts; it d
 introduce new computation. Every specific figure it cites (e.g. GA's 5.52% mean RPD, the
 la40 sensitivity ratio) traces to the same modules as the corresponding Chapter 6 row
 above — see `experiments/stats/report.py`'s verdict objects, which both chapters draw
-from via `FINAL_RESULTS_REPORT.md`.
+from via `RESULTS_REPORT.md`.
 
 ### `experiments/stats/` internals (supports all of Chapter 5 §5.3 and Chapter 6)
 
@@ -136,13 +142,13 @@ from via `FINAL_RESULTS_REPORT.md`.
 | `realized_quality.py` | (tutor rec 8, T8.2/T8.4) realized RPD vs. certified optimum, compared against the three T4.1 comparators |
 | `rescheduling_policies.py` | (tutor rec 9, T6.3) `right_shift` vs. `periodic`/`event_triggered` comparison, optimality-vs-sequence-commitment diagnosis |
 
-### Figures and tables (supports Chapter 6/7 and the companion conference paper)
+### Figures and tables (supports Chapter 6/7; the live companion paper is `../paper/PaperCIE_LaTeX/`, self-contained)
 
 | Output | Generator | Notes |
 |---|---|---|
-| `figures/Fig_6.*.png/pdf` | `scripts/generate_thesis_figures.py` | Spanish labels, thesis figure numbering |
-| `results/tablas/Tabla_6.*.{csv,md,tex}` | `scripts/export_thesis_tables.py` | Format-converts already-tested pipeline tables, no recomputation |
-| `figures/paper/Fig_P*.png/pdf`, `Table_S*.{csv,md}` | `scripts/generate_paper_figures.py`, `scripts/export_paper_supplement_tables.py` | Companion paper's compact figures/supplementary tables — see `papers/PAPER_SUPPLEMENT_NOTES.md` |
+| `../figures/Fig_6.*.png/pdf` | `scripts/generate_thesis_figures.py` | Spanish labels, thesis figure numbering |
+| `../results/tablas/Tabla_6.*.{csv,md,tex}` | `scripts/export_thesis_tables.py` | Format-converts already-tested pipeline tables, no recomputation |
+| `../archive/figures_paper/Fig_P*.png/pdf`, `Table_S*.{csv,md}` | `scripts/generate_paper_figures.py`, `scripts/export_paper_supplement_tables.py` | **Historical** — supported the now-archived `ConferencePaper_DRAFT.md` (superseded by the RI-artifact metric correction, see `../archive/README.md`), not the live `../paper/PaperCIE_LaTeX/` submission |
 
 ---
 
@@ -169,7 +175,7 @@ assertion that reproduction "should" work.
   environments, models, baselines, the full `experiments/stats/` pipeline (84 of the 752
   are stats-pipeline-specific), and `run_evaluation.py`'s CLI surface.
 - Full suite (`pytest -q`, no marker filter): **752 passed, 0 failed** — re-confirmed
-  during this final packaging pass (see `FINAL_REPRODUCIBILITY_REPORT.md` §4 for the
+  during this final packaging pass (see `REPRODUCIBILITY_REPORT.md` §4 for the
   smoke-test-triggered bug find/fix that preceded this run, and this document's own
   re-run below).
 - Fast subset (`pytest -m "not slow" -q`, skips CP-SAT-heavy tests): 748 passed, 4
@@ -189,7 +195,7 @@ The exact 4-step sequence in `README.md`'s "Quick smoke test" section, re-run na
    2/2 rows, `feasible=True`.
 4. `train_dynamic.py`, 2000 timesteps, κ=0.5, `--output-dir` pointed outside the
    repository → completed cleanly (checkpoint + summary JSON both written), confirming
-   the `_display_path()` fix documented in `FINAL_REPRODUCIBILITY_REPORT.md` §4 still
+   the `_display_path()` fix documented in `REPRODUCIBILITY_REPORT.md` §4 still
    holds and no regression was introduced by the subsequent thesis-revision or
    paper-supplement work.
 
@@ -202,18 +208,18 @@ found none.
 Every number in Chapter 6/7 traces through the same chain, auditable by any reader:
 
 ```
-PreRegistration_FINAL.md (frozen hypotheses/decision rules, 2026-07-29)
+PreRegistration.md (frozen hypotheses/decision rules, 2026-07-29)
   -> run_evaluation.py / experiments/train_*.py (raw per-row CSVs, experiments/results/)
   -> experiments/stats/ (84/84 own tests passing; io -> metrics -> pairwise/omnibus -> report)
   -> results/tablas/, figures/ (format-converted or re-rendered, not recomputed)
-  -> Thesis_FINAL.md Chapters 6-7 (cites the tables/figures above by exact filename)
+  -> Thesis.md Chapters 6-7 (cites the tables/figures above by exact filename)
 ```
 
 No manual number-entry step exists between the stats pipeline's output and the thesis
 text — table/figure generation scripts (`scripts/export_thesis_tables.py`,
 `scripts/generate_thesis_figures.py`) read the pipeline's own already-tested output and
 reformat it, so a reader who re-runs `experiments/stats/cli.py` and regenerates
-`results/`/`figures/` should get byte-for-byte identical numbers to what the thesis
+`../results/`/`../figures/` should get byte-for-byte identical numbers to what the thesis
 cites (deterministic given fixed seeds and fixed `experiments/results/` input — see
 `README.md` for the seed/hardware documentation this depends on).
 
@@ -225,12 +231,12 @@ cites (deterministic given fixed seeds and fixed `experiments/results/` input �
   not itself been verified to build. Flagged, not silently assumed correct.
 - **CP-SAT under `num_search_workers > 1`** retains residual non-determinism for
   `FEASIBLE` (non-optimal) results even with a fixed `random_seed` — documented in
-  `baselines/cpsat.py` and `FINAL_REPRODUCIBILITY_REPORT.md` §1. This affects a small
+  `baselines/cpsat.py` and `REPRODUCIBILITY_REPORT.md` §1. This affects a small
   number of large/hard instances where CP-SAT does not prove optimality within its time
   budget (see the `la40` discussion in Chapter 6 §6.5.1); it does not affect any
   `OPTIMAL`-status result.
 - **Trained checkpoints are excluded from the git repository** (`.gitignore`) but
-  **included in the Zenodo archival deposit** (see `FINAL_REPRODUCIBILITY_REPORT.md`
+  **included in the Zenodo archival deposit** (see `REPRODUCIBILITY_REPORT.md`
   §5) — a reader working from the git repository alone can reproduce E1–E8 by retraining
   (commands and measured runtimes in `README.md`), or reproduce them without retraining
   by using the Zenodo deposit's checkpoints directly.
@@ -243,6 +249,6 @@ cites (deterministic given fixed seeds and fixed `experiments/results/` input �
 - Python: 3.11.9. Dependencies pinned exactly in `requirements.txt`/`pyproject.toml`
   (torch 2.12.1, stable-baselines3 2.9.0, sb3-contrib 2.9.0, ortools 9.15.6755, scipy
   1.15.2, statsmodels 0.14.6, gymnasium 1.3.0 — full list and installed-environment
-  cross-check in `FINAL_REPRODUCIBILITY_REPORT.md` §1).
+  cross-check in `REPRODUCIBILITY_REPORT.md` §1).
 - CPU-only throughout (`torch.cuda.is_available()` was `False` on the machine that
-  produced every reported result — `PreRegistration_FINAL.md` Amendment 2).
+  produced every reported result — `PreRegistration.md` Amendment 2).

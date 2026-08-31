@@ -19,12 +19,12 @@ task brief — that is explicitly deferred to next month's dedicated analysis sc
    root-cause). Does not block any result in this log.
 2. **`--rl-sample` CLI flag added** to `run_evaluation.py` (previously `TrainedRLBaseline`
    always ran deterministic argmax regardless of `--seeds`, which cannot produce the
-   "multiple stochastic policy rollouts" the task brief and `PreRegistration_FINAL.md`
+   "multiple stochastic policy rollouts" the task brief and `../../thesis/PreRegistration.md`
    call for). 1 deterministic (argmax) + 4 stochastic (`--rl-sample`, seeds 1–4) rollouts
    per instance, matching the matrix's "5/instance" RL convention. PDR/GA/CP-SAT run once
    (seed 0) per the matrix's own "single run suffices" instruction.
 3. **`tests/test_fjsp_loader.py` written and passing** (43 tests, <1s incl. the CP-SAT
-   padding-neutrality proof) — the precondition `PreRegistration_FINAL.md` Amendment 1
+   padding-neutrality proof) — the precondition `../../thesis/PreRegistration.md` Amendment 1
    requires before Arm B may be used confirmatively. See finding #2 below for one
    exclusion this test surfaced.
 4. **Checkpoints used:**
@@ -98,7 +98,7 @@ same-day without retraining (see below), contrary to the more pessimistic initia
 **What was true regardless:** PDRs already rolled out live against `DynamicJSSPEnv` via
 `run_evaluation.py::run_pdr_online` (fully implemented, exercised by
 `tests/test_dynamic_env.py`, no dependency on the RL wiring at all) — and per
-`PreRegistration_FINAL.md` §4, **the PDR subset, not RL, is H3's frozen comparator** for
+`../../thesis/PreRegistration.md` §4, **the PDR subset, not RL, is H3's frozen comparator** for
 E4–E6's confirmatory decision rule. So the load-bearing part of E4–E6 was never blocked.
 
 ---
@@ -324,7 +324,7 @@ not a bug: `rpd_pct` here is computed against the *base, no-arrivals* instance's
 optimum, but under arrivals the realized schedule covers many more operations than the
 base instance ever had — dividing a much-larger-scope makespan by a small-scope optimum
 inflates RPD mechanically and isn't a fair like-for-like comparison. This is exactly why
-`PreRegistration_FINAL.md`/the matrix specify **RI and `E[ΣT_j]` (expected total
+`../../thesis/PreRegistration.md`/the matrix specify **RI and `E[ΣT_j]` (expected total
 tardiness/flow time)**, not raw RPD, as E6's primary metric — computing those properly is
 in scope for next month's dedicated analysis script, not this descriptive pass. `mor` is
 still the best-ranked PDR and `lor`/`lwkr` the worst, consistently across all 3 levels.
@@ -437,10 +437,10 @@ array handles arrivals natively). **All 540 RL-under-disruption rows: 100% feasi
 Combined PDR+RL CSVs per regime: `experiments/results/week24/e4e5e6/*_with_rl.csv`
 (4,500 rows total across all 9 regimes).
 
-### H3 verdict (per `PreRegistration_FINAL.md` §4's frozen decision rule)
+### H3 verdict (per `../../thesis/PreRegistration.md` §4's frozen decision rule)
 
 `RI = (E[Cmax_pert] − Cmax_nom) / Cmax_nom`, `Cmax_nom` = each method's own E1
-deterministic (seed==0) nominal makespan (`StatsAnalysis_TechSpec.md` §5.2's pinned
+deterministic (seed==0) nominal makespan (`../../thesis/StatsAnalysis_TechSpec.md` §5.2's pinned
 source — reused, not recomputed). Paired Wilcoxon signed-rank test on
 `(RI_PDR − RI_RL)` per (instance × seed), computed separately per regime, best-performing
 (lowest-RI) PDR as comparator, `α=0.05`.

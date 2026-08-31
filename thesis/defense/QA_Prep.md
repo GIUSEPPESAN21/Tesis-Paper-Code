@@ -1,6 +1,6 @@
 # Preparación de preguntas y respuestas — sustentación
 
-**Fuentes:** `Thesis_FINAL.md` (todas las cifras citadas están verificadas contra el Capítulo 6 y son consistentes con el Resumen/Abstract) y `docs/auditorias/PreDefenseAudit.md` (hallazgos crítico y moderados; la mayoría ya resueltos en el documento final vía la Sección 5.4 y las tablas/notas añadidas en la revisión v2 — se indica explícitamente en cada respuesta si el hallazgo ya está corregido en el texto o si requiere solo una respuesta oral).
+**Fuentes:** `../Thesis.md` (todas las cifras citadas están verificadas contra el Capítulo 6 y son consistentes con el Resumen/Abstract) y `docs/auditorias/PreDefenseAudit.md` (hallazgos crítico y moderados; la mayoría ya resueltos en el documento final vía la Sección 5.4 y las tablas/notas añadidas en la revisión v2 — se indica explícitamente en cada respuesta si el hallazgo ya está corregido en el texto o si requiere solo una respuesta oral).
 
 **Cómo usar este documento:** cada pregunta incluye (1) por qué es probable que el comité la haga, (2) una respuesta preparada de 30–90 segundos, lista para decirse casi textualmente, y (3) la referencia exacta del documento donde ampliar si el comité pide más detalle. Practicar las respuestas en voz alta, no solo leerlas — el objetivo es sonar seguro, no memorizado.
 
@@ -94,7 +94,7 @@
 
 **Respuesta preparada:** "Es una pregunta justa, y la respuesta corta es no, por una razón verificable: ninguna de las dos enmiendas modificó una regla de decisión ni un criterio de aceptación de H1 a H5. La Enmienda 1 aclaró la estructura de instancias disponibles; la Enmienda 2 documentó que la ruta de evaluación de nuestro pipeline es exclusivamente CPU, independientemente de la disponibilidad de GPU, resolviendo una ambigüedad sobre qué hardware reportar — ninguna de las dos toca qué constituye aceptar o rechazar una hipótesis. Ambas están fechadas y documentadas como adendas explícitas, no como ediciones silenciosas del documento original, que es exactamente la disciplina que un protocolo de pre-registro bien administrado permite sin comprometer su validez."
 
-**Ampliar en:** `PreRegistration_FINAL.md` (Enmiendas 1–2, con fecha); Capítulo 5, §5.4.5 (Enmienda 2 in extenso); `docs/auditorias/PreDefenseAudit.md` §3.4.
+**Ampliar en:** `../PreRegistration.md` (Enmiendas 1–2, con fecha); Capítulo 5, §5.4.5 (Enmienda 2 in extenso); `docs/auditorias/PreDefenseAudit.md` §3.4.
 
 ### C4. "¿Por qué no calcularon la tardanza esperada para el régimen de llegadas, si el propio pre-registro la señala como la métrica primaria más apropiada para ese eje?"
 
@@ -136,7 +136,7 @@
 
 **Nota para el candidato, no para decir en voz alta:** si es posible redactar el Capítulo 2 antes de la fecha de sustentación —es la acción de mayor prioridad de `docs/auditorias/PreDefenseAudit.md` §6, ítem 1—, hacerlo elimina esta pregunta por completo. Si no es posible, esta respuesta debe decirse con la misma seguridad que cualquier otra, no a la defensiva.
 
-**Ampliar en:** Nota de estado al inicio del Capítulo 2 (dentro de `Thesis_FINAL.md`); `docs/auditorias/PreDefenseAudit.md` §1 y §6, ítem 1.
+**Ampliar en:** Nota de estado al inicio del Capítulo 2 (dentro de `../Thesis.md`); `docs/auditorias/PreDefenseAudit.md` §1 y §6, ítem 1.
 
 ### E2. "¿Por qué el título de la tesis en este documento parece un título de trabajo? ¿Es el título oficial?"
 

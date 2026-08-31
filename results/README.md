@@ -4,7 +4,7 @@ Este directorio es la vista **limpia y numerada por tesis** de los resultados de
 E1–E8. No reemplaza `code/experiments/results/` (el árbol de trabajo
 completo, con *checkpoints*, logs de entrenamiento, TensorBoard, y todo CSV
 intermedio) — es una copia derivada, generada por scripts reproducibles, pensada
-para citarse directamente desde `Chapter6_FINAL.md`/`Chapter7_FINAL.md` y para
+para citarse directamente desde `../thesis/Thesis.md` y para
 adjuntarse como material suplementario de la sustentación.
 
 ## Estructura
@@ -22,7 +22,7 @@ Generadas por `code/scripts/export_thesis_tables.py`, que **convierte
 de formato** (Markdown → CSV/TeX) las tablas ya producidas y probadas por el
 *pipeline* de estadística (`experiments/stats/`, 84/84 pruebas superadas) —
 **no recalcula ningún número**, así que estas copias son, por construcción,
-idénticas a las citadas en `Chapter6_FINAL.md`.
+idénticas a las citadas en `../thesis/Thesis.md`.
 
 | Archivo | Tabla en el capítulo | Contenido |
 |---|---|---|
@@ -54,7 +54,7 @@ procedencia:
 | `E8_semana25_limpio/` | E8 (y E1 comparte fila con E8, ver abajo) | `experiments/results/week25/e8_clean/` |
 | `E7_dynamic/` | E7 (κ=0.5, κ=1.0) | `experiments/results/dynamic/*.csv` |
 
-**Nota de procedencia importante (per `StatsAnalysis_TechSpec.md` §2.3):** E1 y
+**Nota de procedencia importante (per `../thesis/StatsAnalysis_TechSpec.md` §2.3):** E1 y
 E8 comparten una sola pasada de ejecución — la columna `wall_clock_s` de los CSV
 de E1 (`E8_semana25_limpio/e1_e8_clean_*.csv`) **es** el dato crudo de E8, no
 existe un CSV de E8 separado. Esto es intencional, no un archivo faltante.

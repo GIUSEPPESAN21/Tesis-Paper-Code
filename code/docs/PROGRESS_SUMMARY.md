@@ -1,10 +1,10 @@
 # Progress Summary — E7/E8 Sprint (COMPLETE, 2026-08-01)
 
-Task: execute `E7_E8_FinalPlan.md` + `StatsAnalysis_TechSpec.md` in full —
+Task: execute `../../thesis/E7_E8_Plan.md` + `../../thesis/StatsAnalysis_TechSpec.md` in full —
 E7 disruption-aware training (kappa in {0, 0.5, 1.0}), E8 latency benchmark,
-full statistical pipeline over E1-E8, `FINAL_RESULTS_REPORT.md`.
+full statistical pipeline over E1-E8, `../../thesis/RESULTS_REPORT.md`.
 
-**All 11 tasks completed. See `FINAL_RESULTS_REPORT.md` for the actual results,
+**All 11 tasks completed. See `../../thesis/RESULTS_REPORT.md` for the actual results,
 hypothesis-by-hypothesis verdict table, and full artifact manifest.** This file is now
 a historical record of how the sprint was executed, not a resume point.
 
@@ -33,7 +33,7 @@ a historical record of how the sprint was executed, not a resume point.
    nominal (`--disruption none`) pass, run via `experiments/results/week25/run_e7_grid.sh`
    (written this session). 1084/1084 rows, 100% feasible.
 6. **Stats pipeline run over E1-E8** — found and fixed two real bugs before trusting
-   any number into the report (both detailed in `FINAL_RESULTS_REPORT.md` §8):
+   any number into the report (both detailed in `../../thesis/RESULTS_REPORT.md` §8):
    - `cli.py`'s E6-arrivals experiment-ID tag used `"u0.7"` instead of the zero-padded
      `"u0.70"` `REGIMES` expects, silently dropping that regime from H3/H4.
    - `report.py::run_h5` pooled deterministic and `--rl-sample` stochastic RL rows
@@ -44,7 +44,7 @@ a historical record of how the sprint was executed, not a resume point.
    implementation only produced the H1-H5 verdict table + H2's CD diagrams; the tech
    spec's §9.3/9.4 additional RPD/RI/latency summary tables and E3/E4-E6/E8 figures
    did not exist yet. Added and wired in.
-7. **`FINAL_RESULTS_REPORT.md` written** — every verdict traced to a real statistic,
+7. **`../../thesis/RESULTS_REPORT.md` written** — every verdict traced to a real statistic,
    two REJECT results (H4, H5) investigated and diagnosed with concrete root causes
    rather than taken at face value (H4: domain-randomized training never saw a
    nominal episode, nominal RPD collapsed; H5: CP-SAT's near-instant solve on small
@@ -69,7 +69,7 @@ a historical record of how the sprint was executed, not a resume point.
   one failing cell doesn't discard the sweep, incremental CSV flush, failure
   count surfaced instead of a silent empty run. Covered by
   `TestCsvHardening` in `tests/test_run_evaluation.py`.
-- `AblationPlan.md` and `PreRegistration_FINAL.md` amended with dated notes
+- `AblationPlan.md` and `../../thesis/PreRegistration.md` amended with dated notes
   documenting the E7 training design decisions and the GPU/CPU framing
   collapse (Amendment 2), respectively.
 
@@ -83,6 +83,6 @@ a historical record of how the sprint was executed, not a resume point.
 </details>
 
 No results have been fabricated or assumed at any point in this sprint; every REJECT
-and ACCEPT verdict in `FINAL_RESULTS_REPORT.md` is the literal output of a real
+and ACCEPT verdict in `../../thesis/RESULTS_REPORT.md` is the literal output of a real
 statistical test against real data, and every anomalous-looking result was traced to a
 concrete, stated root cause before being written down.

@@ -10,7 +10,7 @@ Everything else — node/machine feature dimensions, the heterogeneous GIN layer
 
 **Prime directive, unchanged: EXTEND, DO NOT REWRITE.** `RelationalGINLayer`, `GINEncoder`, `JSSPGraphFeaturesExtractor`, `build_maskable_ppo` (`models/gin.py` / `models/policy.py`) keep their exact current signatures and behavior — `tests/test_policy.py` must keep passing unmodified. Everything below is new, additively-named classes in the same two files (or new sibling modules if that keeps the diff cleaner). The homogeneous JSSP path remains the training pipeline's fallback/ablation configuration, not dead code to delete.
 
-**Source-of-truth cross-reference:** formalizes `../docs/capitulos/Section4.4.md` (Part B5, heterogeneous GNN / WL-expressiveness; Part B2.2, disjunctive graph; Part D2, node/machine feature vectors; Part B4, PPO). Resolves `models/policy.py`'s own documented limitation ("Instance-agnostic transfer needs a per-node action head... left for a later week") and is the stated prerequisite for wiring `DynamicJSSPEnv` into training (`VALIDATION_WEEK6.md`, "Next steps" — still explicitly deferred, see §0).
+**Source-of-truth cross-reference:** formalizes `../../archive/capitulos/Section4.4.md` (Part B5, heterogeneous GNN / WL-expressiveness; Part B2.2, disjunctive graph; Part D2, node/machine feature vectors; Part B4, PPO). Resolves `models/policy.py`'s own documented limitation ("Instance-agnostic transfer needs a per-node action head... left for a later week") and is the stated prerequisite for wiring `DynamicJSSPEnv` into training (`VALIDATION_WEEK6.md`, "Next steps" — still explicitly deferred, see §0).
 
 ---
 
@@ -21,7 +21,7 @@ Everything else — node/machine feature dimensions, the heterogeneous GIN layer
 **Out of scope, unchanged from v1.0:**
 
 - Wiring this policy into `DynamicJSSPEnv` — needs the machine `broken` state and the growable-array observation contract (`../docs/especificaciones/DynamicEnv_TechSpec.md` §6.1). `VALIDATION_WEEK6.md`'s "Next steps" and `REFACTOR_NOTES_WEEK15.md`'s scope-boundary list both independently confirm this is still not done as of Week 15 — a real next step this architecture is built to support, not this sprint's deliverable.
-- The FJSP dual action head (operation, machine). This sprint's action space stays `Discrete(num_operations)`, fixed routing, per `../docs/capitulos/Section4.4.md` §4.4.3. Note: Week 15 completed FJSP support for the *baseline* methods (`CPSATFJSPBaseline`, `GABaseline`) and explicitly left `PDRBaseline` rejecting FJSP instances by design — the RL policy trained this sprint has no FJSP counterpart yet either, for the same underlying reason (a machine-selection component the current architecture doesn't have).
+- The FJSP dual action head (operation, machine). This sprint's action space stays `Discrete(num_operations)`, fixed routing, per `../../archive/capitulos/Section4.4.md` §4.4.3. Note: Week 15 completed FJSP support for the *baseline* methods (`CPSATFJSPBaseline`, `GABaseline`) and explicitly left `PDRBaseline` rejecting FJSP instances by design — the RL policy trained this sprint has no FJSP counterpart yet either, for the same underlying reason (a machine-selection component the current architecture doesn't have).
 
 ---
 
@@ -160,7 +160,7 @@ class PerNodeActorHead(nn.Module):
         return self.mlp(node_embeddings_ope).squeeze(-1)
 ```
 
-The **same** `PerNodeActorHead` instance (same weights) is applied to every operation node — parameter count independent of `N_ope`, per `../docs/capitulos/Section4.4.md` §4.4.3. 2 layers, `hidden_dim=64`, matching the encoder's width.
+The **same** `PerNodeActorHead` instance (same weights) is applied to every operation node — parameter count independent of `N_ope`, per `../../archive/capitulos/Section4.4.md` §4.4.3. 2 layers, `hidden_dim=64`, matching the encoder's width.
 
 ### 3.2 Critic: pooled, two-node-type readout
 

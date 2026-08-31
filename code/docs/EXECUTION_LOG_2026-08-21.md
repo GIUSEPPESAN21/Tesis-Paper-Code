@@ -59,7 +59,7 @@ Al validar `envs/rescheduling.py` con CP-SAT sobre `ft06` sin ninguna disrupció
 contra `DynamicJSSPEnv` (una brecha del ~9%), y solo baja a 59 con reoptimización
 frecuente — nunca cierra del todo. **Esto no es un defecto del código nuevo**: es la
 misma discrepancia de legalidad "completion-gated vs. dispatch-gated" que
-`E7_E8_FinalPlan.md` §2.3 ya documentaba para el adaptador de la política RL ("a few
+`../../thesis/E7_E8_Plan.md` §2.3 ya documentaba para el adaptador de la política RL ("a few
 percent of makespan on ft06/la01 with disruptions off") — `DynamicJSSPEnv.action_masks()`
 exige que la máquina de una operación esté libre EN ESE INSTANTE, no solo que su
 predecesora de precedencia haya terminado. Documentado en detalle en el docstring de
@@ -104,7 +104,7 @@ posibilidad teórica. Ver `AUDIT_PREFLIGHT.md` Fase 0(a) para el detalle complet
 
 **Cómo usarlo en el paper / para el tutor:** esta es la pieza más fácil de defender de
 todo el trabajo de esta sesión, porque no depende de ningún entrenamiento nuevo —
-usa exactamente los mismos CSV que ya sustentan `FINAL_RESULTS_REPORT.md`, solo aplica
+usa exactamente los mismos CSV que ya sustentan `../../thesis/RESULTS_REPORT.md`, solo aplica
 una prueba estadística adicional que faltaba. Es evidencia de que el mecanismo de RI
 necesita, como mínimo, reportarse junto con la calidad realizada absoluta (Fase 8,
 `Tabla_calidad_realizada_disrupcion`) — que sigue pendiente de correr, ver §3.

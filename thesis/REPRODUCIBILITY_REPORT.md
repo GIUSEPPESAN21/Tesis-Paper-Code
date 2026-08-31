@@ -34,7 +34,7 @@ explicitly flagged as untested/pending with the reason why.
   `FEASIBLE`** result can still vary run-to-run due to parallel-search thread
   scheduling — a property of CP-SAT's parallel portfolio search, not fixable by seeding
   alone. This is almost certainly the mechanism behind the `la40` CP-SAT timing anomaly
-  already documented in `Chapter6_FINAL.md` §6.5.1. `--num-workers 1` gives bit-exact
+  already documented in `Thesis.md` §6.5.1. `--num-workers 1` gives bit-exact
   `FEASIBLE` reproduction at the cost of speed.
 - **GA** (`baselines/ga.py`): already correctly seeded via `np.random.default_rng(seed)`.
 
@@ -69,7 +69,7 @@ Windows-specific despite having been run there).
 ## 2. `README.md`
 
 Rewritten (previous version was Week 1/15/18-era, predating E1–E8, the stats pipeline,
-`results/`, and `figures/` entirely) to include: installation (native + Docker),
+`../results/`, and `../figures/` entirely) to include: installation (native + Docker),
 directory structure, exact commands + measured runtime/hardware for every experiment
 E0–E8, how to regenerate all statistics/tables/figures, the quick smoke test (§4), and
 the seed/CP-SAT-determinism notes from §1. Runtimes quoted are **measured on this
@@ -87,7 +87,7 @@ now says so explicitly instead of repeating an unverified assumption.
 
 ## 3. Dockerfile
 
-Written (`code/Dockerfile` + `.dockerignore`): CPU-only base image
+Written (`../code/Dockerfile` + `.dockerignore`): CPU-only base image
 (`python:3.11.9-slim`, matching the exact Python patch version this thesis used),
 layer-cached dependency install, editable package install, and a fast-subset `pytest`
 run baked into the build so a broken image fails at `docker build` time, not at first
@@ -201,8 +201,8 @@ infrastructure as of the final experimental sprint (2026-08-01):
 - README.md, Dockerfile, pinned dependencies, reproducibility audit
 - 752/752 tests passing
 
-See FINAL_RESULTS_REPORT.md for the H1-H5 hypothesis verdicts and
-FINAL_REPRODUCIBILITY_REPORT.md for this commit's own provenance.
+See RESULTS_REPORT.md for the H1-H5 hypothesis verdicts and
+REPRODUCIBILITY_REPORT.md for this commit's own provenance.
 ```
 
 ### License — a decision only you can make, not defaulted silently
@@ -250,10 +250,10 @@ command actually run and output actually inspected during this sprint, and every
 
 ---
 
-## 7. Addendum — final packaging pass (post-`Thesis_FINAL.md`)
+## 7. Addendum — final packaging pass (post-`Thesis.md`)
 
-Re-run after the thesis's own final audit-response revision (`docs/capitulos/Thesis_FullDraft_v2.md` →
-renamed `Thesis_FINAL.md`) and after generating the companion conference-paper
+Re-run after the thesis's own final audit-response revision (`../archive/capitulos/Thesis_FullDraft_v2.md` →
+renamed `Thesis.md`) and after generating the companion conference-paper
 supplement, to catch any regression before defense/submission:
 
 - **Smoke test re-run, natively, all 4 steps of `README.md`'s "Quick smoke test":**
@@ -265,14 +265,14 @@ supplement, to catch any regression before defense/submission:
 - **Full test suite, no marker filter (`pytest -q`): 752 passed, 0 failed** — re-confirms
   the count already reported in §4 still holds after all subsequent thesis-revision and
   paper-supplement work.
-- **`Chapter6_FINAL.md`/`Chapter7_FINAL.md` re-synced.** These standalone chapter files
-  had drifted from `Thesis_FINAL.md`'s own Chapter 6/7 (the audit-response edits — new
+- **`Thesis.md`/`Thesis.md` re-synced.** These standalone chapter files
+  had drifted from `Thesis.md`'s own Chapter 6/7 (the audit-response edits — new
   Tabla 6.2.3, the `mk06` footnote consolidation, the GA-superiority cross-reference —
   were applied to the integrated document but not propagated back to the two standalone
   files several other docs cite by exact section, e.g. `README.md`'s and
   `FIGURES_INDEX.md`'s `§6.5.1` pointers). Both files are now byte-identical to
-  `Thesis_FINAL.md`'s corresponding sections — verified with `diff`, not assumed.
-- **`README.md`** updated to name `Thesis_FINAL.md` explicitly as the canonical single
+  `Thesis.md`'s corresponding sections — verified with `diff`, not assumed.
+- **`README.md`** updated to name `Thesis.md` explicitly as the canonical single
   document (it previously listed only the per-chapter files, with no pointer to the
   integrated thesis at all), and to reference the new `CODE_APPENDIX_SUMMARY.md`.
 - **`CODE_APPENDIX_SUMMARY.md`** (new, repository root) — a thesis-appendix-ready

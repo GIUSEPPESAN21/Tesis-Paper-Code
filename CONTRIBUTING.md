@@ -1,8 +1,8 @@
 # Contributing
 
-This repository accompanies a master's thesis and its two companion papers
-(`papers/JournalArticle_LaTeX/`, `papers/PaperCIE_LaTeX/`). It is not under active feature
-development, but issues and pull requests are welcome for:
+This repository accompanies a master's thesis and its companion paper
+(`paper/PaperCIE_LaTeX/`, submitted to Computers & Industrial Engineering). It is not
+under active feature development, but issues and pull requests are welcome for:
 
 - Reproducibility problems (a command in `README.md` that doesn't work as
   documented, a pinned dependency that no longer resolves, a platform-specific
@@ -35,7 +35,7 @@ decisions, and the root `README.md` for the full reproduction guide (E0-E8).
 ## Pull requests
 
 - Keep changes scoped — this codebase has 752 tests and a frozen, pre-registered
-  experimental grid (`PreRegistration_FINAL.md`); changes that would alter
+  experimental grid (`thesis/PreRegistration.md`); changes that would alter
   already-reported thesis numbers need an explicit note in the PR description,
   not a silent recomputation.
 - Run `pytest -m "not slow"` locally before submitting; CI (`.github/workflows/tests.yml`)

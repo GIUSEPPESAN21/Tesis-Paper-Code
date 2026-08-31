@@ -210,7 +210,7 @@ contención de CPU real, no división exacta).
 **Supuesto a verificar en la primera corrida:** `--nominal-episode-fraction 0.2` (T3.2)
 cambia el comportamiento de entrenamiento respecto a las corridas E7 ya publicadas
 (que usaban 0% episodios nominales) — estas NUEVAS corridas de kappa=0.5/1.0 NO
-reproducirán bit-a-bit los resultados de `FINAL_RESULTS_REPORT.md` §6.4. Si se quiere
+reproducirán bit-a-bit los resultados de `../../thesis/RESULTS_REPORT.md` §6.4. Si se quiere
 reproducir exactamente el E7 ya publicado, añadir `--nominal-episode-fraction 0.0`.
 
 ### T2.4 — Tabla_H4_multisemilla_posthoc

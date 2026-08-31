@@ -1,24 +1,14 @@
 # docs/
 
-Documentos activos (referenciados desde `Thesis_FINAL.md`, `CODE_APPENDIX_SUMMARY.md`
-u otros documentos del núcleo) pero que no son el texto final citable — reorganizados
-el 2026-08-20 desde la raíz del repositorio para reducir el desorden visual, con
-`git mv` (historial intacto) y cada referencia cruzada reescrita a mano/script para
-apuntar a la nueva ruta. Nada se borró.
+Documentos de apoyo activos y **no duplicados** (especificaciones técnicas,
+planeación, auditorías, logs semanales, trabajo futuro) — todo lo que en algún
+momento fue borrador/versión previa ya absorbida en `../thesis/Thesis.md` vive en
+`../archive/` en vez de aquí (ver `../archive/README.md`, sección 2026-08-31).
 
-**Si vas a citar algo de la tesis, cita `../Thesis_FINAL.md` (o
-`../Chapter6_FINAL.md`/`../Chapter7_FINAL.md` para citas internas puntuales), no los
-archivos de aquí** — son el historial de versiones/planificación que produjo el
-documento final, no el documento final en sí.
-
-## `capitulos/`
-
-Borradores de capítulos/secciones anteriores a `Thesis_FINAL.md`, y las dos versiones
-de "borrador completo" (`Thesis_FullDraft_v1.md`, `_v2.md`) que precedieron la versión
-final. Incluye `Chapter1.md`, `Chapter3_final.md`, `Chapter4_sections_4.1_4.3.md`,
-`Chapter6_sections_6.1-6.4_DRAFT.md`, `Chapter6_template.md`, `Chapter7_DRAFT.md`,
-`Chapter8.md`, `AppendixB.md`, y los `Section*.md` sueltos (4.2, 4.4, 4.5, 4.6,
-5.1_5.2, 5.3).
+**Si vas a citar algo de la tesis, cita `../thesis/Thesis.md` por número de sección
+(§6.X, Tabla 6.0, etc.), no un archivo de capítulo separado** — ya no existe uno; era
+un duplicado byte-a-byte de `../thesis/Thesis.md` y se archivó (ver
+`../archive/README.md`).
 
 ## `especificaciones/`
 
@@ -38,12 +28,12 @@ Documentos de planificación y proceso: `AblationPlan.md`,
 2026-08-31 — cero referencias entrantes, ver `../archive/README.md`).
 
 **`Step 2 Thesis.md` y, sobre todo, `Step 4 Thesis.md` NO son prompts descartables** —
-pese al nombre, son el documento de marco metodológico (`Thesis_FINAL.md` los llama
-"Parte B/D1/D3/D4/D5/D7/E1" del "documento de marco") del que `PreRegistration_FINAL.md`
+pese al nombre, son el documento de marco metodológico (`../thesis/Thesis.md` los llama
+"Parte B/D1/D3/D4/D5/D7/E1" del "documento de marco") del que `../thesis/PreRegistration.md`
 deriva literalmente su disciplina anti-HARKing y su rejilla experimental congelada, y del
 que partes de la tesis **todavía no redactadas en prosa** (p. ej. el contenido teórico
 del Capítulo 2, Parte B) siguen dependiendo directamente como única fuente. Más de 15
-citas activas en `Thesis_FINAL.md`/`PreRegistration_FINAL.md` apuntan a `Step 4
+citas activas en `../thesis/Thesis.md`/`../thesis/PreRegistration.md` apuntan a `Step 4
 Thesis.md` por ruta exacta — borrarlo rompería esas citas y dejaría sin fuente contenido
 de tesis aún por escribir. Verificado por búsqueda de texto completo el 2026-08-31, no
 supuesto.
@@ -56,8 +46,10 @@ por nombre dos veces. Restaurado en `../archive/`; ver la nota de corrección en
 
 ## `auditorias/`
 
-`AuditoriaCapitulos1-5.md`, `ConsistencyCheckReport.md`, `PreDefenseAudit.md`,
-`Bibliographic_Verification_PRISMA_GapUpdate.md`.
+`AuditoriaCapitulos1-5.md`, `ConsistencyCheckReport.md`, `PreDefenseAudit.md`.
+(`Bibliographic_Verification_PRISMA_GapUpdate.md` se archivó el 2026-08-31 — cero
+citas activas, sus correcciones ya están en `../thesis/Thesis.md`'s `REFERENCIAS`;
+ver `../archive/README.md`.)
 
 ## `logs/`
 
@@ -65,17 +57,24 @@ Reportes de experimentos por semana: `E0_CLOSEOUT_WEEK24.md`,
 `EXPERIMENT_LOG_WEEK24.md`, `HPO_ABLATION_REPORT_WEEK21.md`/`.pdf`,
 `TrainingPlan_Week17.md`.
 
-## Qué se quedó en la raíz y por qué
+## `future_work/`
 
-- El núcleo citable: `Thesis_FINAL.md`, `Chapter6_FINAL.md`, `Chapter7_FINAL.md`,
-  `FIGURES_INDEX.md`, `PreRegistration_FINAL.md`, `StatsAnalysis_TechSpec.md`,
-  `E7_E8_FinalPlan.md`, `CODE_APPENDIX_SUMMARY.md`, `README.md`,
-  `FINAL_REPRODUCIBILITY_REPORT.md`, `CITATION.cff`, `.zenodo.json`.
-- `papers/ConferencePaper_DRAFT.md` y `papers/PAPER_SUPPLEMENT_NOTES.md` —
-  movidos a `papers/` (junto con `JournalArticle_LaTeX/` y `PaperCIE_LaTeX/`)
-  durante la profesionalización de la estructura, 2026-08-31 — no son borrador
-  superado, siguen citables, solo cambiaron de ubicación.
-- `defense/DefensePresentation_Outline.md` y `defense/QA_Prep.md` — material
-  activo de preparación para la sustentación (decisión explícita del usuario,
-  2026-08-20: no son un borrador superado, se siguen usando), movidos a
-  `defense/` en la misma pasada de profesionalización.
+`ROADMAP.md` — trabajo pendiente consolidado desde el §8.6 ("Trabajo futuro") de
+`../thesis/Thesis.md` y desde la sección "Threats to validity" de
+`../paper/PaperCIE_LaTeX/manuscript/en/main.tex`. No es una lista inventada: cada
+punto cita su fuente exacta.
+
+## Qué vive fuera de `docs/` ahora, y por qué (reorganización 2026-08-31)
+
+El repo se reorganizó por audiencia (ver `../README.md`). Lo que antes vivía en la
+raíz o en `docs/capitulos/` ahora vive en:
+- `../thesis/` — el núcleo citable (`Thesis.md`, `PreRegistration.md`,
+  `RESULTS_REPORT.md`, `REPRODUCIBILITY_REPORT.md`, `FIGURES_INDEX.md`,
+  `StatsAnalysis_TechSpec.md`, `E7_E8_Plan.md`, `CODE_APPENDIX_SUMMARY.md`,
+  `defense/`).
+- `../paper/PaperCIE_LaTeX/` — el envío vigente a Computers & Industrial Engineering.
+- `../archive/` — `docs/capitulos/` completo (absorbido en `Thesis.md`, verificado
+  por diff), `Chapter6_FINAL.md`/`Chapter7_FINAL.md` (duplicado byte-a-byte de
+  `Thesis.md` §6/§7), y el paper cluster superado por la corrección metodológica del
+  artefacto RI (`ConferencePaper_DRAFT.md`, `PAPER_SUPPLEMENT_NOTES.md`,
+  `JournalArticle_LaTeX/`, `figures_paper/`).

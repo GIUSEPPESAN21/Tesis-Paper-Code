@@ -1,18 +1,18 @@
 # Statistical Analysis Pipeline — Technical Specification
 
 **Status:** Specification only. No code in this repository implements this yet — nothing here has been executed. This document is written to be handed directly to el asistente de IA for implementation once E1–E8 results exist.
-**Companion documents this spec is bound by:** `PreRegistration_FINAL.md` (frozen 2026-07-29T05:22:26Z UTC — every statistical test, alternative hypothesis, and accept/reject threshold below is copied from there, not reinvented), `docs/planificacion/Step 4 Thesis.md` Part D6 (exact formulas for RPD/RI/effect size/CD), `docs/planificacion/FinalExperimentMatrix.md` (which experiments produce which CSVs, on what schedule), `REFACTOR_NOTES_WEEK15.md` / `run_evaluation.py` (the input CSV schema this pipeline consumes).
-**Consumer:** whoever executes E1–E8 (Semana 24/27 per `docs/planificacion/FinalExperimentMatrix.md`) and Chapter 6/7 of the thesis.
+**Companion documents this spec is bound by:** `PreRegistration.md` (frozen 2026-07-29T05:22:26Z UTC — every statistical test, alternative hypothesis, and accept/reject threshold below is copied from there, not reinvented), `../docs/planificacion/Step 4 Thesis.md` Part D6 (exact formulas for RPD/RI/effect size/CD), `../docs/planificacion/FinalExperimentMatrix.md` (which experiments produce which CSVs, on what schedule), `REFACTOR_NOTES_WEEK15.md` / `run_evaluation.py` (the input CSV schema this pipeline consumes).
+**Consumer:** whoever executes E1–E8 (Semana 24/27 per `../docs/planificacion/FinalExperimentMatrix.md`) and Chapter 6/7 of the thesis.
 
 ---
 
 ## 1. Purpose and scope
 
-This pipeline turns the long-format CSVs `run_evaluation.py` (the Week 15 unified harness) produces for E1–E8 into: (a) every summary statistic Chapter 6 needs (RPD, robustness index, decision latency), (b) the confirmatory hypothesis tests H1–H5 as `PreRegistration_FINAL.md` defines them — exact statistic, p-value, effect size, decision-rule verdict — and (c) publication-ready tables and critical-difference diagrams.
+This pipeline turns the long-format CSVs `run_evaluation.py` (the Week 15 unified harness) produces for E1–E8 into: (a) every summary statistic Chapter 6 needs (RPD, robustness index, decision latency), (b) the confirmatory hypothesis tests H1–H5 as `PreRegistration.md` defines them — exact statistic, p-value, effect size, decision-rule verdict — and (c) publication-ready tables and critical-difference diagrams.
 
 **Explicitly out of scope for this document:** running any experiment, generating any CSV, or changing `run_evaluation.py`'s schema. This is a light-week planning document; Semana 24/27 execute against it.
 
-**Design principle:** every accept/reject computation in `PreRegistration_FINAL.md` is reproduced here as a *named function with the hypothesis's exact wording pinned into its docstring and its default arguments*, not as a generic "run a Wilcoxon test" utility a caller has to remember to configure correctly. Getting a sign or an `alternative=` argument backwards on H1's accept/reject rule is the single highest-consequence bug this pipeline could contain — per the master plan's own words for the sprint that runs this code, "this is what the thesis defense will be tested on most rigorously." §7 below treats this as the primary design constraint, not an afterthought.
+**Design principle:** every accept/reject computation in `PreRegistration.md` is reproduced here as a *named function with the hypothesis's exact wording pinned into its docstring and its default arguments*, not as a generic "run a Wilcoxon test" utility a caller has to remember to configure correctly. Getting a sign or an `alternative=` argument backwards on H1's accept/reject rule is the single highest-consequence bug this pipeline could contain — per the master plan's own words for the sprint that runs this code, "this is what the thesis defense will be tested on most rigorously." §7 below treats this as the primary design constraint, not an afterthought.
 
 ---
 
@@ -30,14 +30,14 @@ violations_count, timestamp
 
 Column notes the ingestion layer (§3.1) must honor, not re-derive differently:
 
-- `rpd_pct` and `known_optimum` are **already computed by the harness** for JSSP rows and for the real-Brandimarte FJSP rows (`mk01`–`mk07`, per `docs/planificacion/FinalExperimentMatrix.md` §5's amendment). They are **blank** for synthetic FJSP rows (no literature optimum exists) — the pipeline must not attempt to fill these in from `known_optimum` columns of unrelated files; a blank `rpd_pct` means "use raw makespan comparison for this row," per `PreRegistration_FINAL.md` §1's own Arm-A instruction.
+- `rpd_pct` and `known_optimum` are **already computed by the harness** for JSSP rows and for the real-Brandimarte FJSP rows (`mk01`–`mk07`, per `../docs/planificacion/FinalExperimentMatrix.md` §5's amendment). They are **blank** for synthetic FJSP rows (no literature optimum exists) — the pipeline must not attempt to fill these in from `known_optimum` columns of unrelated files; a blank `rpd_pct` means "use raw makespan comparison for this row," per `PreRegistration.md` §1's own Arm-A instruction.
 - `status` is `"OK"` (PDR, always), or CP-SAT's solver status (`OPTIMAL`/`FEASIBLE`/`INFEASIBLE`/`UNKNOWN`). `is_optimal` is `True` only when `status == "OPTIMAL"`.
 - `feasible` is an independently-checked boolean (`envs.disjunctive_graph.is_schedule_feasible`), not merely "the solver said so." **A row with `feasible == False` must never enter a Wilcoxon/Friedman comparison** — see §3.2's validation gate.
-- `disruption` ∈ `{none, breakdowns, stochastic_times, arrivals, combined}`. E4/E5/E6 each use exactly one non-`none` value; `combined` is descriptive-only per `PreRegistration_FINAL.md` §4, never part of a confirmatory H3 test.
+- `disruption` ∈ `{none, breakdowns, stochastic_times, arrivals, combined}`. E4/E5/E6 each use exactly one non-`none` value; `combined` is descriptive-only per `PreRegistration.md` §4, never part of a confirmatory H3 test.
 
 ### 2.2 Known gap: RL rows do not currently distinguish deterministic from stochastic rollouts
 
-`PreRegistration_FINAL.md` §2 requires, per JSSP instance: **one deterministic rollout** (the value that enters the confirmatory Wilcoxon test) **plus four stochastic rollouts, seeds 1–4** (descriptive only — reported as mean ± std, excluded from the accept/reject computation). `baselines.interface.TrainedRLBaseline` fixes `deterministic` at *construction* time, not per call, so producing both groups requires two separate `run_evaluation.py` invocations (one with a deterministic-configured adapter, one with a stochastic one across `--seeds 1 2 3 4`) whose output CSVs get concatenated — and **the resulting merged CSV has no column that says which rows came from which invocation.**
+`PreRegistration.md` §2 requires, per JSSP instance: **one deterministic rollout** (the value that enters the confirmatory Wilcoxon test) **plus four stochastic rollouts, seeds 1–4** (descriptive only — reported as mean ± std, excluded from the accept/reject computation). `baselines.interface.TrainedRLBaseline` fixes `deterministic` at *construction* time, not per call, so producing both groups requires two separate `run_evaluation.py` invocations (one with a deterministic-configured adapter, one with a stochastic one across `--seeds 1 2 3 4`) whose output CSVs get concatenated — and **the resulting merged CSV has no column that says which rows came from which invocation.**
 
 This pipeline cannot silently guess. §3.1 specifies the required convention and a hard validation check:
 
@@ -47,11 +47,11 @@ This pipeline cannot silently guess. §3.1 specifies the required convention and
 
 ### 2.3 Multi-file ingestion
 
-Each experiment (E1–E8) produces its own CSV (and, per `docs/planificacion/FinalExperimentMatrix.md` §2.2, E2 produces two — Arm A synthetic, Arm B real-Brandimarte). The pipeline must:
+Each experiment (E1–E8) produces its own CSV (and, per `../docs/planificacion/FinalExperimentMatrix.md` §2.2, E2 produces two — Arm A synthetic, Arm B real-Brandimarte). The pipeline must:
 
 1. Load each experiment's CSV(s) independently, tagged with an `experiment_id` (`"E1"`...`"E8"`, `"E2a"`/`"E2b"` for the two FJSP arms) added as a derived column at load time — **not** read from the CSV, since `run_evaluation.py` has no notion of experiment IDs.
-2. Never silently concatenate across experiments with different `disruption` values into one Friedman/Wilcoxon call — each hypothesis's test operates on exactly the instance/disruption slice `PreRegistration_FINAL.md` specifies (§6 below pins this per hypothesis).
-3. Keep E1's rows and E8's timing columns as **the same rows** (per `docs/planificacion/FinalExperimentMatrix.md` §2.8, E1 and E8 share one execution pass) — `wall_clock_s` on an E1 row *is* E8's raw timing input; §5.3 derives ms/decision from it rather than expecting a separate E8 CSV to exist.
+2. Never silently concatenate across experiments with different `disruption` values into one Friedman/Wilcoxon call — each hypothesis's test operates on exactly the instance/disruption slice `PreRegistration.md` specifies (§6 below pins this per hypothesis).
+3. Keep E1's rows and E8's timing columns as **the same rows** (per `../docs/planificacion/FinalExperimentMatrix.md` §2.8, E1 and E8 share one execution pass) — `wall_clock_s` on an E1 row *is* E8's raw timing input; §5.3 derives ms/decision from it rather than expecting a separate E8 CSV to exist.
 
 ### 2.4 Derived columns required at ingestion (`experiments/stats/io.py`)
 
@@ -92,7 +92,7 @@ Follow the codebase's existing conventions (`envs/fjsp_loader.py` is the referen
 
 ## 4. Dependencies
 
-- `scipy.stats` — `wilcoxon`, `friedmanchisquare`, `norm` (already used elsewhere in the codebase per `PreRegistration_FINAL.md` §2's own note that this matches `tests/test_disruptions.py`'s tooling).
+- `scipy.stats` — `wilcoxon`, `friedmanchisquare`, `norm` (already used elsewhere in the codebase per `PreRegistration.md` §2's own note that this matches `tests/test_disruptions.py`'s tooling).
 - `statsmodels.stats.libqsturng.qsturng` — for the Nemenyi critical-difference studentized-range quantile (§6.2). **Use this, not a hand-transcribed table**, for the primary computation; a small hardcoded reference table (§6.2) is included only as an offline cross-check / sanity assertion, not the production code path, because a transcription error in a hardcoded critical-value table is exactly the class of silent, hard-to-catch bug this pipeline exists to avoid.
 - `matplotlib` — CD diagrams and any other figures (already a project dependency per `training_curves_*.png` outputs).
 - `pandas` — long-format CSV handling, pivoting for Friedman blocks. (If the project prefers to stay numpy-only per its existing style, this is a one-line swap in `io.py`; flagged as an implementation choice, not a hard requirement.)
@@ -101,7 +101,7 @@ Follow the codebase's existing conventions (`envs/fjsp_loader.py` is the referen
 
 ## 5. Metric functions (`metrics.py`)
 
-All formulas below are copied verbatim from `docs/planificacion/Step 4 Thesis.md` D6 — do not re-derive.
+All formulas below are copied verbatim from `../docs/planificacion/Step 4 Thesis.md` D6 — do not re-derive.
 
 ### 5.1 RPD
 
@@ -132,7 +132,7 @@ $$RI = \frac{\mathbb{E}[C_{\max}^{\text{pert}}] - C_{\max}^{\text{nom}}}{C_{\max
 ```python
 @dataclass(frozen=True)
 class RobustnessResult:
-    """RI plus the dispersion measures PreRegistration_FINAL.md §4 requires alongside it."""
+    """RI plus the dispersion measures PreRegistration.md §4 requires alongside it."""
     ri: float
     std: float
     cvar_90: float          # CVaR_0.9 of the perturbed makespan distribution
@@ -251,15 +251,15 @@ sign = 1.0 if median_diff > 0 else (-1.0 if median_diff < 0 else 0.0)
 z = sign * magnitude
 ```
 
-This is the standard "effect size back-computed from a reported p-value" procedure used when the underlying test statistic isn't itself on a z-scale (exactly the situation here), and it is what `r = Z/√N` in `PreRegistration_FINAL.md` §2/D6 refers to. Document this derivation in the function's docstring so a reader of the eventual results chapter — or a reviewer — can see exactly how `r` was obtained, not just cite the formula.
+This is the standard "effect size back-computed from a reported p-value" procedure used when the underlying test statistic isn't itself on a z-scale (exactly the situation here), and it is what `r = Z/√N` in `PreRegistration.md` §2/D6 refers to. Document this derivation in the function's docstring so a reader of the eventual results chapter — or a reviewer — can see exactly how `r` was obtained, not just cite the formula.
 
 ### 6.2 Per-hypothesis wrappers (`pairwise.py`, continued)
 
-Each function below hard-codes the exact comparison `PreRegistration_FINAL.md` specifies — the direction of subtraction, the alternative, and the accept/reject threshold are not caller-configurable, on purpose.
+Each function below hard-codes the exact comparison `PreRegistration.md` specifies — the direction of subtraction, the alternative, and the accept/reject threshold are not caller-configurable, on purpose.
 
 ```python
 def h1_jssp_test(rpd_best_pdr: np.ndarray, rpd_rl_deterministic: np.ndarray) -> HypothesisVerdict:
-    """PreRegistration_FINAL.md Section 2, JSSP arm. N=43, paired by instance.
+    """PreRegistration.md Section 2, JSSP arm. N=43, paired by instance.
     Computes (RPD_bestPDR - RPD_RL); accept iff p < 0.05 AND median diff > 0."""
 
 def h1_fjsp_test(makespan_best_comparator: np.ndarray, makespan_rl: np.ndarray) -> HypothesisVerdict:
@@ -419,7 +419,7 @@ GitHub-flavored tables, one function producing the exact row shapes Chapter 6 ne
 
 ```python
 def hypothesis_verdict_table(verdicts: list[HypothesisVerdict]) -> str:
-    """The single table FINAL_RESULTS_REPORT.md leads with: one row per H1-H5 (H1 split
+    """The single table RESULTS_REPORT.md leads with: one row per H1-H5 (H1 split
     into JSSP/FJSP-Arm-A/FJSP-Arm-B sub-rows, H3 split into per-regime + overall, H4
     split per kappa), columns: Hypothesis | Test | Statistic | p-value | Effect size |
     Verdict | Notes."""
@@ -441,7 +441,7 @@ def to_latex_table(markdown_or_df, *, caption: str, label: str) -> str:
 
 ### 9.3 Figures
 
-CD diagrams (§8) plus, reusing the project's existing plotting conventions from `training_curves_*.png`: RPD-vs-instance-size scatter (E3), RI-vs-disruption-level line plot per axis (E4/E5/E6), ms/decision-vs-instance-size log-scale plot with the CP-SAT ratio overlaid (E8, directly serving `PreRegistration_FINAL.md` §6's "does the ratio widen" figure).
+CD diagrams (§8) plus, reusing the project's existing plotting conventions from `training_curves_*.png`: RPD-vs-instance-size scatter (E3), RI-vs-disruption-level line plot per axis (E4/E5/E6), ms/decision-vs-instance-size log-scale plot with the CP-SAT ratio overlaid (E8, directly serving `PreRegistration.md` §6's "does the ratio widen" figure).
 
 ### 9.4 File naming and layout
 
@@ -465,7 +465,7 @@ experiments/results/stats/
 
 ## 10. Validation and self-tests
 
-Beyond ordinary unit tests (one per function above, edge cases: empty arrays, all-tied Wilcoxon input, single-block Friedman, `k=1`), pin two **golden-value regression tests** against numbers `docs/logs/HPO_ABLATION_REPORT_WEEK21.md` already published — if this pipeline's `friedman_test`/`wilcoxon_signed_rank` don't reproduce these exactly, the implementation has a bug, full stop:
+Beyond ordinary unit tests (one per function above, edge cases: empty arrays, all-tied Wilcoxon input, single-block Friedman, `k=1`), pin two **golden-value regression tests** against numbers `../docs/logs/HPO_ABLATION_REPORT_WEEK21.md` already published — if this pipeline's `friedman_test`/`wilcoxon_signed_rank` don't reproduce these exactly, the implementation has a bug, full stop:
 
 ```python
 def test_friedman_matches_week21_ft06_ablation():
@@ -501,13 +501,13 @@ python -m experiments.stats.cli \
                         # once at the very end
 ```
 
-`report.py`'s top-level function iterates H1 → H5 in `PreRegistration_FINAL.md`'s own order, calling the matching wrapper from §6.2, and for H2/H3 additionally the omnibus machinery from §7, writing every table/figure as it goes and recording the run in `stats_manifest.json`. Each hypothesis's block in the generated report literally reproduces `PreRegistration_FINAL.md`'s "Decision rule (exact, fixed in advance)" quote alongside the computed verdict, so a reader never has to flip between two documents to check the test actually matches what was promised.
+`report.py`'s top-level function iterates H1 → H5 in `PreRegistration.md`'s own order, calling the matching wrapper from §6.2, and for H2/H3 additionally the omnibus machinery from §7, writing every table/figure as it goes and recording the run in `stats_manifest.json`. Each hypothesis's block in the generated report literally reproduces `PreRegistration.md`'s "Decision rule (exact, fixed in advance)" quote alongside the computed verdict, so a reader never has to flip between two documents to check the test actually matches what was promised.
 
 ---
 
 ## 12. Open items (not blocking this spec, but flag before Semana 24 starts execution)
 
 1. **RL rollout-mode column** (§2.2) — recommend adding `rollout_mode` to the harness's CSV schema before E1 runs, rather than relying on the `seed==0` convention. Cheap now, expensive to retrofit after CSVs exist.
-2. **FJSP `num_operations` lookup table** (§2.4) — needs the 7 Brandimarte instances' post-padding operation counts hardcoded or computed once from `envs.fjsp_loader.load_fjsp_by_name(name).num_operations` at ingestion time; either is fine, just needs to exist before E8's FJSP-adjacent numbers (if any) are computed. E8's primary scope per `docs/planificacion/FinalExperimentMatrix.md` is JSSP-only, so this is low priority.
+2. **FJSP `num_operations` lookup table** (§2.4) — needs the 7 Brandimarte instances' post-padding operation counts hardcoded or computed once from `envs.fjsp_loader.load_fjsp_by_name(name).num_operations` at ingestion time; either is fine, just needs to exist before E8's FJSP-adjacent numbers (if any) are computed. E8's primary scope per `../docs/planificacion/FinalExperimentMatrix.md` is JSSP-only, so this is low priority.
 3. **`statsmodels` as a new dependency** — confirm it's acceptable to add (it is a standard, widely-used package; `qsturng` specifically has no lighter-weight substitute for an exact studentized-range quantile). If rejected, fall back to the hardcoded table in §7.2 for `k<=10` only, and hard-fail with a clear error for any comparison needing `k>10` until the dependency question is resolved.
 4. **`pandas` as a new dependency** (§4) — flagged as a style choice, not a requirement; the codebase currently leans numpy+dataclasses (`envs/fjsp_loader.py`, `baselines/interface.py`). Either is workable; pick one and be consistent across `io.py`/`omnibus.py`.

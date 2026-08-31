@@ -61,7 +61,7 @@ thesis_fjsp_drl/
 │                                 (Week 9-21) hetero-training/HPO dev artifacts, archived
 │                                 not cited; baselines_week9.{csv,md}, baselines_week12.
 │                                 {csv,md} stay at this root (not archived) because
-│                                 Thesis_FINAL.md/PreRegistration_FINAL.md cite them by
+│                                 ../thesis/Thesis.md / ../thesis/PreRegistration.md cite them by
 │                                 this exact path
 ├── tests/                    # pytest suite (unit + run_evaluation.py integration tests)
 └── notebooks/                 # exploratory analysis (empty for now)

@@ -16,8 +16,8 @@ tutor.
 `code/envs/dynamic_jssp_env.py`, `code/envs/disjunctive_graph.py`,
 `code/baselines/dispatching_rules.py`, `code/baselines/due_dates.py`,
 `code/experiments/stats/*.py`, `results/tablas/*.md`,
-`PreRegistration_FINAL.md`, `StatsAnalysis_TechSpec.md`, `FINAL_RESULTS_REPORT.md`,
-`E7_E8_FinalPlan.md`.
+`../../thesis/PreRegistration.md`, `../../thesis/StatsAnalysis_TechSpec.md`, `../../thesis/RESULTS_REPORT.md`,
+`../../thesis/E7_E8_Plan.md`.
 
 ---
 
@@ -178,7 +178,7 @@ y de datasets con la forma 16 instancias × 9 regímenes × 11 métodos × 30 es
 en este repositorio, bajo ningún nombre reconocible.** La única coincidencia textual de
 "Estudio 1"/"47520" en todo el repositorio es el propio archivo que contiene el prompt
 del tutor guardado como `.md` (`PROMPT_AsistenteIA_MejorasTutor.md` o equivalente) — cero
-menciones en `Thesis_FINAL.md`, `Chapter6_FINAL.md`, `Chapter7_FINAL.md`, o en cualquier
+menciones en `../../thesis/Thesis.md`, `../../thesis/Thesis.md`, `../../thesis/Thesis.md`, o en cualquier
 CSV bajo `results/` o `code/experiments/results/`.
 
 Los dos datasets existentes más cercanos por forma, y por qué **no** son el Estudio 1:

@@ -1,8 +1,8 @@
 # Índice de figuras — Capítulo 6
 
-Mapa de cada figura final (`figures/`) a su sección de tesis, tabla/dato fuente,
-y el pie de figura exacto ya citado en `Chapter6_FINAL.md`. Todas las figuras se
-generaron con `code/scripts/generate_thesis_figures.py`, en español,
+Mapa de cada figura final (`../figures/`) a su sección de tesis, tabla/dato fuente,
+y el pie de figura exacto ya citado en `Thesis.md`. Todas las figuras se
+generaron con `../code/scripts/generate_thesis_figures.py`, en español,
 paleta segura para daltonismo (validada con `validate_palette.js` del *skill*
 `dataviz` — ver notas de validación al final), fuente legible, 300dpi PNG +
 PDF vectorial (fuentes incrustadas, `pdf.fonttype=42`, aptas para inclusión
@@ -20,12 +20,12 @@ Cada figura existe en dos formatos, mismo nombre base:
 
 | Archivo | *Tier* |
 |---|---|
-| `figures/Fig_6.3.1a_dc_tier_1.5x.png` / `.pdf` | 1.5× (`la21`–`la25`) |
-| `figures/Fig_6.3.1b_dc_tier_2.0x.png` / `.pdf` | 2.0× (`la26`–`la30`) |
-| `figures/Fig_6.3.1c_dc_tier_2.25x.png` / `.pdf` | 2.25× (`la36`–`la40`) |
-| `figures/Fig_6.3.1d_dc_tier_3.0x.png` / `.pdf` | 3.0× (`la31`–`la35`) |
+| `../figures/Fig_6.3.1a_dc_tier_1.5x.png` / `.pdf` | 1.5× (`la21`–`la25`) |
+| `../figures/Fig_6.3.1b_dc_tier_2.0x.png` / `.pdf` | 2.0× (`la26`–`la30`) |
+| `../figures/Fig_6.3.1c_dc_tier_2.25x.png` / `.pdf` | 2.25× (`la36`–`la40`) |
+| `../figures/Fig_6.3.1d_dc_tier_3.0x.png` / `.pdf` | 3.0× (`la31`–`la35`) |
 
-**Pie de figura (Chapter6_FINAL.md):** *"Diagramas de diferencia crítica, uno
+**Pie de figura (Thesis.md):** *"Diagramas de diferencia crítica, uno
 por tier ... En los cuatro diagramas, `fifo` y `rl` caen dentro del mismo grupo
 estadísticamente indistinguible (la barra horizontal de agrupamiento conecta
 `fifo` con `rl`, `mwkr`, `mor`, `spt` y `lpt`), separados con significancia del
@@ -34,19 +34,19 @@ segundo grupo (`edd`, `lwkr`, `lor`, `cr`)."*
 **Fuente de datos:** Friedman + Nemenyi (`experiments.stats.omnibus`) sobre
 `experiments/results/week24/e3_generalization_la21_la40.csv`, recomputado
 directamente por el script generador (misma llamada que usa el *pipeline*
-oficial) — ver también `results/tablas/Tabla_6.3.2_rpd_generalizacion_e3.*`
+oficial) — ver también `../results/tablas/Tabla_6.3.2_rpd_generalizacion_e3.*`
 para las medias RPD subyacentes.
 
 ---
 
 ### Figura 6.3.2 — RPD de RL vs. tamaño de instancia
 
-`figures/Fig_6.3.2_rpd_vs_tamano.png` / `.pdf`
+`../figures/Fig_6.3.2_rpd_vs_tamano.png` / `.pdf`
 
 **Pie de figura:** *"RPD de RL en función de `num_operations`."*
 
 **Fuente de datos:** mismo CSV de E3; RL (azul) resaltado contra las 9 PDR
-(gris, contexto). `results/tablas/Tabla_6.3.2_rpd_generalizacion_e3.*`.
+(gris, contexto). `../results/tablas/Tabla_6.3.2_rpd_generalizacion_e3.*`.
 
 ---
 
@@ -56,9 +56,9 @@ para las medias RPD subyacentes.
 
 | Archivo | Eje |
 |---|---|
-| `figures/Fig_6.4.1a_ri_averias.png` / `.pdf` | Averías ($A_k \in \{0.95, 0.90, 0.80\}$) |
-| `figures/Fig_6.4.1b_ri_tiempos_estocasticos.png` / `.pdf` | Tiempos estocásticos ($\sigma \in \{0.10, 0.25, 0.50\}$) |
-| `figures/Fig_6.4.1c_ri_llegadas.png` / `.pdf` | Llegadas ($\rho \in \{0.70, 0.85, 0.95\}$) |
+| `../figures/Fig_6.4.1a_ri_averias.png` / `.pdf` | Averías ($A_k \in \{0.95, 0.90, 0.80\}$) |
+| `../figures/Fig_6.4.1b_ri_tiempos_estocasticos.png` / `.pdf` | Tiempos estocásticos ($\sigma \in \{0.10, 0.25, 0.50\}$) |
+| `../figures/Fig_6.4.1c_ri_llegadas.png` / `.pdf` | Llegadas ($\rho \in \{0.70, 0.85, 0.95\}$) |
 
 **Pie de figura:** *"RI vs. nivel de perturbación, un panel por eje, las
 cuatro series (mejor PDR, κ∈{0,0.5,1.0}) superpuestas ... la serie κ=0.5
@@ -75,7 +75,7 @@ triángulo/sólido, rombo/punto-raya).
 **Fuente de datos:** `experiments/results/dynamic/eval_kappa{0.5,1.0}_*.csv`
 (rejilla E7) + `experiments/results/week24/e4e5e6_rl/*.csv` (κ=0, reutilizado)
 + `experiments/results/week24/e1_seed0_baselines.csv` (denominador nominal de
-RI). `results/tablas/Tabla_6.4.1_ri_por_regimen.*`.
+RI). `../results/tablas/Tabla_6.4.1_ri_por_regimen.*`.
 
 ---
 
@@ -83,7 +83,7 @@ RI). `results/tablas/Tabla_6.4.1_ri_por_regimen.*`.
 
 ### Figura 6.5.1 — Razón CP-SAT/RL vs. tamaño de instancia
 
-`figures/Fig_6.5.1_latencia_vs_tamano.png` / `.pdf`
+`../figures/Fig_6.5.1_latencia_vs_tamano.png` / `.pdf`
 
 **Pie de figura:** *"Razón CP-SAT/RL (ms/decisión) vs. tamaño de instancia,
 escala log ... El panel superior muestra RL (azul) esencialmente plano entre
@@ -97,14 +97,14 @@ sin error registrado) — **no se ha corregido ni excluido de la figura**,
 exactamente como pide la disciplina de "reportar el dato crudo, señalar la
 anomalía en el texto" que sigue el capítulo. Si esta figura se reutiliza fuera
 de §6.5 (p. ej. en una presentación de sustentación), debe acompañarse de esa
-advertencia — ver §6.5.1 de `Chapter6_FINAL.md` para el análisis de
+advertencia — ver §6.5.1 de `Thesis.md` para el análisis de
 sensibilidad completo.
 
 **Colores:** RL = azul `#2a78d6`; CP-SAT = naranja `#eb6834`; razón (panel
 inferior) = verde `#008300`.
 
-**Fuente de datos:** `results/datos_crudos/E8_semana25_limpio/*.csv`.
-`results/tablas/Tabla_6.5.1_latencia_e8.*`.
+**Fuente de datos:** `../results/datos_crudos/E8_semana25_limpio/*.csv`.
+`../results/tablas/Tabla_6.5.1_latencia_e8.*`.
 
 ---
 
@@ -115,10 +115,10 @@ no generadas — ningún archivo `.png`/`.pdf` de esta sección existe todavía.
 
 ### Fig_holgura_vs_RI — holgura (CPM) vs. Índice de Robustez, un panel por eje de disrupción
 
-`figures/Fig_holgura_vs_RI.png` / `.pdf` — `[PENDIENTE-CORRIDA: experiments/run_slack_study.py + scripts/generate_thesis_figures.py --slack-csv ...]`
+`../figures/Fig_holgura_vs_RI.png` / `.pdf` — `[PENDIENTE-CORRIDA: experiments/run_slack_study.py + scripts/generate_thesis_figures.py --slack-csv ...]`
 
 **Generador:** `scripts/generate_thesis_figures.py::generate_fig_holgura_vs_ri`.
-**Fuente de datos:** `results/datos_crudos/slack/slack_metrics.csv` (nuevo,
+**Fuente de datos:** `../results/datos_crudos/slack/slack_metrics.csv` (nuevo,
 `experiments/run_slack_study.py`) + E4/E5/E6 (RI). Un panel por eje (averías, tiempos
 estocásticos, llegadas), dispersión de `slack_ratio` vs. RI con ajuste lineal. Reporta
 signo y magnitud tal como salgan de los datos — el generador no fuerza la dirección
@@ -129,13 +129,13 @@ de diseño).
 
 ### Fig_costo_amortizado — costo acumulado GNN-DRL vs. CP-SAT en función de N
 
-`figures/Fig_6.5.2_costo_amortizado.png` / `.pdf` — `[PENDIENTE-CORRIDA: experiments/results/week24/e8_cpu_timing.py (ampliado a 43 instancias) + scripts/generate_thesis_figures.py --training-summary-glob ...]`
+`../figures/Fig_6.5.2_costo_amortizado.png` / `.pdf` — `[PENDIENTE-CORRIDA: experiments/results/week24/e8_cpu_timing.py (ampliado a 43 instancias) + scripts/generate_thesis_figures.py --training-summary-glob ...]`
 
 **Generador:** `scripts/generate_thesis_figures.py::generate_fig_6_5_2`.
 **Fuente de datos:** `experiments/cost_accounting.py::amortization_curve` sobre
 `e8_cpu_timing.csv` (costo de inferencia por instancia) + `summary_*.json` (costo de
 entrenamiento). Marca el punto de cruce N* donde GNN-DRL deja de ser más caro que
-reoptimizar con CP-SAT desde cero en cada instancia. `results/tablas/Tabla_6.5.2_costo_computacional.*`.
+reoptimizar con CP-SAT desde cero en cada instancia. `../results/tablas/Tabla_6.5.2_costo_computacional.*`.
 
 ---
 
@@ -168,5 +168,5 @@ directamente las funciones de cómputo ya probadas de `experiments.stats`
 (`io.load_results`, `report.add_row_ri`/`nominal_makespan_lookup`/
 `best_pdr_for_regime`, `omnibus.friedman_test`/`critical_difference`), así que
 los números graficados son, por construcción, los mismos que
-`experiments/results/stats/tables/*.md` y `Chapter6_FINAL.md` ya citan — este
+`experiments/results/stats/tables/*.md` y `Thesis.md` ya citan — este
 script solo cambia el estilo de render, no ningún dato.

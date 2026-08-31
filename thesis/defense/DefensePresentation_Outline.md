@@ -1,6 +1,6 @@
 # Esquema de presentación de sustentación (20 diapositivas)
 
-**Fuente:** `Thesis_FINAL.md`. **Fuente de las notas del orador:** `docs/auditorias/PreDefenseAudit.md` (hallazgo crítico §1 y hallazgos moderados 2.1–2.6, ya resueltos en la versión final vía la Sección 5.4 y las tablas/notas añadidas en v2 — las notas de esta diapositiva indican explícitamente cuándo un hallazgo ya fue corregido en el documento y cuándo requiere solo una respuesta oral preparada).
+**Fuente:** `../Thesis.md`. **Fuente de las notas del orador:** `docs/auditorias/PreDefenseAudit.md` (hallazgo crítico §1 y hallazgos moderados 2.1–2.6, ya resueltos en la versión final vía la Sección 5.4 y las tablas/notas añadidas en v2 — las notas de esta diapositiva indican explícitamente cuándo un hallazgo ya fue corregido en el documento y cuándo requiere solo una respuesta oral preparada).
 
 **Duración sugerida:** 20 diapositivas × ~1.5–2 min = 30–40 min de exposición, dejando 20–30 min para preguntas del comité en una sustentación típica de 60–75 min. Ajustar recortando las diapositivas 6–8 (arquitectura/metodología) si el tiempo asignado es menor — el comité de maestría ya tiene el documento completo; la exposición oral debe priorizar resultados y su interpretación, no relitigar la metodología en detalle.
 
@@ -86,7 +86,7 @@
 ## Diapositiva 8 — Diseño experimental: protocolo E0–E8 y pre-registro
 
 **Contenido:**
-- **Pre-registro congelado** (`PreRegistration_FINAL.md`, 2026-07-29T05:22:26Z UTC): reglas de decisión de H1–H5 fijadas **antes** de generar cualquier resultado — blindaje explícito contra HARKing.
+- **Pre-registro congelado** (`../PreRegistration.md`, 2026-07-29T05:22:26Z UTC): reglas de decisión de H1–H5 fijadas **antes** de generar cualquier resultado — blindaje explícito contra HARKing.
 - Nueve experimentos (E0 validación → E8 latencia limpia); líneas base: 9 PDR, GA (presupuesto de 60 s igualado a CP-SAT), CP-SAT (60 s).
 - Protocolo estadístico no paramétrico: Wilcoxon (método exacto, verificado incluso para $N=43$), Friedman + Nemenyi con diagramas de diferencia crítica, tamaños de efecto reportados en toda comparación.
 

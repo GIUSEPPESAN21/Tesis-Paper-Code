@@ -17,52 +17,49 @@ confidence, and what an examiner should run first.**
 
 ```
 Tesis-Paper-Code/
-├── README.md                      <- you are here
-├── Thesis_FINAL.md                 <- THE thesis: single integrated document (all 8 chapters,
-│                                       references, changelog); cite this, not the per-chapter
-│                                       files below, which exist for narrower internal citation
-│                                       (§6.5.1, Table 6.0, etc.) and are kept byte-identical to
-│                                       Thesis_FINAL.md's own Chapter 6/7 sections
-├── FINAL_RESULTS_REPORT.md        <- E1-E8 results, H1-H5 verdicts, full traceability
-├── FINAL_REPRODUCIBILITY_REPORT.md <- seed/hardware/dependency audit, archival/DOI plan (Section 5)
-├── FIGURES_INDEX.md                <- every figure -> thesis section, caption, data source
-├── PreRegistration_FINAL.md        <- frozen (2026-07-29) hypotheses H1-H5, decision rules
-├── StatsAnalysis_TechSpec.md       <- spec for experiments/stats/ (Wilcoxon/Friedman/Nemenyi)
-├── E7_E8_FinalPlan.md              <- E7/E8 scope, preconditions, schedule
-├── Chapter6_FINAL.md, Chapter7_FINAL.md  <- Chapter 6/7 standalone, resynced from Thesis_FINAL.md
-├── CODE_APPENDIX_SUMMARY.md        <- thesis-appendix-ready: repo structure, chapter<->code map
-├── papers/                          <- companion papers, self-contained
-│   ├── ConferencePaper_DRAFT.md      <- companion IEEE conference paper (H1-H5, condensed)
-│   ├── PAPER_SUPPLEMENT_NOTES.md     <- supplementary notes for the companion papers
-│   ├── JournalArticle_LaTeX/         <- companion journal article, full LaTeX source + compiled PDF
-│   └── PaperCIE_LaTeX/               <- companion Computers & Industrial Engineering (Elsevier, Q1)
-│                                        submission on the RI-artifact finding: bilingual EN/ES
-│                                        manuscripts, the analysis code behind every number, and
-│                                        Paper_CIE_DecisionRecord.md (methodology/correction log)
-├── figures/                         <- camera-ready figures (Spanish, colorblind-safe, PNG+PDF)
-│   └── paper/                        <- compact English figures/tables for the conference paper
-├── defense/                         <- active defense-prep material
-│   ├── DefensePresentation_Outline.md
-│   └── QA_Prep.md
-├── docs/                             <- non-canonical chapter/section drafts, tech specs,
-│                                        planning docs, audits, and weekly logs — see
-│                                        docs/README.md for the map; cite Thesis_FINAL.md, not these
-│   ├── capitulos/                     <- superseded chapter/section drafts + full-draft thesis versions
-│   ├── especificaciones/              <- TechSpec / architecture-spec documents (incl. Anexos E-G)
-│   ├── planificacion/                 <- ablation/baseline plans, V&V protocol, weekly-plan prompts
-│   ├── auditorias/                    <- consistency-check and pre-defense audit reports
-│   └── logs/                          <- weekly experiment logs (Week 17/21/24)
-├── archive/                         <- superseded/orphaned drafts, moved not deleted (git mv,
-│                                        history intact) — see archive/README.md for what's here
-│                                        and why each item was archived, not part of the active thesis
+├── README.md                         <- you are here
+├── LICENSE, CITATION.cff, .zenodo.json, .gitignore, .gitattributes, CONTRIBUTING.md
+├── .github/                           <- CI workflow (tests.yml)
+├── thesis/                           <- the thesis itself and everything that cites/supports it directly
+│   ├── Thesis.md                      <- THE thesis: single integrated document (all 8 chapters,
+│   │                                      references, changelog); cite this by section number
+│   │                                      (§6.5.1, Table 6.0, etc.) — there is no separate
+│   │                                      per-chapter file anymore (see archive/README.md)
+│   ├── RESULTS_REPORT.md              <- E1-E8 results, H1-H5 verdicts, full traceability
+│   ├── REPRODUCIBILITY_REPORT.md      <- seed/hardware/dependency audit, archival/DOI plan (Section 5)
+│   ├── FIGURES_INDEX.md               <- every figure -> thesis section, caption, data source
+│   ├── PreRegistration.md             <- frozen (2026-07-29) hypotheses H1-H5, decision rules
+│   ├── StatsAnalysis_TechSpec.md      <- spec for experiments/stats/ (Wilcoxon/Friedman/Nemenyi)
+│   ├── E7_E8_Plan.md                  <- E7/E8 scope, preconditions, schedule
+│   ├── CODE_APPENDIX_SUMMARY.md       <- thesis-appendix-ready: repo structure, chapter<->code map
+│   └── defense/                       <- active defense-prep material
+│       ├── DefensePresentation_Outline.md
+│       └── QA_Prep.md
+├── paper/                            <- the live paper submission
+│   └── PaperCIE_LaTeX/                 <- companion Computers & Industrial Engineering (Elsevier, Q1)
+│                                          submission on the RI-artifact finding: bilingual EN/ES
+│                                          manuscripts, the analysis code behind every number, and
+│                                          Paper_CIE_DecisionRecord.md (methodology/correction log)
+├── figures/                          <- camera-ready figures (Spanish, colorblind-safe, PNG+PDF)
+├── docs/                             <- active, non-duplicated supporting documentation — see
+│   │                                     docs/README.md for the map; cite thesis/Thesis.md, not these
+│   ├── especificaciones/               <- TechSpec / architecture-spec documents (incl. Anexos E-G)
+│   ├── planificacion/                  <- ablation/baseline plans, V&V protocol, weekly-plan prompts
+│   ├── auditorias/                     <- consistency-check and pre-defense audit reports
+│   ├── logs/                           <- weekly experiment logs (Week 17/21/24)
+│   └── future_work/                    <- ROADMAP.md: pending work sourced from the thesis's own
+│                                           §8.6 and the paper's own "Threats to validity"
+├── archive/                          <- superseded/historical material, moved not deleted (git mv,
+│                                          history intact) — see archive/README.md for what's here
+│                                          and why each item was archived, not part of the active thesis
 ├── results/
-│   ├── tablas/                      <- thesis-numbered tables (Tabla_6.X.Y.{csv,md,tex})
-│   ├── datos_crudos/                 <- raw per-row CSVs, by experiment batch
-│   └── README.md                     <- what's here vs. what stays in code/
-└── code/                            <- the actual Python package: envs, models, baselines,
-    │                                     experiments, tests, and the trained checkpoints
-    └── docs/                          <- weekly progress/audit reports for the code package
-                                           itself (training, validation, refactor, HPO logs)
+│   ├── tablas/                       <- thesis-numbered tables (Tabla_6.X.Y.{csv,md,tex})
+│   ├── datos_crudos/                  <- raw per-row CSVs, by experiment batch
+│   └── README.md                      <- what's here vs. what stays in code/
+└── code/                             <- the actual Python package: envs, models, baselines,
+    │                                      experiments, tests, and the trained checkpoints
+    └── docs/                           <- weekly progress/audit reports for the code package
+                                            itself (training, validation, refactor, HPO logs)
 ```
 
 **Mejoras del tutor (2026-08-20):** diez recomendaciones formales de revisión,
@@ -86,7 +83,7 @@ API/module reference.
 **Where the trained checkpoints live:** this git repository intentionally does **not**
 track `experiments/results/**/checkpoints/*.zip` or `tb_logs/` (~1GB, regenerable via
 the training commands below — see `.gitignore`). The **complete** archive, checkpoints
-included, is the Zenodo deposit described in `FINAL_REPRODUCIBILITY_REPORT.md` §5 — that
+included, is the Zenodo deposit described in `thesis/REPRODUCIBILITY_REPORT.md` §5 — that
 is the canonical, full-reproduction artifact; download it if you want to reproduce
 E1–E8 without retraining. This git repository is the code + small result-summary layer
 (CSVs, tables, figures — everything actually cited by the thesis text).
@@ -128,7 +125,7 @@ Python/OS the reader happens to have in three years. This is the environment to 
 ### Pinned dependencies
 
 Every dependency is pinned to an exact version (`requirements.txt`/`pyproject.toml`),
-audited against what's actually imported (see `FINAL_REPRODUCIBILITY_REPORT.md` §1 for
+audited against what's actually imported (see `thesis/REPRODUCIBILITY_REPORT.md` §1 for
 the audit method): `numpy==2.4.6`, `pandas==2.2.2`, `matplotlib==3.8.4`,
 `gymnasium==1.3.0`, `torch==2.12.1` (CPU build), `stable_baselines3==2.9.0`,
 `sb3_contrib==2.9.0`, `ortools==9.15.6755`, `scipy==1.15.2`, `statsmodels==0.14.6`,
@@ -148,7 +145,7 @@ correctness) depends on it too:
 | | |
 |---|---|
 | CPU | 8 logical cores (no GPU-class machine was used) |
-| GPU | **None used.** `torch==2.12.1+cpu` — a CUDA build was never installed. Every training run and every evaluation in this thesis is CPU-only. (`PreRegistration_FINAL.md` Amendment 2 — "training hardware" and "CPU-only" collapse to one measurement in this codebase; there is no GPU number to report as primary.) |
+| GPU | **None used.** `torch==2.12.1+cpu` — a CUDA build was never installed. Every training run and every evaluation in this thesis is CPU-only. (`thesis/PreRegistration.md` Amendment 2 — "training hardware" and "CPU-only" collapse to one measurement in this codebase; there is no GPU number to report as primary.) |
 | OS | Windows 10/11, Python run via a Git-Bash shell (a parallel `.venv-linux` was also validated under WSL/Linux — the codebase and dependency pins are OS-agnostic) |
 | RAM | No experiment in this thesis is memory-bound; a modern 8+ GB machine is more than sufficient |
 | Python | 3.11.9 |
@@ -163,7 +160,7 @@ against GPU execution, and the codebase's own evaluation path
 
 ## Reproducibility — random seeds
 
-Audited end-to-end (`FINAL_REPRODUCIBILITY_REPORT.md` §1) — every source of randomness
+Audited end-to-end (`thesis/REPRODUCIBILITY_REPORT.md` §1) — every source of randomness
 in this codebase is either seeded explicitly or documented as a known, bounded
 exception:
 
@@ -190,7 +187,7 @@ exception:
   this is a property of OR-Tools, not a bug in this codebase. Pass `--num-workers 1` to
   `run_evaluation.py` for bit-exact `FEASIBLE`-result reproduction, at the cost of much
   slower solves. **This is almost certainly the mechanism behind the `la40` CP-SAT
-  timing anomaly documented in `Chapter6_FINAL.md` §6.5.1** (a `FEASIBLE`, time-limit-
+  timing anomaly documented in `thesis/Thesis.md` §6.5.1** (a `FEASIBLE`, time-limit-
   exhausted result on an otherwise-comparable instance) — flagged there, not hidden.
 
 ---
@@ -206,7 +203,7 @@ scratch. Retraining commands are given separately at the end of this section for
 who wants to verify the training process itself.
 
 Runtimes below are **measured on this thesis' own 8-core CPU-only machine**, not
-estimates — see `FINAL_REPRODUCIBILITY_REPORT.md` §1 for how each was captured. Expect
+estimates — see `thesis/REPRODUCIBILITY_REPORT.md` §1 for how each was captured. Expect
 meaningful variance on different hardware, and expect CP-SAT specifically to vary run-
 to-run per the seeding note above.
 
@@ -225,7 +222,7 @@ python scripts/verify_optima.py           # re-prove data/known_optima.csv with 
 
 **Hardware:** any machine meeting the install requirements. **Expected result:**
 752/752 tests pass, 0 failures (this exact count as of this thesis' final sprint —
-`Chapter6_FINAL.md` Table 6.1.3). `verify_optima.py` reproduces every optimum in
+`thesis/Thesis.md` Table 6.1.3). `verify_optima.py` reproduces every optimum in
 `data/known_optima.csv` to 0.00% error.
 
 ### E1 — static competitiveness (JSSP), the primary input to H1
@@ -238,7 +235,7 @@ INSTANCES="ft06 ft10 ft20 la01 la02 la03 la04 la05 la06 la07 la08 la09 la10 la11
 python run_evaluation.py --instances $INSTANCES --methods pdr ga cpsat rl \
     --seeds 0 --rl-policy "$CKPT" --out experiments/results/e1_seed0_baselines.csv
 
-# Stochastic RL rollouts (seeds 1-4, descriptive-only per PreRegistration_FINAL.md Sec 2)
+# Stochastic RL rollouts (seeds 1-4, descriptive-only per thesis/PreRegistration.md Sec 2)
 python run_evaluation.py --instances $INSTANCES --methods rl --rl-sample \
     --seeds 1 2 3 4 --rl-policy "$CKPT" --out experiments/results/e1_rl_stochastic.csv
 ```
@@ -246,7 +243,7 @@ python run_evaluation.py --instances $INSTANCES --methods rl --rl-sample \
 **Hardware/runtime:** CP-SAT dominates — most instances solve to `OPTIMAL` in
 under a second, but a handful (notably `la40`) can hit the 60s default time limit or,
 per the CP-SAT non-determinism note above, occasionally run far longer (the `la40`
-anomaly reached ~7216s in the run this thesis reports — see `Chapter6_FINAL.md` §6.5.1).
+anomaly reached ~7216s in the run this thesis reports — see `thesis/Thesis.md` §6.5.1).
 **Budget several hours for a from-scratch run of all 43 instances**; the deterministic
 pass alone took the majority of that. Use `--num-workers 1` for a slower but variance-
 free repeat, or restrict `--instances` for a faster partial check (see the smoke test).
@@ -346,7 +343,7 @@ survived reliably (see `PROGRESS_SUMMARY.md` for the exact incident).
 ### E8 — decision latency (H5)
 
 Shares E1's execution pass (`wall_clock_s` column) by design — see
-`StatsAnalysis_TechSpec.md` §2.3. The "clean" re-measurement this thesis reports ran
+`thesis/StatsAnalysis_TechSpec.md` §2.3. The "clean" re-measurement this thesis reports ran
 on an **otherwise-idle machine**, deliberately sequenced before any other compute that
 day:
 
@@ -402,11 +399,11 @@ All three are deterministic given the same `experiments/results/` state — no
 recomputation happens outside what's described above, and `generate_thesis_figures.py`
 reuses the exact same `experiments.stats` functions the pipeline itself uses, so a
 regenerated figure cannot numerically drift from what `experiments/results/stats/tables/`
-or `Chapter6_FINAL.md` already cite. Expected runtime: under 2 minutes combined
+or `thesis/Thesis.md` already cite. Expected runtime: under 2 minutes combined
 (measured; scipy/statsmodels statistics on already-small CSVs, matplotlib rendering).
 
 `python -m experiments.stats.cli` prints the full H1–H5 verdict table to stdout; compare
-against Table 6.0 in `Chapter6_FINAL.md` as the fastest correctness check available.
+against Table 6.0 in `thesis/Thesis.md` as the fastest correctness check available.
 
 ---
 
@@ -449,7 +446,7 @@ above); steps 2-3 write CSVs with `feasible=True` in every row and
 `status in {OK, OPTIMAL, FEASIBLE}`; step 4 prints a `[done]` line with a checkpoint
 path. **This does not validate any thesis number** — it validates that the code paths
 run end-to-end on the reader's machine. This exact sequence is what
-`FINAL_REPRODUCIBILITY_REPORT.md` §4 reports having actually run, **including a real bug
+`thesis/REPRODUCIBILITY_REPORT.md` §4 reports having actually run, **including a real bug
 this smoke test caught and a fix that's already applied**: `train_dynamic.py` (and,
 audited and fixed at the same time, `train_hetero.py`/`train_curriculum.py`) crashed at
 their final summary-printing step — *after* training and the checkpoint save had
@@ -471,11 +468,11 @@ See [`code/README.md`](code/README.md) for the architectural
 decisions (hand-rolled GIN vs. `torch_geometric`, `MaskablePPO` vs. vanilla PPO,
 `SchedulingEnv`'s shared base, CP-SAT as ground truth, etc.) and the module-by-module
 directory structure. For a thesis-chapter-by-thesis-chapter map of which code module
-produced which result, see [`CODE_APPENDIX_SUMMARY.md`](CODE_APPENDIX_SUMMARY.md)
+produced which result, see [`thesis/CODE_APPENDIX_SUMMARY.md`](thesis/CODE_APPENDIX_SUMMARY.md)
 (written to be included directly as a thesis appendix).
 
 ## License and citation
 
 See `code/pyproject.toml` for the package metadata. If you use this code or
 its results, please cite the thesis (citation details to be finalized at defense/
-publication — see `FINAL_REPRODUCIBILITY_REPORT.md` §5 for the archival/DOI plan).
+publication — see `thesis/REPRODUCIBILITY_REPORT.md` §5 for the archival/DOI plan).

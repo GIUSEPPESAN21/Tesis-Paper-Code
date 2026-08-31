@@ -6,7 +6,7 @@ real hasta entonces — todo lo que sigue es la estructura a completar, no un re
 
 **Propósito:** aislar el efecto del entorno de entrenamiento (estático JSSPEnv vs.
 dinámico DynamicJSSPEnv) del efecto de la recompensa (nominal vs. robusta,
-kappa·Δ_inest) en el colapso de RPD nominal que `FINAL_RESULTS_REPORT.md` §6.4
+kappa·Δ_inest) en el colapso de RPD nominal que `../../thesis/RESULTS_REPORT.md` §6.4
 diagnostica para H4 (+106.0pp κ=0.5, +46.6pp κ=1.0). Ver `experiments/run_2x2_ablation.py`
 para la definición exacta de las cuatro celdas.
 

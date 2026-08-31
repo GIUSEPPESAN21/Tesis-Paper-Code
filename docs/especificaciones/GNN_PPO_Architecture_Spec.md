@@ -5,7 +5,7 @@
 
 **Prime directive: EXTEND, DO NOT REWRITE.** `RelationalGINLayer`, `GINEncoder`, `JSSPGraphFeaturesExtractor`, `build_maskable_ppo` keep their exact current signatures and behavior — `tests/test_policy.py` must keep passing unmodified. Everything below is new, additively-named classes in the same two files (or new sibling modules if that keeps the diff cleaner), not a replacement of the homogeneous JSSP path, which remains the training pipeline's fallback/ablation configuration (`use_machine_edges=False`-equivalent already exists as a documented ablation in `RelationalGINLayer`; the homogeneous path is the natural "further ablation" of the heterogeneous one, not dead code to delete).
 
-**Source-of-truth cross-reference:** formalizes `../docs/capitulos/Section4.4.md` (already written, companion document) — Part B5 (heterogeneous GNN, WL-expressiveness), Part B2.2 (disjunctive graph), Part D2 (node/machine feature vectors), Part B4 (PPO). This spec resolves `models/policy.py`'s own documented limitation ("Instance-agnostic transfer needs a per-node action head... left for a later week") and is the stated prerequisite for wiring `DynamicJSSPEnv` into training (`VALIDATION_WEEK6.md`, "Next steps").
+**Source-of-truth cross-reference:** formalizes `../../archive/capitulos/Section4.4.md` (already written, companion document) — Part B5 (heterogeneous GNN, WL-expressiveness), Part B2.2 (disjunctive graph), Part D2 (node/machine feature vectors), Part B4 (PPO). This spec resolves `models/policy.py`'s own documented limitation ("Instance-agnostic transfer needs a per-node action head... left for a later week") and is the stated prerequisite for wiring `DynamicJSSPEnv` into training (`VALIDATION_WEEK6.md`, "Next steps").
 
 ---
 
@@ -13,7 +13,7 @@
 
 **In scope:** the heterogeneous encoder (operation + machine nodes, four relation types), the size-agnostic per-node actor head and pooled critic head, the `MaskableActorCriticPolicy` subclass needed to wire a per-node head into `sb3_contrib` (SB3's default policy ties the action head to a fixed `features_dim`, which is exactly the limitation being removed), and the PPO hyperparameter starting point.
 
-**Out of scope:** wiring this policy into `DynamicJSSPEnv` (needs the machine `broken` state and the growable-array observation contract, §6.1 of `../docs/especificaciones/DynamicEnv_TechSpec.md` — a real next step this architecture is built to support, but not this sprint's deliverable); the FJSP dual action head (operation, machine) — this sprint's action space stays `Discrete(num_operations)`, fixed routing, per `../docs/capitulos/Section4.4.md` §4.4.3's explicit scope note.
+**Out of scope:** wiring this policy into `DynamicJSSPEnv` (needs the machine `broken` state and the growable-array observation contract, §6.1 of `../docs/especificaciones/DynamicEnv_TechSpec.md` — a real next step this architecture is built to support, but not this sprint's deliverable); the FJSP dual action head (operation, machine) — this sprint's action space stays `Discrete(num_operations)`, fixed routing, per `../../archive/capitulos/Section4.4.md` §4.4.3's explicit scope note.
 
 ---
 
@@ -151,7 +151,7 @@ class PerNodeActorHead(nn.Module):
         return self.mlp(node_embeddings_ope).squeeze(-1)
 ```
 
-The **same** `PerNodeActorHead` instance (same weights) is applied to every operation node — this is what makes the parameter count independent of `N_ope`, per `../docs/capitulos/Section4.4.md` §4.4.3. 2 layers, `hidden_dim=64`, matching the encoder's width for implementation simplicity (one fewer hyperparameter to track relative to L2D's separate `hidden_dim_actor=32`).
+The **same** `PerNodeActorHead` instance (same weights) is applied to every operation node — this is what makes the parameter count independent of `N_ope`, per `../../archive/capitulos/Section4.4.md` §4.4.3. 2 layers, `hidden_dim=64`, matching the encoder's width for implementation simplicity (one fewer hyperparameter to track relative to L2D's separate `hidden_dim_actor=32`).
 
 ### 3.2 Critic: pooled, two-node-type readout
 
@@ -170,7 +170,7 @@ class PooledCriticHead(nn.Module):
 
 ### 3.3 Wiring into `sb3_contrib.MaskablePPO`: why a custom policy class is required, not just a custom extractor
 
-`JSSPGraphFeaturesExtractor` (Sprint 1) works as a **features extractor** because SB3's default `MaskableActorCriticPolicy` applies one `nn.Linear(features_dim, action_space.n)` on top of whatever the extractor returns — that final `Linear` is exactly the size-tied component `../docs/capitulos/Section4.4.md` §4.4.3 removes. A per-node scorer cannot be expressed as a features extractor alone; it must replace that final `Linear` itself. This spec adds:
+`JSSPGraphFeaturesExtractor` (Sprint 1) works as a **features extractor** because SB3's default `MaskableActorCriticPolicy` applies one `nn.Linear(features_dim, action_space.n)` on top of whatever the extractor returns — that final `Linear` is exactly the size-tied component `../../archive/capitulos/Section4.4.md` §4.4.3 removes. A per-node scorer cannot be expressed as a features extractor alone; it must replace that final `Linear` itself. This spec adds:
 
 ```python
 # models/policy.py -- new, additive
@@ -228,7 +228,7 @@ Unchanged mechanism, updated data path: `env.action_masks()` (Section 4.3.2, unm
 | `n_envs` (parallel environments) | 4–8 | **Medium** | L2D uses `num_envs=4`; Song et al. uses `parallel_iter=20`. This spec recommends L2D's more modest range as the single-GPU/CPU student-budget-appropriate starting point (`../docs/planificacion/Step 4 Thesis.md` §1.5) — Song et al.'s 20 parallel environments likely assumes more compute than this thesis's budget affords; revisit upward only if the single-GPU budget is confirmed to have headroom. |
 | `batch_size` (SB3 minibatch size) | 64 | **Medium** | Canonical SB3 default; Song et al.'s `minibatch_size=512` assumes their larger `n_steps × parallel_iter` product — recompute this thesis's own `batch_size` as a divisor of `n_steps × n_envs` once those are fixed empirically, rather than importing 512 directly into a much smaller rollout buffer. |
 
-**Do not adopt any single source's full configuration wholesale.** Table 5.1 is a synthesis, not a copy of either paper — each row states its own confidence and source so the thesis text (`../docs/capitulos/Section4.4.md` §4.4.4, already written) can cite precisely which choices are literature-grounded and which are this document's own reasoned starting point, consistent with the flagging culture already established across every other technical spec in this project (`../docs/especificaciones/DynamicEnv_TechSpec.md` §10, `../docs/especificaciones/Baselines_TechSpec.md` §9, `../docs/especificaciones/GA_TechSpec.md` §7).
+**Do not adopt any single source's full configuration wholesale.** Table 5.1 is a synthesis, not a copy of either paper — each row states its own confidence and source so the thesis text (`../../archive/capitulos/Section4.4.md` §4.4.4, already written) can cite precisely which choices are literature-grounded and which are this document's own reasoned starting point, consistent with the flagging culture already established across every other technical spec in this project (`../docs/especificaciones/DynamicEnv_TechSpec.md` §10, `../docs/especificaciones/Baselines_TechSpec.md` §9, `../docs/especificaciones/GA_TechSpec.md` §7).
 
 ---
 
