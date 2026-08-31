@@ -9,18 +9,18 @@ scenarios.
 Week 18 landed the **heterogeneous GNN encoder + size-agnostic PPO policy** and the
 first trained agent, including a flexible (FJSP) environment with a joint
 `(operation, machine)` action space and the real Brandimarte `MK*` benchmarks. See
-[`TRAINING_REPORT_WEEK18.md`](TRAINING_REPORT_WEEK18.md) for the training curves,
+[`TRAINING_REPORT_WEEK18.md`](docs/TRAINING_REPORT_WEEK18.md) for the training curves,
 the makespan comparison against the PDR/GA/CP-SAT baselines, and an honest assessment
 against the success criteria in `../docs/logs/TrainingPlan_Week17.md`.
 
 Week 15 was a **code-health sprint** (no new research features): consolidate four
 sprints' worth of environments/baselines/instance loaders behind a clean, tested,
 documented interface so next month's GNN+PPO work has a stable foundation to plug into.
-See [`REFACTOR_NOTES_WEEK15.md`](REFACTOR_NOTES_WEEK15.md) for exactly what changed and
-why. Earlier milestones: [`VALIDATION_WEEK1.md`](VALIDATION_WEEK1.md) (first running
-pipeline), [`VALIDATION_WEEK6.md`](VALIDATION_WEEK6.md) (dynamic/disruption extension),
-[`BASELINES_RESULTS_WEEK9.md`](BASELINES_RESULTS_WEEK9.md) /
-[`BASELINES_RESULTS_WEEK12.md`](BASELINES_RESULTS_WEEK12.md) (PDR/CP-SAT, then GA,
+See [`REFACTOR_NOTES_WEEK15.md`](docs/REFACTOR_NOTES_WEEK15.md) for exactly what changed and
+why. Earlier milestones: [`VALIDATION_WEEK1.md`](docs/VALIDATION_WEEK1.md) (first running
+pipeline), [`VALIDATION_WEEK6.md`](docs/VALIDATION_WEEK6.md) (dynamic/disruption extension),
+[`BASELINES_RESULTS_WEEK9.md`](docs/BASELINES_RESULTS_WEEK9.md) /
+[`BASELINES_RESULTS_WEEK12.md`](docs/BASELINES_RESULTS_WEEK12.md) (PDR/CP-SAT, then GA,
 baseline sweeps).
 
 ## Structure
@@ -148,7 +148,7 @@ exact script that produced them.
 
 Most of the "why", not just the "what", lives next to the code as module
 docstrings — this section is a pointer, not a duplicate. See
-[`REFACTOR_NOTES_WEEK15.md`](REFACTOR_NOTES_WEEK15.md) for the Week 15 decisions
+[`REFACTOR_NOTES_WEEK15.md`](docs/REFACTOR_NOTES_WEEK15.md) for the Week 15 decisions
 specifically (the shared `SchedulingEnv` base, FJSP completion, the unified harness,
 predictive-reactive replay under disruption, the RL placeholder).
 

@@ -1,4 +1,0 @@
-C:\Users\LENOVO\Downloads\RESEARCH AI\Reseacrh AI\raw\THESIS MASTER'S\Full thesis code\.venv\Lib\site-packages\optuna\_experimental.py:33: ExperimentalWarning: Argument ``multivariate`` is an experimental feature. The interface can change in the future.
-  optuna_warn(
-[I 2026-07-29 15:11:49,999] A new study created in RDB with name: hpo_mk01
-[I 2026-07-29 18:42:15,835] Trial 0 finished with value: 6.25 and parameters: {'ent_coef_start': 0.01769226795453276, 'ent_coef_end': 0.004051266968085445, 'learning_rate': 0.00010570046446158275, 'num_layers': 4, 'hidden_dim': 96, 'clip_range': 0.25, 'decay_fraction': 0.25227757982092447}. Best is trial 0 with value: 6.25.
