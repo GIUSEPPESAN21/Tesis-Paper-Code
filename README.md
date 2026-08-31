@@ -1,6 +1,6 @@
 # GNN+PPO for Dynamic FJSP under Stochastic Perturbations — thesis reproducibility package
 
-[![tests](https://github.com/GIUSEPPESAN21/gnn-ppo-dynamic-fjsp/actions/workflows/tests.yml/badge.svg)](https://github.com/GIUSEPPESAN21/gnn-ppo-dynamic-fjsp/actions/workflows/tests.yml)
+[![tests](https://github.com/GIUSEPPESAN21/Tesis-Paper-Code/actions/workflows/tests.yml/badge.svg)](https://github.com/GIUSEPPESAN21/Tesis-Paper-Code/actions/workflows/tests.yml)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](code/pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![CPU-only](https://img.shields.io/badge/hardware-CPU--only-lightgrey.svg)](#hardware--this-thesis-actual-environment)
@@ -16,7 +16,7 @@ confidence, and what an examiner should run first.**
 ## What's in this repository
 
 ```
-gnn-ppo-dynamic-fjsp/
+Tesis-Paper-Code/
 ├── README.md                      <- you are here
 ├── Thesis_FINAL.md                 <- THE thesis: single integrated document (all 8 chapters,
 │                                       references, changelog); cite this, not the per-chapter

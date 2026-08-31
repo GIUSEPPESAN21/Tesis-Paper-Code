@@ -9,7 +9,7 @@ authors:
     given-names: "Joseph"
     affiliation: "Corporación Universitaria Minuto de Dios (UNIMINUTO)"
     email: "joseph.sanchez@uniminuto.edu.co"
-repository-code: "https://github.com/GIUSEPPESAN21/gnn-ppo-dynamic-fjsp"
+repository-code: "https://github.com/GIUSEPPESAN21/Tesis-Paper-Code"
 license: MIT
 keywords:
   - reinforcement learning
