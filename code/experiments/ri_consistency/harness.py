@@ -17,7 +17,7 @@ import sys, time
 from pathlib import Path
 import numpy as np
 
-CODE = Path(__file__).resolve().parents[2] if (Path(__file__).resolve().parents[2] / 'envs').exists() else Path('.')
+CODE = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(CODE))
 from envs.dynamic_jssp_env import DynamicJSSPEnv            # noqa: E402
 from envs.disruptions import DisruptionConfig               # noqa: E402
