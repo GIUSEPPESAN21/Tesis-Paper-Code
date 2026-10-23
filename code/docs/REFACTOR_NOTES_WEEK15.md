@@ -234,7 +234,7 @@ repository shape: the structure tree now lists every module that exists today
 "Running things" section documents `run_evaluation.py`'s CLI with one example per
 disruption profile and FJSP, and a "Deviations" bullet claiming "GA baseline not
 implemented this week" (true in Week 1, false since Week 12) was removed rather than
-left to mislead a future reader — `el asistente de IA.md`'s own rule for the wiki layer
+left to mislead a future reader — the project's own documentation rule
 ("nothing should go stale silently") applies just as much to a README.
 
 ---

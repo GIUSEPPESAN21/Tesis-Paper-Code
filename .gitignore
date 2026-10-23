@@ -26,5 +26,3 @@ dist/
 Thumbs.db
 .Rhistory
 
-# AI coding assistant session runtime state -- not project content.
-.el asistente de IA/

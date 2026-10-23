@@ -35,7 +35,10 @@ Tesis-Paper-Code/
 │   └── defense/                       <- active defense-prep material
 │       ├── DefensePresentation_Outline.md
 │       └── QA_Prep.md
-├── paper/                            <- the live paper submission
+├── paper/                            <- the live paper submissions
+│   ├── COR_GNN-PPO/                    <- Computers & Operations Research submission (this study, H1-H5):
+│   │                                      manuscript, highlights, cover letter (submitted 2026-10-23)
+│   ├── JSched_PriceOfOptimality/       <- Journal of Scheduling manuscript and cover letter (companion study)
 │   └── PaperCIE_LaTeX/                 <- companion Computers & Industrial Engineering (Elsevier, Q1)
 │                                          submission on the RI-artifact finding: bilingual EN/ES
 │                                          manuscripts, the analysis code behind every number, and
@@ -44,7 +47,7 @@ Tesis-Paper-Code/
 ├── docs/                             <- active, non-duplicated supporting documentation — see
 │   │                                     docs/README.md for the map; cite thesis/Thesis.md, not these
 │   ├── especificaciones/               <- TechSpec / architecture-spec documents (incl. Anexos E-G)
-│   ├── planificacion/                  <- ablation/baseline plans, V&V protocol, weekly-plan prompts
+│   ├── planificacion/                  <- ablation/baseline plans, V&V protocol, planning documents
 │   ├── auditorias/                     <- consistency-check and pre-defense audit reports
 │   ├── logs/                           <- weekly experiment logs (Week 17/21/24)
 │   └── future_work/                    <- ROADMAP.md: pending work sourced from the thesis's own

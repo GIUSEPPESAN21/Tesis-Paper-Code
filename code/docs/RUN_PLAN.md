@@ -1,7 +1,7 @@
 # RUN_PLAN.md — Plan de ejecución de las mejoras del tutor
 
 **Nada en este documento se ejecutó.** Todo lo que sigue es código escrito y listo
-para correr (Regla Cero de `PROMPT_AsistenteIA_MejorasTutor.md`). Cada comando indica
+para correr (Regla Cero del documento de recomendaciones del tutor). Cada comando indica
 qué script lo produce, qué archivo(s) genera, sus dependencias, y una estimación de
 tiempo de reloj basada en la referencia medida del usuario: 400k pasos en ft06 ≈ 2213 s
 (DE 143 s, 5 semillas); 1M pasos FJSP en mk01 ≈ 8713 s.

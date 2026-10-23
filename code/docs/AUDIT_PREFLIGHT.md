@@ -176,8 +176,8 @@ y de datasets con la forma 16 instancias × 9 regímenes × 11 métodos × 30 es
 
 **Resultado: los datos crudos del "Estudio 1" (16×9×11×30 = 47,520 corridas) NO existen
 en este repositorio, bajo ningún nombre reconocible.** La única coincidencia textual de
-"Estudio 1"/"47520" en todo el repositorio es el propio archivo que contiene el prompt
-del tutor guardado como `.md` (`PROMPT_AsistenteIA_MejorasTutor.md` o equivalente) — cero
+"Estudio 1"/"47520" en todo el repositorio es el propio archivo que contiene el documento
+de recomendaciones del tutor — cero
 menciones en `../../thesis/Thesis.md`, `../../thesis/Thesis.md`, `../../thesis/Thesis.md`, o en cualquier
 CSV bajo `results/` o `code/experiments/results/`.
 

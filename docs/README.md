@@ -23,11 +23,11 @@ los Anexos E–G de la tesis (§1.7).
 
 Documentos de planificación y proceso: `AblationPlan.md`,
 `BaselineAnalysis.md`/`BaselineComparativeAnalysis.md`, `VandV_Protocol.md`,
-`FinalExperimentMatrix.md`, y los prompts de plan mensual `Step 2 Thesis.md`/
-`Step 4 Thesis.md` (Step 1, 3, 5 y `PROMPT_AsistenteIA_MejorasTutor.md` se eliminaron el
-2026-08-31 — cero referencias entrantes, ver `../archive/README.md`).
+`FinalExperimentMatrix.md`, y los documentos de plan mensual `Step 2 Thesis.md`/
+`Step 4 Thesis.md` (los demás documentos de plan se retiraron del árbol de trabajo —
+sin referencias entrantes, ver `../archive/README.md`).
 
-**`Step 2 Thesis.md` y, sobre todo, `Step 4 Thesis.md` NO son prompts descartables** —
+**`Step 2 Thesis.md` y, sobre todo, `Step 4 Thesis.md` NO son documentos descartables** —
 pese al nombre, son el documento de marco metodológico (`../thesis/Thesis.md` los llama
 "Parte B/D1/D3/D4/D5/D7/E1" del "documento de marco") del que `../thesis/PreRegistration.md`
 deriva literalmente su disciplina anti-HARKing y su rejilla experimental congelada, y del
@@ -37,12 +37,6 @@ citas activas en `../thesis/Thesis.md`/`../thesis/PreRegistration.md` apuntan a 
 Thesis.md` por ruta exacta — borrarlo rompería esas citas y dejaría sin fuente contenido
 de tesis aún por escribir. Verificado por búsqueda de texto completo el 2026-08-31, no
 supuesto.
-
-**Corrección, 2026-08-31:** `Step 5 Thesis (Month Plan With All Promts).md` se eliminó
-en la misma pasada bajo la misma verificación de "cero referencias", pero esa
-verificación fue incompleta — `FinalExperimentMatrix.md` (este mismo directorio) lo cita
-por nombre dos veces. Restaurado en `../archive/`; ver la nota de corrección en
-`../archive/README.md`.
 
 ## `auditorias/`
 

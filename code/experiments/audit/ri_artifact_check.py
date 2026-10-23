@@ -9,8 +9,8 @@ mientras que una PDR ya casi optima (RPD nominal bajo) solo puede empeorar. Si e
 cierto, RPD nominal y RI medio deberian estar fuertemente correlacionados en sentido
 negativo (rho muy negativo) sobre las 9 PDR, en cada regimen de E4/E5/E6.
 
-Este script NO se ejecuta como parte de este commit (Regla Cero de
-PROMPT_AsistenteIA_MejorasTutor.md). Queda listo para correr con:
+Este script NO se ejecuta como parte de este commit (Regla Cero del
+documento de recomendaciones del tutor). Queda listo para correr con:
 
     python -m experiments.audit.ri_artifact_check \
         --e1-csv experiments/results/week24/e1_seed0_baselines.csv \
